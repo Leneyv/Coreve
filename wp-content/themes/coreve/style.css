@@ -10,23 +10,26 @@ Text Domain: coreve
 */
 
 :root {
-    /* Design system tokens — Coreve / Liquid Glass (see design-system/coreve/MASTER.md) */
-    --color-primary: #1C1917;
-    --color-on-primary: #FFFFFF;
-    --color-secondary: #44403C;
+    /* Design system tokens — Coreve / warm luxury neutrals (ivory, charcoal, stone).
+       Replaces the earlier dark+gold "Liquid Glass" direction per the CRO/brand
+       rebuild brief: ivory/alabaster background, charcoal foreground/primary,
+       muted stone secondary, a restrained clay accent used sparingly. */
+    --color-primary: #26221D;
+    --color-on-primary: #F8F4EC;
+    --color-secondary: #6B6255;
     --color-on-secondary: #FFFFFF;
-    --color-accent: #A16207;
+    --color-accent: #8C4A2C;
     --color-on-accent: #FFFFFF;
-    --color-background: #FAFAF9;
-    --color-foreground: #0C0A09;
+    --color-background: #F8F4EC;
+    --color-foreground: #201C17;
     --color-card: #FFFFFF;
-    --color-card-foreground: #0C0A09;
-    --color-muted: #E8ECF0;
-    --color-muted-foreground: #475569;
-    --color-border: #D6D3D1;
-    --color-destructive: #DC2626;
+    --color-card-foreground: #201C17;
+    --color-muted: #EFE9DD;
+    --color-muted-foreground: #6B6255;
+    --color-border: #E0D8C8;
+    --color-destructive: #B3261E;
     --color-on-destructive: #FFFFFF;
-    --color-ring: #1C1917;
+    --color-ring: #26221D;
 
     /* Legacy aliases kept so section markup doesn't need renaming */
     --brand-dark: var(--color-primary);
@@ -134,14 +137,17 @@ select:focus-visible,
    Header — Liquid Glass
    ========================================== */
 .site-header {
-    background-color: rgba(28, 25, 23, 0.78);
+    background-color: rgba(38, 34, 29, 0.78);
     backdrop-filter: blur(16px) saturate(160%);
     -webkit-backdrop-filter: blur(16px) saturate(160%);
     border-bottom: 1px solid rgba(255,255,255,0.08);
     position: sticky;
     top: 0;
     z-index: 100;
+    transform: translateY(0);
+    transition: transform 250ms ease;
 }
+.site-header.is-hidden { transform: translateY(-100%); }
 
 .header-inner {
     max-width: 1280px;
@@ -228,8 +234,8 @@ select:focus-visible,
    Hero
    ========================================== */
 .hero {
-    background: linear-gradient(135deg, #0C0A09 0%, var(--color-primary) 55%, var(--color-secondary) 100%);
-    color: var(--color-on-primary);
+    background: var(--color-muted);
+    color: var(--color-foreground);
     overflow: hidden;
     position: relative;
 }
@@ -253,19 +259,187 @@ select:focus-visible,
     margin-bottom: var(--space-lg);
 }
 
-.hero-badge {
-    display: inline-block;
-    border: 1.5px solid var(--color-accent);
-    color: var(--color-accent);
-    border-radius: 9999px;
-    padding: 0.75rem 1.5rem;
-    font-weight: 600;
-    letter-spacing: 0.02em;
+.hero-support {
+    font-size: 1.1rem;
+    color: var(--color-muted-foreground);
+    max-width: 480px;
+    margin-bottom: var(--space-xl);
 }
+
+.hero-ctas { display: flex; gap: var(--space-md); flex-wrap: wrap; }
 
 .hero-image img {
     filter: drop-shadow(var(--shadow-xl));
 }
+
+/* ==========================================
+   Cultural Truth comparison (Section 4)
+   ========================================== */
+.truth-lede {
+    max-width: 720px;
+    margin: 0 auto var(--space-2xl);
+    text-align: center;
+    color: var(--color-foreground);
+    font-size: 1.05rem;
+    line-height: 1.7;
+}
+.comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg);
+    max-width: 880px;
+    margin: 0 auto;
+}
+.comparison-card {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-xl);
+}
+.comparison-card--coreve { border-color: var(--color-accent); border-width: 2px; }
+.comparison-label {
+    display: block;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.85rem;
+    margin-bottom: var(--space-md);
+    color: var(--color-muted-foreground);
+}
+.comparison-card--coreve .comparison-label { color: var(--color-accent); }
+.comparison-card ul { list-style: disc; padding-left: 1.25rem; }
+.comparison-card li { margin-bottom: var(--space-sm); color: var(--color-foreground); line-height: 1.5; }
+
+/* ==========================================
+   Coreve Reveal (Section 5)
+   ========================================== */
+.reveal-copy {
+    max-width: 640px;
+    margin: 0 auto var(--space-xl);
+    text-align: center;
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: var(--color-foreground);
+}
+
+/* ==========================================
+   Product Collection (Section 6)
+   ========================================== */
+.collection-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-lg);
+}
+.collection-card {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: var(--transition);
+}
+.collection-card:hover { box-shadow: var(--shadow-lg); }
+.collection-card-image {
+    display: block;
+    position: relative;
+    background: var(--color-primary);
+    aspect-ratio: 4/3;
+    overflow: hidden;
+}
+.collection-card-image img { width: 100%; height: 100%; object-fit: cover; }
+.collection-card-body { padding: var(--space-lg); }
+.collection-card-title {
+    display: block;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--color-foreground);
+    margin-bottom: var(--space-sm);
+}
+.collection-card-price { margin-bottom: var(--space-md); font-weight: 700; }
+.collection-card-price del { color: var(--color-muted-foreground); font-weight: 400; margin-right: var(--space-sm); }
+.collection-card-price ins { text-decoration: none; color: var(--color-accent); }
+
+.size-pills { display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-bottom: var(--space-sm); }
+.size-pill {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0 var(--space-sm);
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-card);
+    color: var(--color-foreground);
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: var(--transition-fast);
+}
+.size-pill:hover { border-color: var(--color-primary); }
+.size-pill[aria-pressed="true"] {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-on-primary);
+}
+.size-guide-link { margin-bottom: var(--space-md); }
+.size-guide-link a { font-size: 0.85rem; color: var(--color-muted-foreground); text-decoration: underline; }
+.size-error {
+    color: var(--color-destructive);
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: var(--space-sm);
+    text-align: center;
+}
+.add-to-bag-btn { width: 100%; }
+.add-to-bag-btn[data-state="added"] { background: var(--color-secondary); }
+
+/* ==========================================
+   The Wedge Story (Section 7)
+   ========================================== */
+.wedge-story {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: var(--space-2xl);
+    align-items: center;
+}
+.wedge-story-text p { color: var(--color-foreground); margin-bottom: var(--space-md); line-height: 1.7; }
+.wedge-story-image img { border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); }
+
+/* ==========================================
+   Why Coreve Feels Different — pillars (Section 8)
+   ========================================== */
+.pillar-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-lg);
+}
+.pillar-card {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-xl);
+}
+.pillar-number {
+    display: block;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: var(--color-accent);
+    margin-bottom: var(--space-sm);
+}
+.pillar-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: var(--space-sm); color: var(--color-primary); }
+.pillar-card p { color: var(--color-muted-foreground); font-size: 0.95rem; line-height: 1.6; }
+
+/* ==========================================
+   Micro trust bar
+   ========================================== */
+.trust-bar {
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding: var(--space-sm) var(--space-md);
+}
+.trust-bar span { margin: 0 var(--space-sm); }
 
 /* ==========================================
    Section headings
@@ -367,7 +541,7 @@ select:focus-visible,
     max-width: 60%;
 }
 .pill-badge {
-    background: rgba(28, 25, 23, 0.72);
+    background: rgba(38, 34, 29, 0.72);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     color: #fff;
@@ -561,6 +735,28 @@ select:focus-visible,
 .page-content-wrap table td, .page-content-wrap table th { border: 1px solid var(--color-border); padding: 0.6rem; text-align: left; }
 
 /* ==========================================
+   Story page (Why Coreve / India-Middle East)
+   ========================================== */
+.story-section { max-width: 640px; margin: 0 auto; padding: var(--space-3xl) 0; border-bottom: 1px solid var(--color-border); }
+.story-section:last-child { border-bottom: none; }
+.story-eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--color-accent);
+    margin-bottom: var(--space-sm);
+}
+.story-section h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: var(--space-md);
+    line-height: 1.25;
+}
+.story-section p { color: var(--color-foreground); margin-bottom: var(--space-md); font-family: var(--font-body); }
+
+/* ==========================================
    WooCommerce overrides
    ========================================== */
 .woocommerce ul.products {
@@ -637,7 +833,7 @@ select:focus-visible,
 .woocommerce-page select:focus {
     border-color: var(--color-primary);
     outline: none;
-    box-shadow: 0 0 0 3px rgba(28,25,23,0.12);
+    box-shadow: 0 0 0 3px rgba(38,34,29,0.12);
 }
 
 .woocommerce div.quantity .qty,
@@ -658,22 +854,28 @@ select:focus-visible,
     .product-grid { grid-template-columns: repeat(3, 1fr); }
     .testimonial-grid { grid-template-columns: repeat(2, 1fr); }
     .woocommerce ul.products { grid-template-columns: repeat(3, 1fr); }
+    .collection-grid { grid-template-columns: repeat(2, 1fr); }
+    .pillar-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 900px) {
     .hero-inner { grid-template-columns: 1fr; text-align: center; }
     .hero-content h1 { font-size: 2.4rem; }
+    .hero-ctas { justify-content: center; }
     .feature-triptych { grid-template-columns: 1fr; }
     .process-grid { grid-template-columns: 1fr; }
     .footer-grid { grid-template-columns: 1fr 1fr; }
     .main-navigation { display: none; }
     .mobile-menu-toggle { display: flex; }
+    .wedge-story { grid-template-columns: 1fr; }
+    .wedge-story-image { order: -1; }
 }
 
 @media (max-width: 768px) {
     .product-grid { grid-template-columns: repeat(2, 1fr); }
     .testimonial-grid { grid-template-columns: 1fr; }
     .woocommerce ul.products { grid-template-columns: repeat(2, 1fr); }
+    .comparison-grid { grid-template-columns: 1fr; }
 
     /* The "Why Coreve Exists" banner image is very wide/short; overlaying
        badges on it breaks once the image shrinks below badge-stack height. */
@@ -692,6 +894,22 @@ select:focus-visible,
     .footer-grid { grid-template-columns: 1fr; }
     .section-title { font-size: 1.75rem; }
     .hero-content h1 { font-size: 2rem; }
+    .collection-grid { grid-template-columns: 1fr; }
+    .pillar-grid { grid-template-columns: 1fr; }
+}
+
+/* Design baseline: 390px (brief assumes ~99% mobile traffic at this width).
+   Tightens side gutters and type scale slightly below the general 480px
+   phone breakpoint above so nothing feels cramped on the smallest common
+   viewport. */
+@media (max-width: 390px) {
+    .container { padding: 0 1rem; }
+    .hero-inner { padding: var(--space-2xl) 1rem; }
+    .hero-content h1 { font-size: 1.75rem; }
+    .hero-support { font-size: 1rem; }
+    .hero-ctas { flex-direction: column; align-items: stretch; }
+    .section { padding: var(--space-2xl) 0; }
+    .section-title { font-size: 1.5rem; }
 }
 
 /* Mobile nav drawer (JS-toggled) */
@@ -702,7 +920,7 @@ select:focus-visible,
         top: 100%;
         left: 0;
         right: 0;
-        background: rgba(28, 25, 23, 0.96);
+        background: rgba(38, 34, 29, 0.96);
         backdrop-filter: blur(16px);
         padding: var(--space-lg);
     }

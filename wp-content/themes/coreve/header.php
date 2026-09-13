@@ -9,6 +9,11 @@
 <?php wp_body_open(); ?>
 
 <div id="page" class="site">
+	<div class="trust-bar">
+		<span>Women-first sneakers</span>
+		<span>7-day size exchange</span>
+		<span>Cash on delivery available</span>
+	</div>
 	<header id="masthead" class="site-header">
 		<div class="header-inner">
 			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="site-logo-link">

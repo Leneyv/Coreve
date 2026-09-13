@@ -3,7 +3,7 @@
 			<div class="footer-grid">
 				<div>
 					<h4>Coreve</h4>
-					<p>Coreve is a sneaker made only for her. Drip, that's all about vibe + comfort + boss energy. Built to keep every queen walking confident, comfy, and unapologetic, every step.</p>
+					<p>Coreve designs sneakers from a women-first perspective — built around her fit, her comfort, and her everyday life, not adapted from a men's or unisex last.</p>
 				</div>
 				<div>
 					<h4>Get In Touch</h4>

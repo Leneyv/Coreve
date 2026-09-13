@@ -1,32 +1,33 @@
 <?php
 /**
- * Homepage template — recreated from the live coreve.in Shopify site.
+ * Homepage — Coreve CRO/brand rebuild.
+ *
+ * Built as a conversion narrative per the brand brief: establish the
+ * category problem, introduce the women-first philosophy, then the
+ * product, before resolving size/trust anxiety. Every factual claim here
+ * is sourced from PROGRESS.md's confirmed-facts registry — nothing here
+ * is invented (no fake reviews, no unverified delivery/COD/material claims).
  *
  * @package Coreve
  */
 
 get_header();
 
-function coreve_product_link( $slug ) {
-	$posts = get_posts( array( 'name' => $slug, 'post_type' => 'product', 'post_status' => 'publish', 'numberposts' => 1 ) );
-	return $posts ? get_permalink( $posts[0] ) : home_url( '/shop/' );
-}
-
-$featured_products = array(
-	array( 'slug' => 'cipher-mocha-mousse-women-sneaker', 'title' => 'Cipher Mocha Mousse - Soft Power in Motion', 'image' => 'cip_1.webp' ),
-	array( 'slug' => 'ventra_blue_granite_ladies_sneaker_blue_white', 'title' => 'Ventra Blue Granite – Calm Strength', 'image' => 'ven_1_4b57b6d0-0ca1-46f0-ad25-93b6d8fbd660.webp' ),
-	array( 'slug' => 'zivana-winterberry-girl-sneaker-shoe', 'title' => 'Zivana Winterberry – Bold, Unapologetic Energy', 'image' => 'ziv_v2.webp' ),
-	array( 'slug' => 'elara-tendril-ladies-sneaker', 'title' => 'Elara Tendril - Quiet Elegance, Fierce Core', 'image' => 'ela_1.webp' ),
-	array( 'slug' => 'nyro-eclipse-women-sneaker-blue-white', 'title' => 'Nyro Eclipse - Understated Power', 'image' => 'Nyr_1.webp' ),
-);
+$collection = coreve_collection_products();
 ?>
 
-<!-- Hero -->
+<!-- Section 4/5 anchor targets are used by the header's "Why Coreve" and hero's secondary CTA -->
+
+<!-- Section 3 — Hero -->
 <section class="hero">
 	<div class="hero-inner">
 		<div class="hero-content">
-			<h1>Walk on a Cloud<br>Like a Boss</h1>
-			<span class="hero-badge">India's First Sneaker made for Women</span>
+			<h1>She Was Never Meant to Fit Into His Shoe.</h1>
+			<p class="hero-support">For years, women have adapted to sneakers designed around generic or men's footwear thinking. Coreve starts somewhere different — with her.</p>
+			<div class="hero-ctas">
+				<a href="<?php echo esc_url( home_url( '/shop/' ) ); ?>" class="btn">Explore Coreve</a>
+				<a href="#why-coreve" class="btn-secondary">Why Coreve?</a>
+			</div>
 		</div>
 		<div class="hero-image">
 			<img src="<?php echo esc_url( coreve_asset_image( 'cip_1.webp' ) ); ?>" alt="Coreve sneaker" fetchpriority="high">
@@ -34,116 +35,136 @@ $featured_products = array(
 	</div>
 </section>
 
-<!-- Definitely Female -->
-<section class="section">
+<!-- Section 4 — The Cultural Truth -->
+<section class="section" id="why-coreve">
 	<div class="container">
-		<h2 class="section-title">DEFINITELY FEMALE.</h2>
-		<p class="section-subtitle">Current Drop Limited Edition</p>
-		<div class="product-grid">
-			<?php foreach ( $featured_products as $p ) : ?>
-				<a class="product-card" href="<?php echo esc_url( coreve_product_link( $p['slug'] ) ); ?>">
-					<span class="product-card-badge">22% off</span>
-					<div class="product-card-image">
-						<img src="<?php echo esc_url( coreve_asset_image( $p['image'] ) ); ?>" alt="<?php echo esc_attr( $p['title'] ); ?>" loading="lazy">
-					</div>
-					<div class="product-card-body">
-						<span class="product-card-title"><?php echo esc_html( $p['title'] ); ?></span>
-						<span class="product-card-price"><del>Rs. 8,995</del> <ins>Rs. 6,995</ins></span>
-					</div>
-				</a>
-			<?php endforeach; ?>
-		</div>
-	</div>
-</section>
+		<h2 class="section-title">Why Is She Still Wearing His?</h2>
+		<p class="section-subtitle">Most sneakers were never built from a women-first point of view.</p>
+		<p class="truth-lede">Walk into almost any sneaker store and here's the truth: the choice is usually a men's sneaker in a smaller size, or a unisex pair built around a generic, gender-neutral last. Women often choose based on how a sneaker looks, fits, or trends — while the design underneath still follows the same old assumptions.</p>
 
-<!-- Why Coreve Exists -->
-<section class="section section-cream">
-	<div class="container">
-		<h2 class="section-title">Why Coreve Exists?</h2>
-		<p class="section-subtitle">Every Unisex Sneakers failed in same way</p>
-		<div class="pill-image-block">
-			<img src="<?php echo esc_url( coreve_asset_image( 'Design_to_MOve_like_you_do.webp' ) ); ?>" alt="Why Coreve exists" loading="lazy">
-			<div class="pill-badges">
-				<span class="pill-badge">Loose Fitting</span>
-				<span class="pill-badge">Heavy Strides</span>
-				<span class="pill-badge">Break-in Pain</span>
+		<div class="comparison-grid">
+			<div class="comparison-card">
+				<span class="comparison-label">The Generic Approach</span>
+				<ul>
+					<li>Starts with a men's or unisex last, adjusted smaller</li>
+					<li>Fit is a compromise, not a starting point</li>
+					<li>Style and comfort treated as trade-offs</li>
+				</ul>
+			</div>
+			<div class="comparison-card comparison-card--coreve">
+				<span class="comparison-label">The Coreve Approach</span>
+				<ul>
+					<li>Starts with her proportions and stride, from the first sketch</li>
+					<li>Fit is the foundation, not an afterthought</li>
+					<li>Style and comfort designed to coexist</li>
+				</ul>
 			</div>
 		</div>
 	</div>
 </section>
 
-<!-- Process -->
-<section class="process-strip">
+<!-- Section 5 — Coreve Reveal -->
+<section class="section section-cream">
 	<div class="container">
-		<h2 class="section-title">When everyone ignored this</h2>
-		<p class="section-subtitle">We went ahead to solve it</p>
-		<div class="process-grid">
-			<figure>
-				<img src="<?php echo esc_url( coreve_asset_image( 'EU_Standard_Leather_2.webp' ) ); ?>" alt="Close-up of Coreve sneaker leather detailing" loading="lazy">
-				<figcaption>After 13+ Prototypes</figcaption>
-			</figure>
-			<figure>
-				<img src="<?php echo esc_url( coreve_asset_image( 'ortholite_Insole_1.webp' ) ); ?>" alt="Coreve sneakers with Ortholite insole detail" loading="lazy">
-				<figcaption>After 20+ Leather options</figcaption>
-			</figure>
-			<figure>
-				<img src="<?php echo esc_url( coreve_asset_image( 'Sole_Wedge_1_1.webp' ) ); ?>" alt="Coreve wedge sole close-up" loading="lazy">
-				<figcaption>After Countless Trial steps</figcaption>
-			</figure>
+		<h2 class="section-title">Start With Her.</h2>
+		<p class="reveal-copy">Coreve designs from the woman outward. Her foot. Her movement. Her proportions. Her everyday life. Her desire for comfort — and her desire to feel elevated, without giving up either.</p>
+		<div style="text-align:center;">
+			<a href="#collection" class="btn">Shop the Collection</a>
 		</div>
 	</div>
 </section>
 
-<!-- Perfected for Women (video) -->
-<section class="section" style="background:var(--color-primary); color:var(--color-on-primary); padding-top:3rem; padding-bottom:0;">
+<!-- Section 6 — Product Collection (primary conversion section) -->
+<section class="section" id="collection">
 	<div class="container">
-		<h2 style="font-size:2rem; font-weight:800;">Coreve was Perfected<br>for Women</h2>
+		<h2 class="section-title">The Collection</h2>
+		<p class="section-subtitle">Current styles. Sizes EU 37–41.</p>
+
+		<div class="collection-grid">
+			<?php foreach ( $collection as $p ) : ?>
+				<div class="collection-card" data-product-id="<?php echo esc_attr( $p['id'] ); ?>">
+					<a href="<?php echo esc_url( $p['permalink'] ); ?>" class="collection-card-image">
+						<?php if ( $p['on_sale'] ) : ?><span class="product-card-badge">Sale</span><?php endif; ?>
+						<img src="<?php echo esc_url( $p['image'] ); ?>" alt="<?php echo esc_attr( $p['name'] ); ?>" loading="lazy">
+					</a>
+					<div class="collection-card-body">
+						<a href="<?php echo esc_url( $p['permalink'] ); ?>" class="collection-card-title"><?php echo esc_html( $p['name'] ); ?></a>
+						<div class="collection-card-price">
+							<?php if ( $p['on_sale'] ) : ?>
+								<del><?php echo wp_kses_post( wc_price( $p['regular_price'] ) ); ?></del>
+								<ins><?php echo wp_kses_post( wc_price( $p['sale_price'] ) ); ?></ins>
+							<?php else : ?>
+								<span><?php echo wp_kses_post( wc_price( $p['regular_price'] ) ); ?></span>
+							<?php endif; ?>
+						</div>
+
+						<div class="size-pills" role="group" aria-label="Select size">
+							<?php foreach ( $p['sizes'] as $s ) : ?>
+								<button type="button" class="size-pill" data-variation-id="<?php echo esc_attr( $s['variation_id'] ); ?>" aria-pressed="false">EU <?php echo esc_html( $s['size'] ); ?></button>
+							<?php endforeach; ?>
+						</div>
+						<p class="size-guide-link"><a href="<?php echo esc_url( home_url( '/size-guide/' ) ); ?>">Size Guide</a></p>
+
+						<button type="button" class="btn add-to-bag-btn" data-product-id="<?php echo esc_attr( $p['id'] ); ?>">Add to Bag</button>
+						<p class="size-error" role="alert" hidden>Choose your size first.</p>
+					</div>
+				</div>
+			<?php endforeach; ?>
+		</div>
 	</div>
-	<video autoplay muted loop playsinline style="width:100%; display:block; margin-top:1.5rem;">
-		<source src="<?php echo esc_url( coreve_asset_image( '4e220763c5d84a159b63a8277984ad94.mp4' ) ); ?>" type="video/mp4">
-	</video>
-	<p style="text-align:center; font-weight:700; color:var(--color-accent); padding:2rem 0; font-size:1.1rem; letter-spacing:0.05em; background:var(--color-primary);">ENGINEERED FOR REAL LIFE.</p>
 </section>
 
-<!-- Feature triptych -->
-<section class="section" style="padding-top:0;">
-	<div class="container">
-		<p style="text-align:center; color:var(--text-muted); margin-bottom:1.5rem;">Crafted with precision. Designed for her. Enduring comfort, timeless style.</p>
-	</div>
-	<div class="feature-triptych">
-		<figure>
-			<img src="<?php echo esc_url( coreve_asset_image( 'cip_3.webp' ) ); ?>" alt="Premium real leather" loading="lazy">
-			<figcaption>PREMIUM REAL LEATHER</figcaption>
-		</figure>
-		<figure>
-			<img src="<?php echo esc_url( coreve_asset_image( 'ziv_6.webp' ) ); ?>" alt="All-day cushioned comfort" loading="lazy">
-			<figcaption>ALL-DAY CUSHIONED COMFORT</figcaption>
-		</figure>
-		<figure>
-			<img src="<?php echo esc_url( coreve_asset_image( 'ven_2_a73368a4-66bf-46ae-8332-be959cc8d03b.webp' ) ); ?>" alt="Biomechanically perfect fit" loading="lazy">
-			<figcaption>BIOMECHANICALLY PERFECT FIT</figcaption>
-		</figure>
-	</div>
-</section>
-
-<!-- Lifestyle banner -->
-<section class="lifestyle-banner">
-	<img src="<?php echo esc_url( coreve_asset_image( 'loud_bold.webp' ) ); ?>" alt="Loud, Bold, Unapologetically Hers — Coreve lifestyle" loading="lazy">
-</section>
-
-<!-- Refab CTA -->
-<section class="cta-band">
-	<h2 class="section-title">1-Year Free Refab&reg;</h2>
-	<p>Every pair gets one free refurbish polish, sole care, and renewal. So your sneakers stay as powerful as day one.</p>
-	<a href="<?php echo esc_url( home_url( '/coreve-refab-warranty' ) ); ?>" class="btn">Know More</a>
-</section>
-
-<!-- Testimonials -->
+<!-- Section 7 — The Wedge Story -->
 <section class="section section-cream">
 	<div class="container">
-		<h2 class="section-title">WHAT'RE THEY SAYING?</h2>
+		<div class="wedge-story">
+			<div class="wedge-story-text">
+				<h2 class="section-title" style="text-align:left;">She Wanted Sneakers. She Didn't Want to Give Up Height.</h2>
+				<p>Flats are easy, but flat. Heels give height, but not for a full day on your feet. Sneakers are comfortable, but they don't offer either. Coreve's elevated wedge silhouette is built around that exact tension — sneaker comfort, with an elevated stance, for everyday wear.</p>
+				<p>Each pair uses a 65mm heel and 25mm toe construction — designed with women's biomechanics in mind, not as a medical claim, but as a design philosophy for how the sneaker sits and moves with her.</p>
+			</div>
+			<div class="wedge-story-image">
+				<img src="<?php echo esc_url( coreve_asset_image( 'Sole_Wedge_1_1.webp' ) ); ?>" alt="Coreve wedge sole detail" loading="lazy">
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- Section 8 — Why Coreve Feels Different -->
+<section class="section">
+	<div class="container">
+		<h2 class="section-title">Why Coreve Feels Different</h2>
+		<div class="pillar-grid">
+			<div class="pillar-card">
+				<span class="pillar-number">01</span>
+				<h3>Women-First Design</h3>
+				<p>Every Coreve sneaker is designed from a women-first perspective, not adapted from a men's or unisex last.</p>
+			</div>
+			<div class="pillar-card">
+				<span class="pillar-number">02</span>
+				<h3>Elevated Comfort</h3>
+				<p>Sneaker comfort with an elevated silhouette — height and everyday wearability, without the trade-off.</p>
+			</div>
+			<div class="pillar-card">
+				<span class="pillar-number">03</span>
+				<h3>Premium Craft</h3>
+				<p>Made with EU standard leather, with every pair going through multiple prototyping rounds before release.</p>
+			</div>
+			<div class="pillar-card">
+				<span class="pillar-number">04</span>
+				<h3>Made for Her Life</h3>
+				<p>Work. Travel. Coffee runs. Airports. Shopping. One sneaker, built to move through all of it.</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- Genuine social proof (real, migrated verbatim — never fabricated) -->
+<section class="section section-cream">
+	<div class="container">
+		<h2 class="section-title">What She's Saying</h2>
 		<div class="testimonial-grid">
-			<?php foreach ( coreve_testimonials() as $t ) : ?>
+			<?php foreach ( array_slice( coreve_testimonials(), 0, 4 ) as $t ) : ?>
 				<div class="testimonial-card">
 					<p>&ldquo;<?php echo esc_html( $t['text'] ); ?>&rdquo;</p>
 					<div class="testimonial-stars" role="img" aria-label="Rated 5 out of 5 stars">
@@ -157,10 +178,11 @@ $featured_products = array(
 	</div>
 </section>
 
-<!-- FAQ -->
+<!-- Section 9 — Still Wondering (real-policy Q&A) -->
 <section class="section">
 	<div class="container">
-		<h2 class="section-title">Incase You are Wondering</h2>
+		<h2 class="section-title">Still Wondering If Coreve Is For You?</h2>
+		<p class="section-subtitle">Real answers, no surprises. <a href="<?php echo esc_url( home_url( '/size-guide/' ) ); ?>">See the full Size Guide →</a></p>
 		<div class="faq-list">
 			<?php foreach ( coreve_home_faqs() as $i => $faq ) : ?>
 				<div class="faq-item">

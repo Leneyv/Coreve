@@ -9,6 +9,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Cash on Delivery handling fee — confirmed real policy (Shipping Policy
+ * page): "Cash on Delivery (COD): Available at an additional handling
+ * fee of ₹99 per order." WooCommerce's core COD gateway has no built-in
+ * fee field, so it's added here based on the customer's selected
+ * payment method at checkout.
+ */
+function coreve_cod_handling_fee( $cart ) {
+	if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
+		return;
+	}
+	if ( 'cod' === WC()->session->get( 'chosen_payment_method' ) ) {
+		$cart->add_fee( __( 'COD Handling Fee', 'coreve' ), 99 );
+	}
+}
+add_action( 'woocommerce_cart_calculate_fees', 'coreve_cod_handling_fee' );
+
 function coreve_setup() {
 	add_theme_support( 'automatic-feed-links' );
 	add_theme_support( 'title-tag' );
@@ -54,7 +71,8 @@ function coreve_scripts() {
 	wp_enqueue_style( 'coreve-fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css', array(), '6.4.0' );
 	wp_enqueue_style( 'coreve-style', get_stylesheet_uri(), array(), '3.0.0' );
 
-	wp_enqueue_script( 'coreve-theme', get_template_directory_uri() . '/assets/js/theme.js', array(), '2.0.0', true );
+	wp_enqueue_script( 'coreve-store-api-cart', get_template_directory_uri() . '/assets/js/store-api-cart.js', array(), '1.0.0', true );
+	wp_enqueue_script( 'coreve-theme', get_template_directory_uri() . '/assets/js/theme.js', array( 'coreve-store-api-cart' ), '2.0.0', true );
 }
 add_action( 'wp_enqueue_scripts', 'coreve_scripts' );
 
@@ -95,10 +113,10 @@ add_action( 'wp_head', 'coreve_social_meta', 1 );
 
 function coreve_fallback_menu() {
 	echo '<ul>';
-	echo '<li><a href="' . esc_url( home_url( '/shop/' ) ) . '">Shop</a></li>';
-	echo '<li><a href="' . esc_url( home_url( '/about-us' ) ) . '">About</a></li>';
-	echo '<li><a href="' . esc_url( home_url( '/faq' ) ) . '">FAQ</a></li>';
-	echo '<li><a href="' . esc_url( home_url( '/contact' ) ) . '">Contact</a></li>';
+	echo '<li><a href="' . esc_url( home_url( '/shop/' ) ) . '">Collection</a></li>';
+	echo '<li><a href="' . esc_url( home_url( '/why-coreve/' ) ) . '">Why Coreve</a></li>';
+	echo '<li><a href="' . esc_url( home_url( '/about-us/' ) ) . '">Our Story</a></li>';
+	echo '<li><a href="' . esc_url( home_url( '/size-guide/' ) ) . '">Size Guide</a></li>';
 	echo '</ul>';
 }
 
@@ -132,23 +150,83 @@ function coreve_testimonials() {
 }
 
 /**
- * FAQ items shown in the homepage accordion — migrated from the live site.
+ * FAQ items — Part 9/15 "Still Wondering" content. Every answer here is
+ * sourced from confirmed real Coreve policy (see PROGRESS.md Phase 0
+ * facts registry); nothing here is invented.
  */
 function coreve_home_faqs() {
 	return array(
 		array(
-			'q' => 'What is 1 year free Refab',
-			'a' => "More than a Warranty is an extra perk. It's about making your sneakers look and feel as good as new. After 6 months of use refer to our Refab Warranty page to know more.",
+			'q' => 'Which size should I choose?',
+			'a' => 'Coreve sneakers run true to size in EU 37–41. Check the Size Guide on any product page, and if you\'re between sizes, we recommend sizing up.',
 		),
 		array(
-			'q' => 'Can I return or exchange my sneakers?',
-			'a' => 'You can return or exchange your Coreve Sneakers within 7 days of delivery, provided the product is unused, unworn, unwashed, and in its original packaging with all tags intact.',
+			'q' => 'Can I exchange my size if it doesn\'t fit?',
+			'a' => 'Yes. You can return or exchange within 7 days of delivery, provided the shoes are unused, unworn, unwashed, and in their original packaging with tags intact.',
 		),
 		array(
-			'q' => 'Are these sneakers specifically designed for women?',
-			'a' => "Yes — every Coreve sneaker is engineered around the natural walking pattern, arch shape, and posture of women, combining posture science, ergonomic shaping, and handcrafted precision.",
+			'q' => 'How does delivery work?',
+			'a' => 'Orders are processed in 1–2 business days. Delivery then takes 2–5 business days in metro cities, 4–7 days in other cities and towns, and 7–10 days in remote areas. Standard shipping is free across India.',
+		),
+		array(
+			'q' => 'Can I pay by Cash on Delivery?',
+			'a' => 'Yes — COD is available with a ₹99 handling fee per order.',
+		),
+		array(
+			'q' => 'What is the 1-Year Refab Warranty?',
+			'a' => 'It\'s an exclusive perk for Coreve Queens Club members: register your sneaker\'s serial number after purchase, and between 6–12 months from your purchase date you can request a free Refab — restoring the upper and sole to look and feel new again.',
+		),
+		array(
+			'q' => 'How do I care for my sneakers?',
+			'a' => 'A mild soap and water solution works well for most materials; a protectant spray can help too. Cleaning method varies slightly by material — check your product page for specifics.',
 		),
 	);
+}
+
+/**
+ * Section 6 — Product Collection data. Queries the 5 variable sneaker
+ * products (excludes the made-to-order bridal item, which isn't part of
+ * the core sneaker/wedge narrative) with real per-size availability and
+ * pricing pulled live from WooCommerce, for the tappable size-pill grid.
+ */
+function coreve_collection_products() {
+	$product_ids = array( 117, 118, 119, 120, 121 );
+	$products    = array();
+
+	foreach ( $product_ids as $id ) {
+		$product = wc_get_product( $id );
+		if ( ! $product || ! $product->is_type( 'variable' ) ) {
+			continue;
+		}
+
+		$sizes = array();
+		foreach ( $product->get_available_variations() as $variation_data ) {
+			$size = isset( $variation_data['attributes']['attribute_pa_size'] ) ? $variation_data['attributes']['attribute_pa_size'] : '';
+			if ( '' === $size || ! $variation_data['is_in_stock'] ) {
+				continue; // only show sizes actually available, per Part 6
+			}
+			$sizes[] = array(
+				'size'         => $size,
+				'variation_id' => $variation_data['variation_id'],
+			);
+		}
+		usort( $sizes, function ( $a, $b ) { return (float) $a['size'] <=> (float) $b['size']; } );
+
+		$image_id = $product->get_image_id();
+
+		$products[] = array(
+			'id'            => $product->get_id(),
+			'name'          => $product->get_name(),
+			'permalink'     => get_permalink( $product->get_id() ),
+			'image'         => $image_id ? wp_get_attachment_image_url( $image_id, 'medium_large' ) : wc_placeholder_img_src(),
+			'regular_price' => $product->get_variation_regular_price( 'min' ),
+			'sale_price'    => $product->get_variation_sale_price( 'min' ),
+			'on_sale'       => $product->is_on_sale(),
+			'sizes'         => $sizes,
+		);
+	}
+
+	return $products;
 }
 
 /**
