@@ -235,3 +235,64 @@ function coreve_collection_products() {
 function coreve_asset_image( $filename ) {
 	return get_template_directory_uri() . '/assets/images/' . $filename;
 }
+
+/**
+ * Product page accordion sections (Part 7). Shared across the 5 sneakers
+ * since materials/sizing/policies are identical across the line — only
+ * name/price/gallery/reviews differ per product (handled in the template).
+ * Every claim here matches PROGRESS.md's confirmed-facts registry;
+ * the Refab section in particular corrects the earlier unconditional
+ * phrasing to the real Queens-Club-gated terms.
+ */
+function coreve_product_accordion_sections() {
+	return array(
+		array(
+			'title'   => "Why She'll Love It",
+			'content' => '<ul>
+				<li><strong>Perfect Heel Shape</strong> — no slip, no drag, a lock-in fit that moves with you.</li>
+				<li><strong>Balanced Arch Support</strong> — cushions every step, reducing fatigue during long days.</li>
+				<li><strong>Shorter Heel-Ball Ratio</strong> — bends naturally with your foot.</li>
+				<li><strong>65mm Lift</strong> — the poise of height, with the comfort to wear all day.</li>
+				<li><strong>Ortholite&reg; Cushion</strong> — an insole that adapts to your footprint.</li>
+				<li><strong>Feather-Lite Build</strong> — lightweight materials designed to reduce foot fatigue.</li>
+			</ul>',
+		),
+		array(
+			'title'   => 'Product Design',
+			'content' => '<p>Designed from a women-first perspective, not adapted from a men\'s or unisex last. The elevated wedge silhouette pairs a 65mm heel with a 25mm toe, built as a design philosophy around how women move — not a medical claim.</p>',
+		),
+		array(
+			'title'   => 'Fit & Comfort',
+			'content' => '<table><tr><th>EU Size</th><th>IN Size</th><th>UK Size</th><th>Foot Length</th></tr>
+				<tr><td>37</td><td>4</td><td>4</td><td>23.5 cm</td></tr>
+				<tr><td>38</td><td>5</td><td>5</td><td>24.2 cm</td></tr>
+				<tr><td>39</td><td>6</td><td>6</td><td>24.8 cm</td></tr>
+				<tr><td>40</td><td>7</td><td>7</td><td>25.5 cm</td></tr>
+				<tr><td>41</td><td>8</td><td>8</td><td>26.2 cm</td></tr></table>
+				<p>If you\'re between sizes, we recommend sizing up.</p>',
+		),
+		array(
+			'title'   => 'Materials',
+			'content' => '<p>Upper: EU standard leather. Sole: TPR. Closure: lace-up. Country of origin: India.</p>',
+		),
+		array(
+			'title'   => 'Care',
+			'content' => '<p>A mild soap and water solution works well for most materials; a protectant spray can help extend the finish.</p>',
+		),
+		array(
+			'title'   => 'Delivery',
+			'content' => '<p>Orders are processed in 1–2 business days. Delivery then takes 2–5 business days in metro cities, 4–7 days in other cities and towns, and 7–10 days in remote areas. Standard shipping is free across India. Cash on Delivery is available with a ₹99 handling fee.</p>',
+		),
+		array(
+			'title'   => 'Size Exchange',
+			'content' => '<p>Return or exchange within 7 days of delivery, provided the shoes are unused, unworn, unwashed, and in original packaging with tags intact.</p>
+				<p><strong>1-Year Refab (Coreve Queens Club members):</strong> register your sneaker\'s serial number after purchase, and between 6–12 months from your purchase date you can request a free Refab — restoring the upper and sole. Registration is required; without it, the Refab benefit can\'t be claimed.</p>',
+		),
+		array(
+			'title'   => 'FAQ',
+			'content' => '<p><strong>Can I wear these for physical activity?</strong> Yes, for light activity like walking, casual outings, or travel — they\'re designed as premium fashion sneakers, not sports trainers.</p>
+				<p><strong>Do you offer wide or narrow widths?</strong> Sizing follows the chart above; if you\'re between sizes, size up.</p>
+				<p><strong>Need help choosing?</strong> Contact us on WhatsApp at +91 93639 36665 or hello@coreve.in.</p>',
+		),
+	);
+}

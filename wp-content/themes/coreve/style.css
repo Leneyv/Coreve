@@ -684,6 +684,80 @@ select:focus-visible,
 .faq-item.is-open .faq-question .faq-icon { transform: rotate(180deg); }
 .faq-icon { transition: transform var(--transition-fast); }
 
+/* Product-page accordion sections can be longer than the homepage FAQ
+   (size chart tables, bullet lists) — a fixed 400px cap would clip them. */
+.product-accordion-item.is-open .faq-answer { max-height: none; }
+.product-accordion-body p, .product-accordion-body ul { margin-bottom: var(--space-md); }
+.product-accordion-body table { width: 100%; border-collapse: collapse; margin-bottom: var(--space-md); }
+.product-accordion-body table td, .product-accordion-body table th { border: 1px solid var(--color-border); padding: 0.5rem; text-align: left; }
+.product-accordion-body ul { list-style: disc; padding-left: 1.25rem; }
+.product-accordion-body li { margin-bottom: var(--space-sm); }
+
+/* ==========================================
+   Product page (single sneaker)
+   ========================================== */
+.breadcrumb-nav {
+    padding: var(--space-md) 1.5rem;
+    font-size: 0.85rem;
+    color: var(--color-muted-foreground);
+}
+.breadcrumb-nav a { color: var(--color-muted-foreground); text-decoration: underline; }
+
+.product-hero {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: var(--space-2xl);
+    padding: var(--space-lg) 1.5rem var(--space-3xl);
+    max-width: 1280px;
+    margin: 0 auto;
+}
+.product-hero-gallery .woocommerce-product-gallery__image { border-radius: var(--radius-md); overflow: hidden; margin-bottom: var(--space-sm); background: var(--color-primary); }
+.product-hero-gallery .flex-control-thumbs { display: flex; flex-wrap: wrap; gap: var(--space-sm); list-style: none; }
+.product-hero-gallery .flex-control-thumbs li { width: calc(25% - 6px); }
+.product-hero-gallery .flex-control-thumbs img { border-radius: var(--radius-sm); border: 1px solid var(--color-border); cursor: pointer; }
+
+.product-hero-title { font-size: 1.75rem; font-weight: 700; margin-bottom: var(--space-sm); }
+.product-hero-rating { display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-md); }
+.product-hero-rating .testimonial-stars { color: var(--color-accent); font-size: 0.9rem; }
+.review-count { font-size: 0.85rem; color: var(--color-muted-foreground); }
+.product-hero-price { font-size: 1.5rem; font-weight: 700; color: var(--color-accent); margin-bottom: var(--space-md); }
+.product-hero-price del { color: var(--color-muted-foreground); font-weight: 400; font-size: 1.1rem; margin-right: var(--space-sm); }
+.product-hero-price ins { text-decoration: none; }
+.product-hero-benefit { color: var(--color-foreground); margin-bottom: var(--space-lg); font-size: 1.05rem; line-height: 1.6; }
+.product-hero-ctas { display: flex; gap: var(--space-md); margin-top: var(--space-md); }
+.product-hero-ctas .btn, .product-hero-ctas .btn-secondary { flex: 1; }
+
+.product-accordion { max-width: 760px; margin: 0 auto var(--space-3xl); }
+.product-reviews { max-width: 760px; margin: 0 auto var(--space-3xl); }
+
+/* ==========================================
+   Sticky mobile buy bar
+   ========================================== */
+.sticky-buy-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 90;
+    background: var(--color-card);
+    border-top: 1px solid var(--color-border);
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.08);
+    padding: var(--space-sm) var(--space-md);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+.sticky-buy-bar[hidden] { display: none; }
+.sticky-buy-bar-image { width: 44px; height: 44px; border-radius: var(--radius-sm); object-fit: cover; flex-shrink: 0; }
+.sticky-buy-bar-info { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.sticky-buy-bar-name { font-size: 0.8rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sticky-buy-bar-price { font-size: 0.85rem; color: var(--color-accent); font-weight: 700; }
+.sticky-buy-bar-btn { min-height: 44px; padding: 0 1.25rem; white-space: nowrap; }
+
+/* Reserve space so the fixed sticky bar never covers the last bit of
+   page content (footer, last accordion item) once it's visible. */
+body:has(.sticky-buy-bar:not([hidden])) { padding-bottom: 72px; }
+
 /* ==========================================
    Footer
    ========================================== */
@@ -869,6 +943,8 @@ select:focus-visible,
     .mobile-menu-toggle { display: flex; }
     .wedge-story { grid-template-columns: 1fr; }
     .wedge-story-image { order: -1; }
+    .product-hero { grid-template-columns: 1fr; padding: var(--space-md) 1rem var(--space-2xl); }
+    .product-hero-ctas { flex-direction: column; }
 }
 
 @media (max-width: 768px) {
