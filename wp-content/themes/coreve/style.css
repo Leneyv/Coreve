@@ -655,6 +655,40 @@ select:focus-visible,
 .testimonial-role { color: var(--color-muted-foreground); font-size: 0.85rem; }
 
 /* ==========================================
+   Instagram social proof — real links to real posts, not a heavy iframe
+   ========================================== */
+.instagram-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-lg);
+}
+.instagram-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--space-sm);
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-xl) var(--space-md);
+    transition: var(--transition);
+}
+.instagram-card:hover { box-shadow: var(--shadow-md); border-color: var(--color-accent); }
+.instagram-card > i:first-child { font-size: 2rem; color: var(--color-accent); }
+.instagram-card-name { font-weight: 700; font-family: var(--font-heading); }
+.instagram-card-handle { color: var(--color-muted-foreground); font-size: 0.85rem; }
+.instagram-card-cta {
+    margin-top: var(--space-sm);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-accent);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* ==========================================
    FAQ accordion
    ========================================== */
 .faq-list { max-width: 760px; margin: 0 auto; }
@@ -752,6 +786,7 @@ select:focus-visible,
 .sticky-buy-bar-info { flex: 1; min-width: 0; display: flex; flex-direction: column; }
 .sticky-buy-bar-name { font-size: 0.8rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .sticky-buy-bar-price { font-size: 0.85rem; color: var(--color-accent); font-weight: 700; }
+.sticky-buy-bar-size-guide { font-size: 0.75rem; color: var(--color-muted-foreground); text-decoration: underline; }
 .sticky-buy-bar-btn { min-height: 44px; padding: 0 1.25rem; white-space: nowrap; }
 
 /* Reserve space so the fixed sticky bar never covers the last bit of
@@ -1024,6 +1059,7 @@ body.cart-drawer-open { overflow: hidden; }
     .woocommerce ul.products { grid-template-columns: repeat(3, 1fr); }
     .collection-grid { grid-template-columns: repeat(2, 1fr); }
     .pillar-grid { grid-template-columns: repeat(2, 1fr); }
+    .instagram-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 900px) {
@@ -1066,6 +1102,7 @@ body.cart-drawer-open { overflow: hidden; }
     .hero-content h1 { font-size: 2rem; }
     .collection-grid { grid-template-columns: 1fr; }
     .pillar-grid { grid-template-columns: 1fr; }
+    .instagram-grid { grid-template-columns: 1fr; }
 }
 
 /* Design baseline: 390px (brief assumes ~99% mobile traffic at this width).

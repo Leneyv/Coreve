@@ -178,6 +178,26 @@ $collection = coreve_collection_products();
 	</div>
 </section>
 
+<!-- Real Instagram social proof — links directly to the real posts rather
+     than a heavy/unreliable third-party iframe embed (tested and found to
+     throw internal errors and render blank in some contexts) -->
+<section class="section">
+	<div class="container">
+		<h2 class="section-title">As Seen on Instagram</h2>
+		<p class="section-subtitle">Real customers, sharing their own Coreve moments.</p>
+		<div class="instagram-grid">
+			<?php foreach ( coreve_instagram_posts() as $post ) : ?>
+				<a class="instagram-card" href="<?php echo esc_url( $post['url'] ); ?>" target="_blank" rel="noopener">
+					<i class="ph ph-instagram-logo" aria-hidden="true"></i>
+					<span class="instagram-card-name"><?php echo esc_html( $post['name'] ); ?></span>
+					<span class="instagram-card-handle"><?php echo esc_html( $post['handle'] ); ?></span>
+					<span class="instagram-card-cta">View post <i class="ph ph-arrow-up-right" aria-hidden="true"></i></span>
+				</a>
+			<?php endforeach; ?>
+		</div>
+	</div>
+</section>
+
 <!-- Section 9 — Still Wondering (real-policy Q&A) -->
 <section class="section">
 	<div class="container">

@@ -113,6 +113,7 @@ while ( have_posts() ) :
 		<div class="sticky-buy-bar-info">
 			<span class="sticky-buy-bar-name"><?php echo esc_html( $product->get_name() ); ?></span>
 			<span class="sticky-buy-bar-price"><?php echo wp_kses_post( $product->get_price_html() ); ?></span>
+			<a href="<?php echo esc_url( home_url( '/size-guide/' ) ); ?>" class="sticky-buy-bar-size-guide">Size Guide</a>
 		</div>
 		<button type="button" class="btn sticky-buy-bar-btn">Add to Bag</button>
 	</div>

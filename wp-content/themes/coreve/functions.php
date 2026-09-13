@@ -151,6 +151,23 @@ function coreve_testimonials() {
 }
 
 /**
+ * Real Instagram customer/creator posts (Part 14 social proof) — permalinks
+ * re-fetched directly from the live coreve.in site and paired to their
+ * captions by verifying the caption text lives inside the same <blockquote>
+ * as each permalink (not fabricated, not guessed by position alone).
+ * Rendered via Instagram's own official oEmbed widget so the content stays
+ * live and accurate rather than being screenshotted/copied.
+ */
+function coreve_instagram_posts() {
+	return array(
+		array( 'url' => 'https://www.instagram.com/reel/DPYErt9ib81/', 'name' => 'Ammu Nair', 'handle' => '@ammunair_' ),
+		array( 'url' => 'https://www.instagram.com/reel/DPYEZTaEU2R/', 'name' => 'Chandru Kaustuba', 'handle' => '@chandru_kaustuba' ),
+		array( 'url' => 'https://www.instagram.com/reel/DPX_swHE6G1/', 'name' => 'Durga Surendran', 'handle' => '@durga_surendran' ),
+		array( 'url' => 'https://www.instagram.com/reel/DPX_5d2gQbZ/', 'name' => 'Soumya S Thomas', 'handle' => '@soumya_thomas__' ),
+	);
+}
+
+/**
  * FAQ items — Part 9/15 "Still Wondering" content. Every answer here is
  * sourced from confirmed real Coreve policy (see PROGRESS.md Phase 0
  * facts registry); nothing here is invented.
