@@ -30,10 +30,10 @@
 				<div>
 					<h4>Social Media</h4>
 					<ul>
-						<li><a href="#"><i class="fa-brands fa-facebook"></i> Facebook</a></li>
-						<li><a href="#"><i class="fa-brands fa-instagram"></i> Instagram</a></li>
-						<li><a href="#"><i class="fa-brands fa-youtube"></i> YouTube</a></li>
-						<li><a href="#"><i class="fa-brands fa-x-twitter"></i> X (Twitter)</a></li>
+						<li><a href="#"><i class="fa-brands fa-facebook" aria-hidden="true"></i> Facebook</a></li>
+						<li><a href="#"><i class="fa-brands fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+						<li><a href="#"><i class="fa-brands fa-youtube" aria-hidden="true"></i> YouTube</a></li>
+						<li><a href="#"><i class="fa-brands fa-x-twitter" aria-hidden="true"></i> X (Twitter)</a></li>
 					</ul>
 				</div>
 			</div>

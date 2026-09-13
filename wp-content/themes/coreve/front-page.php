@@ -79,15 +79,15 @@ $featured_products = array(
 		<p class="section-subtitle">We went ahead to solve it</p>
 		<div class="process-grid">
 			<figure>
-				<img src="<?php echo esc_url( coreve_asset_image( 'sneaker_detail.webp' ) ); ?>" alt="Sketch prototype">
+				<img src="<?php echo esc_url( coreve_asset_image( 'EU_Standard_Leather_2.webp' ) ); ?>" alt="Close-up of Coreve sneaker leather detailing">
 				<figcaption>After 13+ Prototypes</figcaption>
 			</figure>
 			<figure>
-				<img src="<?php echo esc_url( coreve_asset_image( 'Handcrafted_by_Women_Made_in_India..webp' ) ); ?>" alt="Leather trial">
+				<img src="<?php echo esc_url( coreve_asset_image( 'ortholite_Insole_1.webp' ) ); ?>" alt="Coreve sneakers with Ortholite insole detail">
 				<figcaption>After 20+ Leather options</figcaption>
 			</figure>
 			<figure>
-				<img src="<?php echo esc_url( coreve_asset_image( 'the_coreve_standard_table_v2.webp' ) ); ?>" alt="Sole trials">
+				<img src="<?php echo esc_url( coreve_asset_image( 'Sole_Wedge_1_1.webp' ) ); ?>" alt="Coreve wedge sole close-up">
 				<figcaption>After Countless Trial steps</figcaption>
 			</figure>
 		</div>
@@ -95,14 +95,14 @@ $featured_products = array(
 </section>
 
 <!-- Perfected for Women (video) -->
-<section class="section" style="background:#0284c7; color:#fff; padding-top:3rem; padding-bottom:0;">
+<section class="section" style="background:var(--color-primary); color:var(--color-on-primary); padding-top:3rem; padding-bottom:0;">
 	<div class="container">
 		<h2 style="font-size:2rem; font-weight:800;">Coreve was Perfected<br>for Women</h2>
 	</div>
 	<video autoplay muted loop playsinline style="width:100%; display:block; margin-top:1.5rem;">
 		<source src="<?php echo esc_url( coreve_asset_image( '4e220763c5d84a159b63a8277984ad94.mp4' ) ); ?>" type="video/mp4">
 	</video>
-	<p style="text-align:center; font-weight:800; color:var(--brand-dark); padding:2rem 0; font-size:1.1rem; letter-spacing:0.05em;">ENGINEERED FOR REAL LIFE.</p>
+	<p style="text-align:center; font-weight:700; color:var(--color-accent); padding:2rem 0; font-size:1.1rem; letter-spacing:0.05em; background:var(--color-primary);">ENGINEERED FOR REAL LIFE.</p>
 </section>
 
 <!-- Feature triptych -->
@@ -149,8 +149,8 @@ $featured_products = array(
 			<?php foreach ( coreve_testimonials() as $t ) : ?>
 				<div class="testimonial-card">
 					<p>&ldquo;<?php echo esc_html( $t['text'] ); ?>&rdquo;</p>
-					<div class="testimonial-stars">
-						<i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+					<div class="testimonial-stars" role="img" aria-label="Rated 5 out of 5 stars">
+						<i class="ph ph-fill ph-star" aria-hidden="true"></i><i class="ph ph-fill ph-star" aria-hidden="true"></i><i class="ph ph-fill ph-star" aria-hidden="true"></i><i class="ph ph-fill ph-star" aria-hidden="true"></i><i class="ph ph-fill ph-star" aria-hidden="true"></i>
 					</div>
 					<div class="testimonial-name"><?php echo esc_html( $t['name'] ); ?></div>
 					<?php if ( $t['role'] ) : ?><div class="testimonial-role"><?php echo esc_html( $t['role'] ); ?></div><?php endif; ?>
@@ -167,11 +167,11 @@ $featured_products = array(
 		<div class="faq-list">
 			<?php foreach ( coreve_home_faqs() as $i => $faq ) : ?>
 				<div class="faq-item">
-					<button class="faq-question" type="button">
+					<button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-answer-<?php echo esc_attr( $i ); ?>">
 						<?php echo esc_html( $faq['q'] ); ?>
-						<i class="fa-solid fa-chevron-down faq-icon"></i>
+						<i class="ph ph-caret-down faq-icon" aria-hidden="true"></i>
 					</button>
-					<div class="faq-answer"><p><?php echo esc_html( $faq['a'] ); ?></p></div>
+					<div class="faq-answer" id="faq-answer-<?php echo esc_attr( $i ); ?>"><p><?php echo esc_html( $faq['a'] ); ?></p></div>
 				</div>
 			<?php endforeach; ?>
 		</div>
@@ -182,7 +182,9 @@ $featured_products = array(
 document.addEventListener('DOMContentLoaded', function () {
 	document.querySelectorAll('.faq-question').forEach(function (btn) {
 		btn.addEventListener('click', function () {
-			btn.closest('.faq-item').classList.toggle('is-open');
+			var item = btn.closest('.faq-item');
+			var isOpen = item.classList.toggle('is-open');
+			btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
 		});
 	});
 });

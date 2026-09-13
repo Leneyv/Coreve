@@ -32,15 +32,15 @@
 			</nav>
 
 			<div class="header-icons">
-				<a href="#" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></a>
-				<a href="<?php echo class_exists( 'WooCommerce' ) ? esc_url( wc_get_page_permalink( 'myaccount' ) ) : '#'; ?>" aria-label="Account"><i class="fa-regular fa-user"></i></a>
-				<a href="<?php echo class_exists( 'WooCommerce' ) ? esc_url( wc_get_cart_url() ) : '#'; ?>" aria-label="Cart">
-					<i class="fa-solid fa-bag-shopping"></i>
+				<a href="<?php echo class_exists( 'WooCommerce' ) ? esc_url( wc_get_page_permalink( 'shop' ) ) : esc_url( home_url( '/shop/' ) ); ?>" aria-label="Search products"><i class="ph ph-magnifying-glass" aria-hidden="true"></i></a>
+				<a href="<?php echo class_exists( 'WooCommerce' ) ? esc_url( wc_get_page_permalink( 'myaccount' ) ) : '#'; ?>" aria-label="Account"><i class="ph ph-user" aria-hidden="true"></i></a>
+				<a href="<?php echo class_exists( 'WooCommerce' ) ? esc_url( wc_get_cart_url() ) : '#'; ?>" aria-label="Cart, <?php echo class_exists( 'WooCommerce' ) && WC()->cart ? esc_attr( WC()->cart->get_cart_contents_count() ) : 0; ?> items">
+					<i class="ph ph-shopping-bag" aria-hidden="true"></i>
 					<?php if ( class_exists( 'WooCommerce' ) ) : ?>
-						<span class="cart-count"><?php echo esc_html( WC()->cart ? WC()->cart->get_cart_contents_count() : 0 ); ?></span>
+						<span class="cart-count" aria-hidden="true"><?php echo esc_html( WC()->cart ? WC()->cart->get_cart_contents_count() : 0 ); ?></span>
 					<?php endif; ?>
 				</a>
-				<button class="mobile-menu-toggle" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
+				<button class="mobile-menu-toggle" aria-label="Menu" aria-controls="site-navigation" aria-expanded="false"><i class="ph ph-list" aria-hidden="true"></i></button>
 			</div>
 		</div>
 	</header>

@@ -44,9 +44,14 @@ add_action( 'after_setup_theme', 'coreve_woocommerce_support' );
 remove_action( 'woocommerce_sidebar', 'woocommerce_get_sidebar', 10 );
 
 function coreve_scripts() {
-	wp_enqueue_style( 'coreve-google-fonts', 'https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap', array(), null );
+	wp_enqueue_style( 'coreve-google-fonts', 'https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap', array(), null );
+	// Phosphor: structural UI icons (search, cart, account, menu). Font Awesome stays for footer brand/social logos only.
+	wp_enqueue_style( 'coreve-phosphor', 'https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css', array(), '2.1.1' );
 	wp_enqueue_style( 'coreve-fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css', array(), '6.4.0' );
-	wp_enqueue_style( 'coreve-style', get_stylesheet_uri(), array(), '1.0.0' );
+	wp_enqueue_style( 'coreve-style', get_stylesheet_uri(), array(), '2.0.0' );
+
+	wp_enqueue_script( 'gsap', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js', array(), '3.12.5', true );
+	wp_enqueue_script( 'coreve-theme', get_template_directory_uri() . '/assets/js/theme.js', array( 'gsap' ), '1.0.0', true );
 }
 add_action( 'wp_enqueue_scripts', 'coreve_scripts' );
 
