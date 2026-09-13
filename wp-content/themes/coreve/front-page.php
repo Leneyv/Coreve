@@ -29,7 +29,7 @@ $featured_products = array(
 			<span class="hero-badge">India's First Sneaker made for Women</span>
 		</div>
 		<div class="hero-image">
-			<img src="<?php echo esc_url( coreve_asset_image( 'cip_1.webp' ) ); ?>" alt="Coreve sneaker">
+			<img src="<?php echo esc_url( coreve_asset_image( 'cip_1.webp' ) ); ?>" alt="Coreve sneaker" fetchpriority="high">
 		</div>
 	</div>
 </section>
@@ -44,7 +44,7 @@ $featured_products = array(
 				<a class="product-card" href="<?php echo esc_url( coreve_product_link( $p['slug'] ) ); ?>">
 					<span class="product-card-badge">22% off</span>
 					<div class="product-card-image">
-						<img src="<?php echo esc_url( coreve_asset_image( $p['image'] ) ); ?>" alt="<?php echo esc_attr( $p['title'] ); ?>">
+						<img src="<?php echo esc_url( coreve_asset_image( $p['image'] ) ); ?>" alt="<?php echo esc_attr( $p['title'] ); ?>" loading="lazy">
 					</div>
 					<div class="product-card-body">
 						<span class="product-card-title"><?php echo esc_html( $p['title'] ); ?></span>
@@ -62,7 +62,7 @@ $featured_products = array(
 		<h2 class="section-title">Why Coreve Exists?</h2>
 		<p class="section-subtitle">Every Unisex Sneakers failed in same way</p>
 		<div class="pill-image-block">
-			<img src="<?php echo esc_url( coreve_asset_image( 'Design_to_MOve_like_you_do.webp' ) ); ?>" alt="Why Coreve exists">
+			<img src="<?php echo esc_url( coreve_asset_image( 'Design_to_MOve_like_you_do.webp' ) ); ?>" alt="Why Coreve exists" loading="lazy">
 			<div class="pill-badges">
 				<span class="pill-badge">Loose Fitting</span>
 				<span class="pill-badge">Heavy Strides</span>
@@ -79,15 +79,15 @@ $featured_products = array(
 		<p class="section-subtitle">We went ahead to solve it</p>
 		<div class="process-grid">
 			<figure>
-				<img src="<?php echo esc_url( coreve_asset_image( 'EU_Standard_Leather_2.webp' ) ); ?>" alt="Close-up of Coreve sneaker leather detailing">
+				<img src="<?php echo esc_url( coreve_asset_image( 'EU_Standard_Leather_2.webp' ) ); ?>" alt="Close-up of Coreve sneaker leather detailing" loading="lazy">
 				<figcaption>After 13+ Prototypes</figcaption>
 			</figure>
 			<figure>
-				<img src="<?php echo esc_url( coreve_asset_image( 'ortholite_Insole_1.webp' ) ); ?>" alt="Coreve sneakers with Ortholite insole detail">
+				<img src="<?php echo esc_url( coreve_asset_image( 'ortholite_Insole_1.webp' ) ); ?>" alt="Coreve sneakers with Ortholite insole detail" loading="lazy">
 				<figcaption>After 20+ Leather options</figcaption>
 			</figure>
 			<figure>
-				<img src="<?php echo esc_url( coreve_asset_image( 'Sole_Wedge_1_1.webp' ) ); ?>" alt="Coreve wedge sole close-up">
+				<img src="<?php echo esc_url( coreve_asset_image( 'Sole_Wedge_1_1.webp' ) ); ?>" alt="Coreve wedge sole close-up" loading="lazy">
 				<figcaption>After Countless Trial steps</figcaption>
 			</figure>
 		</div>
@@ -112,15 +112,15 @@ $featured_products = array(
 	</div>
 	<div class="feature-triptych">
 		<figure>
-			<img src="<?php echo esc_url( coreve_asset_image( 'cip_3.webp' ) ); ?>" alt="Premium real leather">
+			<img src="<?php echo esc_url( coreve_asset_image( 'cip_3.webp' ) ); ?>" alt="Premium real leather" loading="lazy">
 			<figcaption>PREMIUM REAL LEATHER</figcaption>
 		</figure>
 		<figure>
-			<img src="<?php echo esc_url( coreve_asset_image( 'ziv_6.webp' ) ); ?>" alt="All-day cushioned comfort">
+			<img src="<?php echo esc_url( coreve_asset_image( 'ziv_6.webp' ) ); ?>" alt="All-day cushioned comfort" loading="lazy">
 			<figcaption>ALL-DAY CUSHIONED COMFORT</figcaption>
 		</figure>
 		<figure>
-			<img src="<?php echo esc_url( coreve_asset_image( 'ven_2_a73368a4-66bf-46ae-8332-be959cc8d03b.webp' ) ); ?>" alt="Biomechanically perfect fit">
+			<img src="<?php echo esc_url( coreve_asset_image( 'ven_2_a73368a4-66bf-46ae-8332-be959cc8d03b.webp' ) ); ?>" alt="Biomechanically perfect fit" loading="lazy">
 			<figcaption>BIOMECHANICALLY PERFECT FIT</figcaption>
 		</figure>
 	</div>
@@ -128,10 +128,7 @@ $featured_products = array(
 
 <!-- Lifestyle banner -->
 <section class="lifestyle-banner">
-	<div class="lifestyle-text">
-		<h2>Loud, Bold<br>Unapologetically Hers</h2>
-	</div>
-	<img src="<?php echo esc_url( coreve_asset_image( 'perfection_woman.webp' ) ); ?>" alt="Coreve lifestyle">
+	<img src="<?php echo esc_url( coreve_asset_image( 'loud_bold.webp' ) ); ?>" alt="Loud, Bold, Unapologetically Hers — Coreve lifestyle" loading="lazy">
 </section>
 
 <!-- Refab CTA -->

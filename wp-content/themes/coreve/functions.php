@@ -44,16 +44,54 @@ add_action( 'after_setup_theme', 'coreve_woocommerce_support' );
 remove_action( 'woocommerce_sidebar', 'woocommerce_get_sidebar', 10 );
 
 function coreve_scripts() {
-	wp_enqueue_style( 'coreve-google-fonts', 'https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap', array(), null );
+	// Rubik + Nunito Sans: rounded, free Google Fonts pairing (ui-ux-pro-max "E-commerce Clean" match).
+	wp_enqueue_style( 'coreve-google-fonts', 'https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&family=Nunito+Sans:wght@300;400;500;600;700&display=swap', array(), null );
 	// Phosphor: structural UI icons (search, cart, account, menu). Font Awesome stays for footer brand/social logos only.
 	wp_enqueue_style( 'coreve-phosphor', 'https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css', array(), '2.1.1' );
+	// Separate bundle required for the "ph-fill" weight (e.g. filled star ratings) — the
+	// regular bundle above does not include fill glyphs under the ph-fill class.
+	wp_enqueue_style( 'coreve-phosphor-fill', 'https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css', array(), '2.1.1' );
 	wp_enqueue_style( 'coreve-fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css', array(), '6.4.0' );
-	wp_enqueue_style( 'coreve-style', get_stylesheet_uri(), array(), '2.0.0' );
+	wp_enqueue_style( 'coreve-style', get_stylesheet_uri(), array(), '3.0.0' );
 
-	wp_enqueue_script( 'gsap', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js', array(), '3.12.5', true );
-	wp_enqueue_script( 'coreve-theme', get_template_directory_uri() . '/assets/js/theme.js', array( 'gsap' ), '1.0.0', true );
+	wp_enqueue_script( 'coreve-theme', get_template_directory_uri() . '/assets/js/theme.js', array(), '2.0.0', true );
 }
 add_action( 'wp_enqueue_scripts', 'coreve_scripts' );
+
+/**
+ * Open Graph / Twitter Card meta tags. No SEO plugin is installed, so the
+ * theme provides its own minimal tags for correct link-preview images.
+ */
+function coreve_social_meta() {
+	$image = coreve_asset_image( 'website_hero_banner_2.webp' );
+	$title = is_front_page() ? get_bloginfo( 'name' ) . ' — Sneakers Made for Women' : wp_get_document_title();
+	$desc  = "India's first sneaker made for women. Designed for her natural stride, handcrafted for all-day comfort.";
+	if ( is_singular( 'product' ) ) {
+		global $post;
+		$product = wc_get_product( $post->ID );
+		if ( $product ) {
+			$desc      = wp_strip_all_tags( $product->get_short_description() ) ?: $desc;
+			$image_id  = $product->get_image_id();
+			$image_src = $image_id ? wp_get_attachment_image_url( $image_id, 'large' ) : '';
+			if ( $image_src ) {
+				$image = $image_src;
+			}
+		}
+	}
+	?>
+	<meta property="og:type" content="website">
+	<meta property="og:site_name" content="<?php bloginfo( 'name' ); ?>">
+	<meta property="og:title" content="<?php echo esc_attr( $title ); ?>">
+	<meta property="og:description" content="<?php echo esc_attr( $desc ); ?>">
+	<meta property="og:image" content="<?php echo esc_url( $image ); ?>">
+	<meta property="og:url" content="<?php echo esc_url( home_url( add_query_arg( array(), $GLOBALS['wp']->request ) ) ); ?>">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="<?php echo esc_attr( $title ); ?>">
+	<meta name="twitter:description" content="<?php echo esc_attr( $desc ); ?>">
+	<meta name="twitter:image" content="<?php echo esc_url( $image ); ?>">
+	<?php
+}
+add_action( 'wp_head', 'coreve_social_meta', 1 );
 
 function coreve_fallback_menu() {
 	echo '<ul>';

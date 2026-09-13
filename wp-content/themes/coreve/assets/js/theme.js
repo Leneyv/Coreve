@@ -23,44 +23,5 @@
 				video.pause();
 			}
 		} );
-
-		// Stagger-reveal grids on scroll (skipped entirely under reduced motion)
-		if ( prefersReducedMotion.matches || typeof gsap === 'undefined' ) {
-			return;
-		}
-
-		var grids = document.querySelectorAll( '.product-grid, .testimonial-grid, .feature-triptych, .process-grid' );
-		if ( ! grids.length ) {
-			return;
-		}
-
-		grids.forEach( function ( grid ) {
-			var items = grid.children;
-			if ( ! items.length ) {
-				return;
-			}
-			gsap.set( items, { opacity: 0, y: 16, scale: 0.92 } );
-		} );
-
-		var observer = new IntersectionObserver( function ( entries, obs ) {
-			entries.forEach( function ( entry ) {
-				if ( ! entry.isIntersecting ) {
-					return;
-				}
-				gsap.to( entry.target.children, {
-					opacity: 1,
-					y: 0,
-					scale: 1,
-					duration: 0.4,
-					stagger: { each: 0.06, from: 'start', grid: 'auto' },
-					ease: 'back.out(1.4)',
-				} );
-				obs.unobserve( entry.target );
-			} );
-		}, { threshold: 0.15 } );
-
-		grids.forEach( function ( grid ) {
-			observer.observe( grid );
-		} );
 	} );
 }());
