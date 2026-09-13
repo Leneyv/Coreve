@@ -1,0 +1,514 @@
+/*
+Theme Name: Coreve
+Theme URI: http://localhost:8090
+Author: Coreve
+Description: Custom theme for Coreve — India's sneaker brand made for women.
+Version: 1.0.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: coreve
+*/
+
+:root {
+    --brand-dark: #0b3d2c;
+    --brand-dark-2: #0f4a35;
+    --brand-accent: #8fe000;
+    --brand-cream: #fdf6e3;
+    --brand-brown: #b5794f;
+    --text-dark: #1a1a1a;
+    --text-muted: #6b7280;
+    --border-color: #e5e7eb;
+    --card-bg: #ffffff;
+    --radius-md: 14px;
+    --radius-sm: 8px;
+    --font-body: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+    --shadow-md: 0 8px 24px rgba(0,0,0,0.10);
+    --transition: all 0.2s ease;
+}
+
+* , *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-body);
+    color: var(--text-dark);
+    line-height: 1.6;
+    background-color: #ffffff;
+    -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+a { color: inherit; text-decoration: none; transition: var(--transition); }
+ul { list-style: none; }
+button { font-family: inherit; cursor: pointer; }
+
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+/* ==========================================
+   Header
+   ========================================== */
+.site-header {
+    background-color: var(--brand-dark);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.site-logo-link img {
+    height: 32px;
+    width: auto;
+}
+
+.site-logo-text {
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 1.6rem;
+    letter-spacing: -0.02em;
+    text-transform: lowercase;
+}
+
+.main-navigation ul {
+    display: flex;
+    gap: 2rem;
+}
+
+.main-navigation a {
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.main-navigation a:hover { color: var(--brand-accent); }
+
+.header-icons {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    color: #ffffff;
+    font-size: 1.1rem;
+}
+
+.header-icons a { color: #ffffff; }
+.header-icons .cart-count {
+    background: var(--brand-accent);
+    color: var(--brand-dark);
+    font-size: 0.65rem;
+    font-weight: 800;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    top: -8px;
+    left: -6px;
+}
+
+.mobile-menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.3rem;
+}
+
+/* ==========================================
+   Hero
+   ========================================== */
+.hero {
+    background: linear-gradient(135deg, #06251a 0%, var(--brand-dark) 60%, var(--brand-dark-2) 100%);
+    color: #ffffff;
+    overflow: hidden;
+    position: relative;
+}
+
+.hero-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 2rem;
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1.1;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+}
+
+.hero-badge {
+    display: inline-block;
+    border: 1.5px solid var(--brand-accent);
+    color: var(--brand-accent);
+    border-radius: 9999px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    font-style: italic;
+}
+
+.hero-image img {
+    filter: drop-shadow(0 20px 40px rgba(0,0,0,0.4));
+}
+
+/* ==========================================
+   Section headings
+   ========================================== */
+.section {
+    padding: 4rem 0;
+}
+
+.section-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--brand-dark);
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.section-subtitle {
+    text-align: center;
+    color: var(--text-muted);
+    margin-bottom: 2.5rem;
+}
+
+.section-cream { background-color: var(--brand-cream); }
+
+/* ==========================================
+   Product grid
+   ========================================== */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.5rem;
+}
+
+.product-card {
+    background: var(--card-bg);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    position: relative;
+}
+
+.product-card:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); }
+
+.product-card-badge {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    background: var(--brand-dark);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.3rem 0.6rem;
+    border-radius: var(--radius-sm);
+    z-index: 5;
+}
+
+.product-card-image {
+    background-color: var(--brand-dark);
+    aspect-ratio: 4/3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.product-card-image img { width: 100%; height: 100%; object-fit: cover; }
+
+.product-card-body { padding: 1.25rem; text-align: center; }
+
+.product-card-title {
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-dark);
+    display: block;
+}
+
+.product-card-price del { color: var(--text-muted); margin-right: 0.5rem; font-size: 0.9rem; }
+.product-card-price ins { text-decoration: none; font-weight: 800; color: var(--brand-dark); }
+
+/* ==========================================
+   Why Coreve Exists / pill badges over image
+   ========================================== */
+.pill-image-block { position: relative; }
+.pill-image-block img { width: 100%; border-radius: var(--radius-md); }
+.pill-badges {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-start;
+}
+.pill-badge {
+    background: var(--brand-brown);
+    color: #fff;
+    font-style: italic;
+    font-weight: 600;
+    padding: 0.6rem 1.5rem;
+    border-radius: 9999px;
+    font-size: 1.1rem;
+}
+
+/* ==========================================
+   Process strip
+   ========================================== */
+.process-strip {
+    background: #fdfaf0;
+    background-image: linear-gradient(#f3ecc9 1px, transparent 1px), linear-gradient(90deg, #f3ecc9 1px, transparent 1px);
+    background-size: 24px 24px;
+    padding: 3rem 0;
+}
+
+.process-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.process-grid figure img { border-radius: var(--radius-md); box-shadow: var(--shadow-md); }
+.process-grid figcaption { text-align: center; font-weight: 700; color: var(--brand-dark); margin-top: 0.75rem; font-style: italic; }
+
+/* ==========================================
+   Feature triptych
+   ========================================== */
+.feature-triptych {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.feature-triptych figure { position: relative; }
+.feature-triptych img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+.feature-triptych figcaption {
+    text-align: center;
+    padding: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    background: #f8f8f8;
+}
+
+/* ==========================================
+   Lifestyle banner
+   ========================================== */
+.lifestyle-banner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 420px;
+}
+.lifestyle-text {
+    background: var(--brand-cream);
+    display: flex;
+    align-items: center;
+    padding: 3rem;
+}
+.lifestyle-text h2 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--brand-dark);
+    line-height: 1.2;
+}
+.lifestyle-banner img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ==========================================
+   Refab / CTA band
+   ========================================== */
+.cta-band { text-align: center; padding: 4rem 1.5rem; }
+.cta-band p { max-width: 640px; margin: 0 auto 1.5rem; color: var(--text-muted); }
+.btn {
+    display: inline-block;
+    background: var(--brand-dark);
+    color: #fff;
+    font-weight: 700;
+    padding: 0.9rem 2rem;
+    border-radius: var(--radius-sm);
+    border: none;
+    transition: var(--transition);
+}
+.btn:hover { background: var(--brand-accent); color: var(--brand-dark); }
+
+/* ==========================================
+   Testimonials
+   ========================================== */
+.testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+}
+.testimonial-card {
+    background: #f7f7f7;
+    border-radius: var(--radius-md);
+    padding: 1.75rem;
+}
+.testimonial-card p { font-style: italic; margin-bottom: 1.25rem; color: #333; font-size: 0.95rem; }
+.testimonial-stars { color: #f5a623; margin-bottom: 0.75rem; }
+.testimonial-name { font-weight: 700; }
+.testimonial-role { color: var(--text-muted); font-size: 0.85rem; }
+
+/* ==========================================
+   FAQ accordion
+   ========================================== */
+.faq-list { max-width: 760px; margin: 0 auto; }
+.faq-item { border-bottom: 1px solid var(--border-color); }
+.faq-question {
+    width: 100%;
+    background: none;
+    border: none;
+    text-align: left;
+    padding: 1.25rem 0;
+    font-weight: 700;
+    font-size: 1.05rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    color: var(--text-muted);
+}
+.faq-item.is-open .faq-answer { max-height: 400px; padding-bottom: 1.25rem; }
+.faq-item.is-open .faq-question .faq-icon { transform: rotate(180deg); }
+.faq-icon { transition: transform 0.2s ease; }
+
+/* ==========================================
+   Footer
+   ========================================== */
+.site-footer {
+    background: var(--brand-dark);
+    color: #cfe8da;
+    padding: 3.5rem 0 1.5rem;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+}
+
+.footer-grid h4 { color: #fff; font-weight: 700; margin-bottom: 1rem; }
+.footer-grid li { margin-bottom: 0.6rem; font-size: 0.9rem; }
+.footer-grid a:hover { color: var(--brand-accent); }
+
+.footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.15);
+    padding-top: 1.5rem;
+    text-align: center;
+    font-size: 0.85rem;
+    color: #9fc2ac;
+}
+
+/* ==========================================
+   Generic page content
+   ========================================== */
+.page-content-wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+}
+.page-content-wrap h1 {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--brand-dark);
+    margin-bottom: 1.5rem;
+}
+.page-content-wrap h2 { font-size: 1.4rem; font-weight: 700; color: var(--brand-dark); margin: 1.75rem 0 0.75rem; }
+.page-content-wrap h3 { font-size: 1.15rem; font-weight: 700; margin: 1.25rem 0 0.5rem; }
+.page-content-wrap p { margin-bottom: 1rem; color: #333; }
+.page-content-wrap ul { list-style: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
+.page-content-wrap li { margin-bottom: 0.4rem; }
+.page-content-wrap table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.page-content-wrap table td, .page-content-wrap table th { border: 1px solid var(--border-color); padding: 0.6rem; text-align: left; }
+
+/* ==========================================
+   WooCommerce overrides
+   ========================================== */
+.woocommerce ul.products {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    list-style: none;
+}
+.woocommerce ul.products li.product {
+    float: none; width: 100%; margin: 0;
+    background: var(--card-bg);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    padding-bottom: 1.25rem;
+}
+.woocommerce ul.products li.product img { aspect-ratio: 4/3; object-fit: cover; }
+.woocommerce ul.products li.product .woocommerce-loop-product__title {
+    padding: 1rem 1.25rem 0.25rem; font-weight: 700; font-size: 1rem;
+}
+.woocommerce ul.products li.product .price { padding: 0 1.25rem; display: block; font-weight: 800; }
+.woocommerce ul.products li.product .price ins { text-decoration: none; color: var(--brand-dark); }
+.woocommerce ul.products li.product .price del { color: var(--text-muted); }
+.woocommerce ul.products li.product .button {
+    margin: 1rem 1.25rem 0;
+    background: var(--brand-dark) !important;
+    color: #fff !important;
+    border-radius: var(--radius-sm);
+    padding: 0.65rem 1rem;
+}
+.woocommerce span.onsale {
+    background: var(--brand-brown) !important;
+    color: #fff;
+    font-weight: 700;
+}
+.woocommerce div.product .woocommerce-tabs ul.tabs li a { color: var(--brand-dark); font-weight: 700; }
+.woocommerce #respond input#submit, .woocommerce a.button, .woocommerce button.button, .woocommerce input.button {
+    background: var(--brand-dark) !important;
+    color: #fff !important;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+}
+.woocommerce #respond input#submit:hover, .woocommerce a.button:hover, .woocommerce button.button:hover {
+    background: var(--brand-accent) !important;
+    color: var(--brand-dark) !important;
+}
+#primary.content-area { max-width: 1280px; margin: 2.5rem auto; padding: 0 1.5rem; }
+
+/* ==========================================
+   Responsive
+   ========================================== */
+@media (max-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr; text-align: center; }
+    .hero-content h1 { font-size: 2.2rem; }
+    .product-grid { grid-template-columns: repeat(2, 1fr); }
+    .testimonial-grid { grid-template-columns: repeat(2, 1fr); }
+    .feature-triptych { grid-template-columns: 1fr; }
+    .process-grid { grid-template-columns: 1fr; }
+    .lifestyle-banner { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .main-navigation { display: none; }
+    .mobile-menu-toggle { display: block; }
+    .woocommerce ul.products { grid-template-columns: repeat(2, 1fr); }
+}
