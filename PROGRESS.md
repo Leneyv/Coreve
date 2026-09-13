@@ -85,10 +85,10 @@ Built `assets/js/cart-drawer.js` (renders from the Store API cart object, listen
 - [x] Sticky buy bar hides while the drawer is open (`body.cart-drawer-open .sticky-buy-bar { display:none }`), matching Part 9's explicit requirement.
 - [x] **Verified end-to-end with a scripted test, not just visual inspection**: add-to-bag opens the drawer with correct name/size ("Size 37")/price; quantity increase correctly recalculates the subtotal (₹6,995 → ₹13,990 for qty 2); Escape closes it; the header cart icon reopens it; removing the item shows the real empty-state message. No console errors in any step.
 
-## PHASE 5 — NEW PAGES (Part 12, 13, 28)
+## PHASE 5 — NEW PAGES (Part 12, 13, 28) — DONE
 
-- [ ] "Why Coreve" story page: Problem → Realisation → Response → Future structure, founder mentioned but not dominant
-- [ ] India → Middle East page/section: "Born in Kerala. Built for India. Designed to travel." + real "international shipping coming soon" fact + Abaya Sneaker concept (positioned as vision/story, NOT a purchasable product — none exists yet) + UAE/Saudi/GCC framing
+- [x] "Why Coreve" story page (built in Phase 2 alongside the header nav work): Problem → Realisation → Response → Future structure, founder mentioned but not dominant
+- [x] India → Middle East page (`/global-vision/`, id 205): "Born in Kerala. Built for India. Designed to travel." opening, the real confirmed "international shipping is India-only, more regions announced later" fact, the Abaya Sneaker explicitly framed as *"a concept in development, not yet available for purchase"* (not a real product — none exists in the catalogue, and misrepresenting it as purchasable would be a fabricated-availability claim) with the hem/ground-contact problem explained without overclaiming ("not intended to eliminate ground contact entirely... makes no religious claims"), closing on UAE/Saudi Arabia/GCC. Linked from the footer's Quick Links only (not the main nav, so the homepage/nav don't skew toward the Middle East ahead of India, per Part 28's explicit caution) and not surfaced on the homepage itself.
 
 ## PHASE 6 — TRUST, FAQ, SOCIAL PROOF (Part 14–15)
 
