@@ -39,7 +39,7 @@
 			<div class="header-icons">
 				<a href="<?php echo class_exists( 'WooCommerce' ) ? esc_url( wc_get_page_permalink( 'shop' ) ) : esc_url( home_url( '/shop/' ) ); ?>" aria-label="Search products"><i class="ph ph-magnifying-glass" aria-hidden="true"></i></a>
 				<a href="<?php echo class_exists( 'WooCommerce' ) ? esc_url( wc_get_page_permalink( 'myaccount' ) ) : '#'; ?>" aria-label="Account"><i class="ph ph-user" aria-hidden="true"></i></a>
-				<a href="<?php echo class_exists( 'WooCommerce' ) ? esc_url( wc_get_cart_url() ) : '#'; ?>" aria-label="Cart, <?php echo class_exists( 'WooCommerce' ) && WC()->cart ? esc_attr( WC()->cart->get_cart_contents_count() ) : 0; ?> items">
+				<a href="<?php echo class_exists( 'WooCommerce' ) ? esc_url( wc_get_cart_url() ) : '#'; ?>" id="cart-toggle" aria-label="Cart, <?php echo class_exists( 'WooCommerce' ) && WC()->cart ? esc_attr( WC()->cart->get_cart_contents_count() ) : 0; ?> items" aria-haspopup="dialog">
 					<i class="ph ph-shopping-bag" aria-hidden="true"></i>
 					<?php if ( class_exists( 'WooCommerce' ) ) : ?>
 						<span class="cart-count" aria-hidden="true"><?php echo esc_html( WC()->cart ? WC()->cart->get_cart_contents_count() : 0 ); ?></span>

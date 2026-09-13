@@ -72,7 +72,8 @@ function coreve_scripts() {
 	wp_enqueue_style( 'coreve-style', get_stylesheet_uri(), array(), '3.0.0' );
 
 	wp_enqueue_script( 'coreve-store-api-cart', get_template_directory_uri() . '/assets/js/store-api-cart.js', array(), '1.0.0', true );
-	wp_enqueue_script( 'coreve-theme', get_template_directory_uri() . '/assets/js/theme.js', array( 'coreve-store-api-cart' ), '2.0.0', true );
+	wp_enqueue_script( 'coreve-cart-drawer', get_template_directory_uri() . '/assets/js/cart-drawer.js', array( 'coreve-store-api-cart' ), '1.0.0', true );
+	wp_enqueue_script( 'coreve-theme', get_template_directory_uri() . '/assets/js/theme.js', array( 'coreve-store-api-cart', 'coreve-cart-drawer' ), '2.1.0', true );
 }
 add_action( 'wp_enqueue_scripts', 'coreve_scripts' );
 

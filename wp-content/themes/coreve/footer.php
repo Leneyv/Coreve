@@ -42,6 +42,31 @@
 			</div>
 		</div>
 	</footer>
+
+	<!-- Cart drawer (Part 10) — opens on Add to Bag, no page reload -->
+	<div class="cart-drawer" id="cart-drawer" role="dialog" aria-modal="true" aria-label="Your bag" hidden>
+		<div class="cart-drawer-backdrop" tabindex="-1"></div>
+		<div class="cart-drawer-panel">
+			<div class="cart-drawer-header">
+				<h2>Your Bag</h2>
+				<button type="button" class="cart-drawer-close" aria-label="Close bag"><i class="ph ph-x" aria-hidden="true"></i></button>
+			</div>
+			<div class="cart-drawer-items"></div>
+			<div class="cart-drawer-trust">
+				<p><i class="ph ph-truck" aria-hidden="true"></i> Free shipping &middot; 2&ndash;10 business days depending on location</p>
+				<p><i class="ph ph-arrow-counter-clockwise" aria-hidden="true"></i> 7-day size exchange</p>
+				<p><i class="ph ph-shield-check" aria-hidden="true"></i> Cash on Delivery available (&#8377;99 fee)</p>
+				<p><i class="ph ph-whatsapp-logo" aria-hidden="true"></i> Need help? <a href="https://wa.me/919363936665" target="_blank" rel="noopener">WhatsApp us</a></p>
+			</div>
+			<div class="cart-drawer-footer">
+				<div class="cart-drawer-subtotal">
+					<span>Subtotal</span>
+					<span class="cart-drawer-subtotal-value">&#8377;0.00</span>
+				</div>
+				<a href="<?php echo esc_url( home_url( '/checkout/' ) ); ?>" class="btn cart-drawer-checkout">Checkout</a>
+			</div>
+		</div>
+	</div>
 </div>
 
 <?php wp_footer(); ?>

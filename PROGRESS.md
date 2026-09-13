@@ -75,10 +75,15 @@ Built a custom `single-product.php` (theme-root override, WooCommerce's standard
 - [x] **Found and fixed a second real bug**: clicking "Add to Bag" with no size selected showed the correct inline error, but then permanently disabled the button (stuck on "Adding…" forever) because the code unconditionally called `.finally()` on `addToCart()`'s return value, which is `undefined` in the no-size branch — calling `.finally()` on `undefined` throws, aborting the reset logic. Fixed by guarding on whether `addToCart()` actually returned a promise before chaining `.finally()`. Verified end-to-end: error-then-recover, successful add-to-cart, Buy Now redirect, and a homepage-collection-card regression check all pass with no console errors.
 - [x] Moved the FAQ/accordion toggle JS out of an inline `<script>` in `front-page.php` (page-specific, wouldn't have run on the new product page) into `theme.js` as a global handler shared by both the homepage FAQ and the product-page accordion.
 
-## PHASE 4 — CART DRAWER (Part 10–11)
+## PHASE 4 — CART DRAWER (Part 10–11) — DONE, verified end-to-end
 
-- [ ] Slide-in cart drawer on Add to Bag (no page reload), shows product/size/qty/price/subtotal, Checkout CTA
-- [ ] Checkout-anxiety trust content visible in drawer/checkout: size help, exchange info, real delivery timelines, payment security, COD, WhatsApp support link
+Built `assets/js/cart-drawer.js` (renders from the Store API cart object, listens for `coreve:cart-updated`) + drawer markup in `footer.php` + full CSS in `style.css`. Wired to open automatically after a successful Add to Bag (homepage collection cards, product page, and sticky buy bar all call `CoreveCartDrawer.open()`), and the header cart icon now opens the drawer instead of navigating to `/cart/` (kept the real `href` as a progressive-enhancement fallback if JS fails).
+
+- [x] Slide-in drawer (right-side panel, full-width on phones ≤480px), no page reload. Shows product image/name/size, a quantity stepper (+/−, wired to `CoreveCart.updateItem`), remove (wired to `CoreveCart.removeItem`), per-item price, and a live subtotal computed from the cart's real `totals.total_price`. Checkout button links to `/checkout/`.
+- [x] Trust content inside the drawer: real shipping windows, 7-day exchange, COD with the confirmed ₹99 fee, and a real WhatsApp link (`wa.me/919363936665`) — nothing invented.
+- [x] Focus trap (Tab cycles within the panel while open), closes on Escape/backdrop-click/close-button, restores focus to whatever was focused before opening.
+- [x] Sticky buy bar hides while the drawer is open (`body.cart-drawer-open .sticky-buy-bar { display:none }`), matching Part 9's explicit requirement.
+- [x] **Verified end-to-end with a scripted test, not just visual inspection**: add-to-bag opens the drawer with correct name/size ("Size 37")/price; quantity increase correctly recalculates the subtotal (₹6,995 → ₹13,990 for qty 2); Escape closes it; the header cart icon reopens it; removing the item shows the real empty-state message. No console errors in any step.
 
 ## PHASE 5 — NEW PAGES (Part 12, 13, 28)
 

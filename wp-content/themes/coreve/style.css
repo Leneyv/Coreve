@@ -758,6 +758,100 @@ select:focus-visible,
    page content (footer, last accordion item) once it's visible. */
 body:has(.sticky-buy-bar:not([hidden])) { padding-bottom: 72px; }
 
+/* Part 9: sticky bar must disappear while the cart drawer is open. */
+body.cart-drawer-open .sticky-buy-bar { display: none; }
+body.cart-drawer-open { overflow: hidden; }
+
+/* ==========================================
+   Cart drawer (Part 10)
+   ========================================== */
+.cart-drawer { position: fixed; inset: 0; z-index: 200; }
+.cart-drawer[hidden] { display: none; }
+.cart-drawer-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(32, 28, 23, 0.5);
+    opacity: 0;
+    transition: opacity 300ms ease;
+}
+.cart-drawer.is-active .cart-drawer-backdrop { opacity: 1; }
+.cart-drawer-panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 420px;
+    background: var(--color-background);
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 300ms ease;
+    box-shadow: -8px 0 24px rgba(0,0,0,0.15);
+}
+.cart-drawer.is-active .cart-drawer-panel { transform: translateX(0); }
+.cart-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-lg);
+    border-bottom: 1px solid var(--color-border);
+}
+.cart-drawer-header h2 { font-size: 1.25rem; font-weight: 700; }
+.cart-drawer-close {
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-foreground);
+}
+.cart-drawer-items { flex: 1; overflow-y: auto; padding: var(--space-md) var(--space-lg); }
+.cart-drawer-empty { color: var(--color-muted-foreground); text-align: center; padding: var(--space-2xl) 0; }
+.cart-drawer-item {
+    display: flex;
+    gap: var(--space-md);
+    padding: var(--space-md) 0;
+    border-bottom: 1px solid var(--color-border);
+}
+.cart-drawer-item-image { width: 64px; height: 64px; object-fit: cover; border-radius: var(--radius-sm); background: var(--color-primary); flex-shrink: 0; }
+.cart-drawer-item-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.cart-drawer-item-name { font-weight: 600; font-size: 0.9rem; }
+.cart-drawer-item-size { font-size: 0.8rem; color: var(--color-muted-foreground); }
+.cart-drawer-item-qty { display: flex; align-items: center; gap: var(--space-sm); margin-top: var(--space-xs); }
+.qty-btn {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--color-border);
+    background: var(--color-card);
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.qty-value { min-width: 20px; text-align: center; font-weight: 600; }
+.cart-drawer-item-remove { background: none; border: none; text-decoration: underline; color: var(--color-muted-foreground); font-size: 0.8rem; margin-left: var(--space-sm); }
+.cart-drawer-item-price { font-weight: 700; color: var(--color-accent); white-space: nowrap; }
+.cart-drawer-trust {
+    padding: var(--space-md) var(--space-lg);
+    background: var(--color-muted);
+    font-size: 0.8rem;
+}
+.cart-drawer-trust p { display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-sm); color: var(--color-foreground); }
+.cart-drawer-trust p:last-child { margin-bottom: 0; }
+.cart-drawer-trust a { text-decoration: underline; }
+.cart-drawer-footer { padding: var(--space-lg); border-top: 1px solid var(--color-border); }
+.cart-drawer-subtotal { display: flex; justify-content: space-between; font-weight: 700; font-size: 1.1rem; margin-bottom: var(--space-md); }
+.cart-drawer-checkout { display: block; width: 100%; text-align: center; }
+
+@media (max-width: 480px) {
+    .cart-drawer-panel { max-width: 100%; }
+}
+
 /* ==========================================
    Footer
    ========================================== */

@@ -16,6 +16,19 @@
 			} );
 		}
 
+		// Header cart icon opens the drawer instead of navigating to /cart/.
+		// The href stays a real link (progressive enhancement: still works
+		// with JS disabled or before CoreveCartDrawer has loaded).
+		var cartToggle = document.getElementById( 'cart-toggle' );
+		if ( cartToggle ) {
+			cartToggle.addEventListener( 'click', function ( e ) {
+				if ( window.CoreveCartDrawer ) {
+					e.preventDefault();
+					window.CoreveCartDrawer.open();
+				}
+			} );
+		}
+
 		// Pause decorative background video under reduced motion
 		document.querySelectorAll( 'video[autoplay]' ).forEach( function ( video ) {
 			if ( prefersReducedMotion.matches ) {
@@ -100,6 +113,9 @@
 					var result = addToCart( function () {
 						addBtn.textContent = 'Added ✓';
 						addBtn.setAttribute( 'data-state', 'added' );
+						if ( window.CoreveCartDrawer ) {
+							window.CoreveCartDrawer.open();
+						}
 						setTimeout( function () {
 							addBtn.textContent = originalText;
 							addBtn.removeAttribute( 'data-state' );
@@ -189,6 +205,9 @@
 					}
 					window.CoreveCart.addItem( variationId, 1 ).then( function () {
 						stickyBtn.textContent = 'Added ✓';
+						if ( window.CoreveCartDrawer ) {
+							window.CoreveCartDrawer.open();
+						}
 						setTimeout( function () { stickyBtn.textContent = 'Add to Bag'; }, 1800 );
 					} );
 				} );
