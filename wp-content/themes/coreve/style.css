@@ -951,6 +951,18 @@ body.cart-drawer-open { overflow: hidden; }
 .cart-drawer-subtotal { display: flex; justify-content: space-between; font-weight: 700; font-size: 1.1rem; margin-bottom: var(--space-md); }
 .cart-drawer-checkout { display: block; width: 100%; text-align: center; }
 
+.checkout-trust-block {
+    max-width: 480px;
+    margin: 0 auto var(--space-xl);
+    padding: var(--space-md) var(--space-lg);
+    background: var(--color-muted);
+    border-radius: var(--radius-md);
+    font-size: 0.85rem;
+}
+.checkout-trust-block p { display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-sm); color: var(--color-foreground); }
+.checkout-trust-block p:last-child { margin-bottom: 0; }
+.checkout-trust-block a { text-decoration: underline; }
+
 @media (max-width: 480px) {
     .cart-drawer-panel { max-width: 100%; }
 }

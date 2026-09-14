@@ -54,7 +54,7 @@
 			</div>
 			<div class="cart-drawer-items"></div>
 			<div class="cart-drawer-trust">
-				<p><i class="ph ph-truck" aria-hidden="true"></i> Free shipping &middot; 2&ndash;10 business days depending on location</p>
+				<p><i class="ph ph-truck" aria-hidden="true"></i> Free shipping across India &middot; 2&ndash;10 business days depending on location</p>
 				<p><i class="ph ph-arrow-counter-clockwise" aria-hidden="true"></i> 7-day size exchange</p>
 				<p><i class="ph ph-shield-check" aria-hidden="true"></i> Cash on Delivery available (&#8377;99 fee)</p>
 				<p><i class="ph ph-ruler" aria-hidden="true"></i> Not sure of your size? <a href="<?php echo esc_url( home_url( '/size-guide/' ) ); ?>">See the Size Guide</a></p>

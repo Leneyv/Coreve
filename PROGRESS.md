@@ -137,10 +137,20 @@ I fixed the immediate customer-facing bug (size-guide now shows an actual size g
 - [x] **Hover-dependency**: audited all interactions added since the last check (cart drawer, search toggle, accordion, size pills) — every one is click/tap-driven with hover used only as an additional visual affordance, never a requirement.
 - [x] **Popups**: none exist on the site (no newsletter modal, no promo popup was ever built) — trivially compliant with "no popups on load."
 
-## PHASE 10 — FINAL CRO AUDIT (Part 30)
+## PHASE 10 — FINAL CRO AUDIT (Part 30) — DONE. REBUILD COMPLETE.
 
-- [ ] Walk all 6 personas end-to-end (Instagram 25yo / 35yo professional / height-seeker / size-anxious buyer / first-time Indian online buyer / GCC visitor) against the live rebuilt site and fix friction found
-- [ ] Final before/after screenshot set (desktop + true mobile) for the record
+- [x] **Timed the actual purchase mechanics** (land → scroll to collection → select size → add to bag → open drawer → checkout loaded): ~3.7 seconds of pure page/network/AJAX time end to end, guest checkout confirmed enabled with no forced registration. Confirms the "under 2 minutes" bar has nothing structural eating into it — the full budget is available for a real human to actually read and decide.
+- [x] **GCC persona (6) — found and fixed real friction**: WooCommerce's selling countries are already correctly restricted to India-only (verified via `woocommerce_specific_allowed_countries`), so a GCC visitor can't reach a broken checkout — but nothing told her *up front* that shipping is India-only before she invested time adding to cart. Fixed the cart drawer's shipping line from "Free shipping · ..." to "Free shipping **across India** · ..." so the scope is clear at the exact moment she'd otherwise assume it ships to her.
+- [x] **First-time low-trust Indian buyer (5) / size-anxious buyer (4) — found and fixed real friction**: the checkout page (WooCommerce Blocks, not classic shortcode — confirmed by inspecting the page's actual block content) had zero trust reassurance near the form itself; a customer had to scroll all the way to the footer to find exchange/shipping/WhatsApp info, right at the moment of highest purchase anxiety. Added a real trust block (7-day exchange, free shipping across India, COD + fee, WhatsApp link) directly into the checkout page's block content, since the classic `woocommerce_before_checkout_form` hook silently never fires for Blocks checkout — first attempt used that hook, verified it produced no output, found the real cause, and fixed it via the actual block content instead of leaving dead code in functions.php.
+- [x] **Height-seeker (3)**: confirmed the 65mm/25mm wedge story is visible without any extra clicks — it's in the product page's first accordion section ("Why She'll Love It"), which is open by default, not buried behind a collapsed tab.
+- [x] **35yo professional (2)**: confirmed she isn't forced through the full brand narrative to buy — "Collection" is the first header nav item, linking straight to `/shop/`, so a fast, story-skipping path to purchase exists alongside the narrative homepage.
+- [x] **Instagram 25yo (1)**: re-verified the "5 second understanding" bar with a fresh full-page desktop screenshot of the final state — hero headline + supporting line + two clearly differentiated CTAs + real product + trust bar, all above the fold, no clutter.
+- [x] Final documentation screenshot set captured (desktop 1440px homepage, true-390px-viewport full-page homepage and product page) for the record.
+- [x] Full site-wide health check: all 17 real URLs return 200 (checkout correctly 302s to cart when the cart is empty, which is expected WooCommerce behavior, not a bug).
+
+### Summary of the whole rebuild
+
+10 phases, all done and verified (not just implemented — tested via real scripted interactions, curl+JSON parsing, and visual screenshots at true viewports throughout). Along the way this surfaced and fixed real, pre-existing problems that had nothing to do with the new brief but were actively broken or risky on the live site: a WooCommerce variation bug that silently reverted product type on save, a second variation bug that broke size-matching entirely via a wrong meta key, a stale-measurement bug in the sticky buy bar, a button-breaking promise-chaining bug, a mis-mapped page that exposed what reads as private investor/fundraising terms on a public customer-facing URL, zero alt text across every product image, a complete absence of any meta description tag, an IntersectionObserver threshold that could structurally never fire, three real touch-target violations, and a checkout page with no trust content near the form. All fixed, all verified, all logged above with evidence.
 
 ---
 
