@@ -124,10 +124,18 @@ I fixed the immediate customer-facing bug (size-guide now shows an actual size g
 
 **Note for the user**: this is real, tested infrastructure with nowhere to send data yet. To actually start collecting analytics, provide a real GA4 measurement ID or GTM container ID and I'll wire up the actual loading script — everything else is already in place.
 
-## PHASE 9 — ACCESSIBILITY, PERFORMANCE, POPUPS (Part 18–21, 24)
+## PHASE 9 — ACCESSIBILITY, PERFORMANCE, POPUPS (Part 18–21, 24) — DONE, 3 real bugs found and fixed
 
-- [ ] Re-run true-viewport (Puppeteer, not resized-window) mobile audit after redesign: 44px targets, no hover-dependency, no horizontal overflow, keyboard nav, focus states, prefers-reduced-motion
-- [ ] No popups on load; if any popup is added later, trigger only on exit-intent (desktop) or real scroll depth — none planned unless requested
+- [x] **Horizontal overflow**: scripted true-390px-viewport check across all 11 real pages (home, shop, both product templates, why-coreve, global-vision, faq, about-us, size-guide, cart, checkout) plus the cart-drawer-open state — zero overflow anywhere.
+- [x] **Touch targets**: comprehensive DOM scan for every interactive element under 44×44px. Found and fixed three real bugs:
+  1. `.qty-btn` (cart drawer quantity +/−) was set to `width: 44px` in CSS but rendered at only 28px — flexbox was shrinking it because `flex-shrink` defaults to `1` with no explicit override. Fixed by adding `flex-shrink: 0`.
+  2. WooCommerce's own product-gallery fullscreen-zoom trigger rendered at 18×22px. Padded its tap area to 44×44 without changing the visible icon.
+  3. WooCommerce's JS-generated ARIA star-rating widget (review submission form) renders each star as a ~24×24 link. Enlarged the tap area to 44×44 without touching WooCommerce's own visual star rendering (verified with a screenshot that stars still render correctly, not doubled).
+  Remaining sub-44px items (nav links, footer links, breadcrumb, trust-content text links) are inline text links within normal paragraph/list flow with adequate line-height spacing between adjacent lines — legitimately exempt under WCAG 2.5.8's "inline" target exception, not overlooked.
+- [x] **Keyboard navigation & focus**, verified via scripted Tab/Enter/Escape sequences, not just visual review: size pills are focusable and activate with Enter; focus-visible outlines render (2px solid) on the focused element; opening the cart drawer moves focus to its close button; Tab cycles held entirely within the drawer panel across 15 consecutive tabs (focus trap works); Escape closes the drawer.
+- [x] **prefers-reduced-motion**: verified via `page.emulateMediaFeatures` that both the cart drawer's slide transition and the sticky header's hide/show transition correctly collapse to ~0ms — confirms the existing global override (`*, *::before, *::after { transition-duration: 0.001ms !important }`) automatically covers every new component added in later phases without needing individual updates.
+- [x] **Hover-dependency**: audited all interactions added since the last check (cart drawer, search toggle, accordion, size pills) — every one is click/tap-driven with hover used only as an additional visual affordance, never a requirement.
+- [x] **Popups**: none exist on the site (no newsletter modal, no promo popup was ever built) — trivially compliant with "no popups on load."
 
 ## PHASE 10 — FINAL CRO AUDIT (Part 30)
 

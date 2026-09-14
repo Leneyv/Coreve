@@ -783,6 +783,14 @@ select:focus-visible,
     margin: 0 auto;
 }
 .product-hero-gallery .woocommerce-product-gallery__image { border-radius: var(--radius-md); overflow: hidden; margin-bottom: var(--space-sm); background: var(--color-primary); }
+.product-hero-gallery .woocommerce-product-gallery__trigger {
+    padding: 12px;
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
 .product-hero-gallery .flex-control-thumbs { display: flex; flex-wrap: wrap; gap: var(--space-sm); list-style: none; }
 .product-hero-gallery .flex-control-thumbs li { width: calc(25% - 6px); }
 .product-hero-gallery .flex-control-thumbs img { border-radius: var(--radius-sm); border: 1px solid var(--color-border); cursor: pointer; }
@@ -800,6 +808,17 @@ select:focus-visible,
 
 .product-accordion { max-width: 760px; margin: 0 auto var(--space-3xl); }
 .product-reviews { max-width: 760px; margin: 0 auto var(--space-3xl); }
+/* WooCommerce's JS-generated ARIA star-rating widget (review form) renders
+   each star link at ~24x24 — pad the tap area up to 44x44 without touching
+   WooCommerce's own visual star icon rendering. */
+.product-reviews .comment-form-rating a[class^="star-"] {
+    min-width: 44px;
+    min-height: 44px;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
 
 /* ==========================================
    Sticky mobile buy bar
@@ -895,8 +914,9 @@ body.cart-drawer-open { overflow: hidden; }
 .cart-drawer-item-size { font-size: 0.8rem; color: var(--color-muted-foreground); }
 .cart-drawer-item-qty { display: flex; align-items: center; gap: var(--space-sm); margin-top: var(--space-xs); }
 .qty-btn {
-    width: 32px;
-    height: 32px;
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
     border: 1px solid var(--color-border);
     background: var(--color-card);
     border-radius: var(--radius-sm);
@@ -906,7 +926,18 @@ body.cart-drawer-open { overflow: hidden; }
     justify-content: center;
 }
 .qty-value { min-width: 20px; text-align: center; font-weight: 600; }
-.cart-drawer-item-remove { background: none; border: none; text-decoration: underline; color: var(--color-muted-foreground); font-size: 0.8rem; margin-left: var(--space-sm); }
+.cart-drawer-item-remove {
+    background: none;
+    border: none;
+    text-decoration: underline;
+    color: var(--color-muted-foreground);
+    font-size: 0.8rem;
+    margin-left: var(--space-sm);
+    min-height: 44px;
+    padding: 0 var(--space-sm);
+    display: inline-flex;
+    align-items: center;
+}
 .cart-drawer-item-price { font-weight: 700; color: var(--color-accent); white-space: nowrap; }
 .cart-drawer-trust {
     padding: var(--space-md) var(--space-lg);
