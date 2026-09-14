@@ -73,9 +73,44 @@ function coreve_scripts() {
 
 	wp_enqueue_script( 'coreve-store-api-cart', get_template_directory_uri() . '/assets/js/store-api-cart.js', array(), '1.0.0', true );
 	wp_enqueue_script( 'coreve-cart-drawer', get_template_directory_uri() . '/assets/js/cart-drawer.js', array( 'coreve-store-api-cart' ), '1.0.0', true );
-	wp_enqueue_script( 'coreve-theme', get_template_directory_uri() . '/assets/js/theme.js', array( 'coreve-store-api-cart', 'coreve-cart-drawer' ), '2.1.0', true );
+	wp_enqueue_script( 'coreve-analytics', get_template_directory_uri() . '/assets/js/analytics.js', array(), '1.0.0', true );
+	wp_enqueue_script( 'coreve-theme', get_template_directory_uri() . '/assets/js/theme.js', array( 'coreve-store-api-cart', 'coreve-cart-drawer', 'coreve-analytics' ), '2.1.0', true );
 }
 add_action( 'wp_enqueue_scripts', 'coreve_scripts' );
+
+/**
+ * purchase event (Part 23) — fired server-side with the real completed
+ * order's data on the order-received/thank-you page, the one point where
+ * a purchase is actually confirmed. Pushed into the same dataLayer the
+ * rest of the event scaffold uses.
+ */
+function coreve_purchase_event( $order_id ) {
+	$order = wc_get_order( $order_id );
+	if ( ! $order ) {
+		return;
+	}
+	$items = array();
+	foreach ( $order->get_items() as $item ) {
+		$items[] = array(
+			'item_name' => $item->get_name(),
+			'quantity'  => $item->get_quantity(),
+			'price'     => $item->get_total(),
+		);
+	}
+	?>
+	<script>
+	window.dataLayer = window.dataLayer || [];
+	window.dataLayer.push({
+		event: 'purchase',
+		transaction_id: '<?php echo esc_js( $order->get_order_number() ); ?>',
+		value: <?php echo wp_json_encode( (float) $order->get_total() ); ?>,
+		currency: '<?php echo esc_js( $order->get_currency() ); ?>',
+		items: <?php echo wp_json_encode( $items ); ?>
+	});
+	</script>
+	<?php
+}
+add_action( 'woocommerce_thankyou', 'coreve_purchase_event' );
 
 /**
  * Open Graph / Twitter Card meta tags. No SEO plugin is installed, so the

@@ -29,6 +29,24 @@
 			} );
 		}
 
+		// Header search toggle: reveals a real search form (submits to
+		// WordPress's own search, filtered to products).
+		var searchToggle = document.getElementById( 'search-toggle' );
+		var searchBar = document.getElementById( 'header-search-form' );
+		if ( searchToggle && searchBar ) {
+			searchToggle.addEventListener( 'click', function () {
+				var isOpen = searchBar.hidden;
+				searchBar.hidden = ! isOpen;
+				searchToggle.setAttribute( 'aria-expanded', isOpen ? 'true' : 'false' );
+				if ( isOpen ) {
+					var input = searchBar.querySelector( 'input[type="search"]' );
+					if ( input ) {
+						input.focus();
+					}
+				}
+			} );
+		}
+
 		// Pause decorative background video under reduced motion
 		document.querySelectorAll( 'video[autoplay]' ).forEach( function ( video ) {
 			if ( prefersReducedMotion.matches ) {

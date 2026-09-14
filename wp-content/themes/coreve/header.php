@@ -37,7 +37,7 @@
 			</nav>
 
 			<div class="header-icons">
-				<a href="<?php echo class_exists( 'WooCommerce' ) ? esc_url( wc_get_page_permalink( 'shop' ) ) : esc_url( home_url( '/shop/' ) ); ?>" aria-label="Search products"><i class="ph ph-magnifying-glass" aria-hidden="true"></i></a>
+				<button type="button" id="search-toggle" aria-label="Search products" aria-expanded="false" aria-controls="header-search-form"><i class="ph ph-magnifying-glass" aria-hidden="true"></i></button>
 				<a href="<?php echo class_exists( 'WooCommerce' ) ? esc_url( wc_get_page_permalink( 'myaccount' ) ) : '#'; ?>" aria-label="Account"><i class="ph ph-user" aria-hidden="true"></i></a>
 				<a href="<?php echo class_exists( 'WooCommerce' ) ? esc_url( wc_get_cart_url() ) : '#'; ?>" id="cart-toggle" aria-label="Cart, <?php echo class_exists( 'WooCommerce' ) && WC()->cart ? esc_attr( WC()->cart->get_cart_contents_count() ) : 0; ?> items" aria-haspopup="dialog">
 					<i class="ph ph-shopping-bag" aria-hidden="true"></i>
@@ -47,5 +47,12 @@
 				</a>
 				<button class="mobile-menu-toggle" aria-label="Menu" aria-controls="site-navigation" aria-expanded="false"><i class="ph ph-list" aria-hidden="true"></i></button>
 			</div>
+		</div>
+		<div class="header-search-bar" id="header-search-form" hidden>
+			<form role="search" method="get" action="<?php echo esc_url( home_url( '/' ) ); ?>" class="header-search-form">
+				<input type="hidden" name="post_type" value="product">
+				<input type="search" name="s" placeholder="Search sneakers…" aria-label="Search products" value="<?php echo esc_attr( get_search_query() ); ?>">
+				<button type="submit" aria-label="Submit search"><i class="ph ph-magnifying-glass" aria-hidden="true"></i></button>
+			</form>
 		</div>
 	</header>
