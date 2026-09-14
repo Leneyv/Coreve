@@ -107,8 +107,10 @@
 			} );
 		}
 
-		// begin_checkout — Buy Now and the cart drawer's Checkout link.
-		document.querySelectorAll( '.buy-now-btn' ).forEach( function ( btn ) {
+		// begin_checkout — the primary Buy Now buttons (homepage cards,
+		// product page, sticky bar) all add to cart then go straight to
+		// checkout, and the cart drawer's own Checkout link.
+		document.querySelectorAll( '.add-to-bag-btn, .sticky-buy-bar-btn' ).forEach( function ( btn ) {
 			btn.addEventListener( 'click', function () {
 				coreveTrack( 'begin_checkout', { source: 'buy_now' } );
 			} );

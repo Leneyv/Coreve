@@ -79,13 +79,15 @@
 			}, { passive: true } );
 		}
 
-		// Section 6 / Product page: tappable size pills + Add to Bag / Buy Now.
-		// Each card tracks its own selected variation; tapping Add to Bag
+		// Section 6 / Product page: tappable size pills + Buy Now.
+		// Each card tracks its own selected variation; tapping Buy Now
 		// without a size shows an inline error instead of failing silently.
+		// Buy Now adds the item to cart, then goes straight to checkout —
+		// no cart drawer in this flow (the drawer remains reachable via the
+		// header cart icon for anyone who wants to review their bag first).
 		document.querySelectorAll( '.collection-card' ).forEach( function ( card ) {
 			var pills = card.querySelectorAll( '.size-pill' );
 			var addBtn = card.querySelector( '.add-to-bag-btn' );
-			var buyNowBtn = card.querySelector( '.buy-now-btn' );
 			var errorEl = card.querySelector( '.size-error' );
 			var selectedVariationId = null;
 
@@ -127,18 +129,9 @@
 				addBtn.addEventListener( 'click', function () {
 					addBtn.disabled = true;
 					var originalText = addBtn.textContent;
-					addBtn.textContent = 'Adding…';
+					addBtn.textContent = 'Redirecting…';
 					var result = addToCart( function () {
-						addBtn.textContent = 'Added ✓';
-						addBtn.setAttribute( 'data-state', 'added' );
-						if ( window.CoreveCartDrawer ) {
-							window.CoreveCartDrawer.open();
-						}
-						setTimeout( function () {
-							addBtn.textContent = originalText;
-							addBtn.removeAttribute( 'data-state' );
-							addBtn.disabled = false;
-						}, 1800 );
+						window.location.href = '/checkout/';
 					} );
 					// addToCart() returns undefined (not a promise) when no
 					// size is selected yet — it already showed the inline
@@ -147,7 +140,7 @@
 					// leave the button permanently stuck disabled).
 					if ( result ) {
 						result.finally( function () {
-							if ( addBtn.textContent === 'Adding…' ) {
+							if ( addBtn.textContent === 'Redirecting…' ) {
 								addBtn.textContent = originalText;
 								addBtn.disabled = false;
 							}
@@ -155,28 +148,6 @@
 					} else {
 						addBtn.textContent = originalText;
 						addBtn.disabled = false;
-					}
-				} );
-			}
-
-			if ( buyNowBtn ) {
-				buyNowBtn.addEventListener( 'click', function () {
-					buyNowBtn.disabled = true;
-					var originalText = buyNowBtn.textContent;
-					buyNowBtn.textContent = 'Redirecting…';
-					var result = addToCart( function () {
-						window.location.href = '/checkout/';
-					} );
-					if ( result ) {
-						result.finally( function () {
-							if ( buyNowBtn.textContent === 'Redirecting…' ) {
-								buyNowBtn.textContent = originalText;
-								buyNowBtn.disabled = false;
-							}
-						} );
-					} else {
-						buyNowBtn.textContent = originalText;
-						buyNowBtn.disabled = false;
 					}
 				} );
 			}
@@ -221,12 +192,12 @@
 						productHero.scrollIntoView( { behavior: prefersReducedMotion.matches ? 'auto' : 'smooth' } );
 						return;
 					}
+					var originalText = stickyBtn.textContent;
+					stickyBtn.textContent = 'Redirecting…';
 					window.CoreveCart.addItem( variationId, 1 ).then( function () {
-						stickyBtn.textContent = 'Added ✓';
-						if ( window.CoreveCartDrawer ) {
-							window.CoreveCartDrawer.open();
-						}
-						setTimeout( function () { stickyBtn.textContent = 'Add to Bag'; }, 1800 );
+						window.location.href = '/checkout/';
+					} ).catch( function () {
+						stickyBtn.textContent = originalText;
 					} );
 				} );
 			}

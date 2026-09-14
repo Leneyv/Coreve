@@ -159,3 +159,12 @@ I fixed the immediate customer-facing bug (size-guide now shows an actual size g
 1. **Stock**: mark all EU 37–41 sizes in-stock as a placeholder for all 5 sneakers. Real numbers can correct this later.
 2. **Payment gateway**: COD only for now (₹99 fee, matches confirmed policy). No online gateway yet — skip Razorpay/etc.
 3. **Palette**: full repaint to ivory/alabaster/charcoal/stone, replacing the dark+gold theme entirely. Keep Rubik/Nunito Sans typography.
+
+## Post-rebuild change (2026-09-14): primary CTA is now "Buy Now"
+
+User asked to relabel the "Add to Bag" button to "Buy Now" in bold. Clarified two things before implementing since a naive text swap would have created a real bug:
+1. **Behavior changed to match the label**: the primary CTA (homepage collection cards, product page, sticky buy bar) now adds the item to cart and goes straight to `/checkout/` — no cart drawer in this flow — rather than just relabeling a button that still only added to cart. The cart drawer itself is untouched and still reachable via the header cart icon.
+2. **Removed the product page's separate original "Buy Now" button** (which already did instant-checkout) rather than end up with two buttons both labeled "Buy Now" doing different things. The product page now has one primary CTA.
+Bold applied via the shared `.btn`/`.btn-primary` font-weight (600 → 700), so it's consistent across every button using that class, not a one-off style just for this button. Updated `begin_checkout` analytics tracking (previously tied to the now-removed `.buy-now-btn`) to fire from the renamed primary buttons instead. Removed now-dead `.add-to-bag-btn[data-state="added"]` CSS left over from the old "Added ✓" success state, which no longer exists in this flow.
+
+Verified end-to-end via Puppeteer on all three surfaces: button text and bold weight confirmed, "Choose your size first" validation still works, and each successful click lands on `/checkout/`.

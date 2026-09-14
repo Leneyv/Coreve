@@ -79,8 +79,7 @@ while ( have_posts() ) :
 				<p class="size-error" role="alert" hidden>Choose your size first.</p>
 
 				<div class="product-hero-ctas">
-					<button type="button" class="btn add-to-bag-btn" data-product-id="<?php echo esc_attr( $product->get_id() ); ?>">Add to Bag</button>
-					<button type="button" class="btn-secondary buy-now-btn" data-product-id="<?php echo esc_attr( $product->get_id() ); ?>">Buy Now</button>
+					<button type="button" class="btn add-to-bag-btn" data-product-id="<?php echo esc_attr( $product->get_id() ); ?>">Buy Now</button>
 				</div>
 			</div>
 		</div>
@@ -115,7 +114,7 @@ while ( have_posts() ) :
 			<span class="sticky-buy-bar-price"><?php echo wp_kses_post( $product->get_price_html() ); ?></span>
 			<a href="<?php echo esc_url( home_url( '/size-guide/' ) ); ?>" class="sticky-buy-bar-size-guide">Size Guide</a>
 		</div>
-		<button type="button" class="btn sticky-buy-bar-btn">Add to Bag</button>
+		<button type="button" class="btn sticky-buy-bar-btn">Buy Now</button>
 	</div>
 
 	<?php

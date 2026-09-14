@@ -105,7 +105,7 @@ $collection = coreve_collection_products();
 						</div>
 						<p class="size-guide-link"><a href="<?php echo esc_url( home_url( '/size-guide/' ) ); ?>">Size Guide</a></p>
 
-						<button type="button" class="btn add-to-bag-btn" data-product-id="<?php echo esc_attr( $p['id'] ); ?>">Add to Bag</button>
+						<button type="button" class="btn add-to-bag-btn" data-product-id="<?php echo esc_attr( $p['id'] ); ?>">Buy Now</button>
 						<p class="size-error" role="alert" hidden>Choose your size first.</p>
 					</div>
 				</div>
