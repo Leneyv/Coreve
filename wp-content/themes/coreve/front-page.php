@@ -35,13 +35,33 @@ $collection = coreve_collection_products();
 	</div>
 </section>
 
-<!-- Section 4 — The Cultural Truth -->
-<section class="section" id="why-coreve">
-	<div class="container">
-		<h2 class="section-title">Why Is She Still Wearing His?</h2>
-		<p class="section-subtitle">Most sneakers were never built from a women-first point of view.</p>
-		<p class="truth-lede">Walk into almost any sneaker store and here's the truth: the choice is usually a men's sneaker in a smaller size, or a unisex pair built around a generic, gender-neutral last. Women often choose based on how a sneaker looks, fits, or trends — while the design underneath still follows the same old assumptions.</p>
+<!-- Section 4 — The Cultural Truth (premium, atmospheric treatment) -->
+<section class="cultural-truth-hero" id="why-coreve">
+	<span class="cultural-truth-bgword" aria-hidden="true">HERS</span>
+	<div class="container cultural-truth-content">
+		<p class="cultural-truth-eyebrow">The Cultural Truth</p>
+		<h2 class="cultural-truth-title">Why Is She Still Wearing His?</h2>
+		<p class="cultural-truth-lede">Walk into almost any sneaker store and here's the truth: the choice is usually a men's sneaker in a smaller size, or a unisex pair built around a generic, gender-neutral last. Women often choose based on how a sneaker looks, fits, or trends — while the design underneath still follows the same old assumptions.</p>
 
+		<?php
+		// Drop a transparent-background product cutout at this path and it
+		// appears automatically — no code change needed. Renders nothing
+		// (just the background/text above) until the file exists, so there's
+		// no broken-image state in the meantime.
+		$cultural_truth_product = 'cultural-truth-product.png';
+		if ( file_exists( get_template_directory() . '/assets/images/' . $cultural_truth_product ) ) :
+			?>
+			<div class="cultural-truth-product">
+				<img src="<?php echo esc_url( coreve_asset_image( $cultural_truth_product ) ); ?>" alt="Coreve sneaker" class="cultural-truth-product-img">
+				<img src="<?php echo esc_url( coreve_asset_image( $cultural_truth_product ) ); ?>" alt="" aria-hidden="true" class="cultural-truth-product-reflection">
+			</div>
+		<?php endif; ?>
+	</div>
+</section>
+
+<section class="section section-cream">
+	<div class="container">
+		<p class="section-subtitle" style="margin-bottom: var(--space-xl);">Most sneakers were never built from a women-first point of view.</p>
 		<div class="comparison-grid">
 			<div class="comparison-card">
 				<span class="comparison-label">The Generic Approach</span>

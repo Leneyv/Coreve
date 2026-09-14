@@ -178,3 +178,17 @@ Built `assets/js/size-guide-modal.js` + modal markup in `footer.php` + CSS, reus
 Desktop: centered dialog (max-width 560px) with the close button in the panel's top-right corner. Mobile (≤600px): near-full-screen panel with a sticky header, so the close button never scrolls out of view even as the size chart content scrolls beneath it.
 
 Verified end-to-end via Puppeteer on both a true 390px mobile viewport and a 1440px desktop viewport: modal opens without navigating away, close button measures exactly 44×44px and sits correctly in the top-right in both layouts, Escape closes it, and all four entry points (homepage cards, product page, cart drawer, sticky bar) independently confirmed working.
+
+## Post-rebuild change (2026-09-14): Cultural Truth section redesigned, premium/Rolex-inspired
+
+User felt Section 4 ("Why Is She Still Wearing His?") was flat and asked for a more energetic, premium treatment referencing rolex.com/watches/new-watches. Fetched that page directly (headless Chrome with a real user agent — plain curl got a 403) to study the actual pattern rather than guess: a moody spotlit background, a giant ghosted single-word watermark stretching behind the product, the product floating with a soft reflection, and a small caption.
+
+Rebuilt as a code-based effect (no photo needed) rather than an image background:
+- `.cultural-truth-hero`: layered radial-gradient vignette/spotlight (warm clay glow at center fading to near-black at the edges) using existing palette tokens
+- A giant ghosted watermark word ("HERS" — deliberately echoing "wearing **His**" in the headline above it), pure CSS text at 7–16% opacity depending on viewport, sized with `clamp()` so it reads as genuinely large on both mobile and desktop (first pass was too small/faint on mobile — increased the floor size and opacity after checking computed values, not just eyeballing it)
+- A product image slot with a CSS-only reflection (a second `<img>`, flipped and mask-faded) — gated behind a real `file_exists()` PHP check, so it renders cleanly with just the background/text and no broken-image icon until a real cutout is actually in place
+- The original generic-vs-Coreve comparison cards moved to a calmer section immediately below, on the normal ivory background, rather than competing with the new dramatic band
+
+**Waiting on the user**: a transparent-background ("no background") product cutout PNG. Told them to save it as `wp-content/themes/coreve/assets/images/cultural-truth-product.png` (exact filename the code already checks for — no further code change needed once it's there), or upload via WP Admin → Media → Add New and send the resulting file URL if they'd rather not touch the filesystem directly.
+
+Verified via Puppeteer on true 390px and 1440px viewports: no horizontal overflow introduced, watermark legible at both sizes.
