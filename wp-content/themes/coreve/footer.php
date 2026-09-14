@@ -25,7 +25,6 @@
 						<li><a href="<?php echo esc_url( home_url( '/shipping-policy' ) ); ?>">Shipping Policy</a></li>
 						<li><a href="<?php echo esc_url( home_url( '/size-guide' ) ); ?>">Size Guide</a></li>
 						<li><a href="<?php echo esc_url( home_url( '/faq' ) ); ?>">FAQ</a></li>
-						<li><a href="<?php echo esc_url( home_url( '/global-vision' ) ); ?>">India to Middle East</a></li>
 					</ul>
 				</div>
 				<div>
