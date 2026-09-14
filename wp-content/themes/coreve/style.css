@@ -320,54 +320,29 @@ select:focus-visible,
 .cultural-truth-hero {
     position: relative;
     overflow: hidden;
-    /* Extra bottom padding reserves room for the product's reflection,
-       which is absolutely positioned (removed from normal flow, so it
-       doesn't naturally grow the section) and would otherwise be clipped
-       by this section's own overflow:hidden (needed to contain the
-       oversized background watermark horizontally). */
-    padding: var(--space-3xl) 1.5rem 14rem;
-    /* Atmospheric backdrop, built in layers rather than a single vignette:
-       a warm haze near the top (like hazy sky), a dark vignette anchored
-       to the bottom (depth), and the actual "light source" glow is a
-       separate layer anchored to the product itself (see
-       .cultural-truth-product::before) so it always sits exactly at the
-       product's horizon line regardless of how tall the copy above it is. */
+    padding: var(--space-3xl) 1.5rem;
     background:
-        linear-gradient(to bottom, rgba(140, 74, 44, 0.14), transparent 32%),
-        radial-gradient(ellipse 90% 60% at 50% 100%, rgba(38, 34, 29, 0.9), #0C0A09 75%),
+        radial-gradient(ellipse 60% 50% at 50% 35%, rgba(140, 74, 44, 0.35), transparent 70%),
+        radial-gradient(ellipse 90% 70% at 50% 100%, rgba(38, 34, 29, 0.9), #0C0A09 80%),
         #16130f;
     color: var(--color-on-primary);
     text-align: center;
 }
 .cultural-truth-bgword {
-    font-family: var(--font-heading);
-    font-weight: 800;
-    font-size: clamp(8rem, 32vw, 16rem);
-    letter-spacing: 0.02em;
-    color: rgba(255, 255, 255, 0.09);
-    white-space: nowrap;
-    line-height: 1;
-    pointer-events: none;
-    user-select: none;
-}
-/* Nested case (product image present): anchored to the product's own
-   horizon line (top:100% of .cultural-truth-product) instead of the
-   section's center, so the word crosses right where the product meets
-   its reflection — matching a Rolex-style product/horizon composition. */
-.cultural-truth-product .cultural-truth-bgword {
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 0;
-}
-/* Fallback case (no product image yet): center in the section like before. */
-.cultural-truth-bgword--standalone {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: clamp(8rem, 32vw, 16rem);
+    letter-spacing: 0.02em;
+    color: rgba(255, 255, 255, 0.07);
+    white-space: nowrap;
+    line-height: 1;
     z-index: 0;
+    pointer-events: none;
+    user-select: none;
 }
 .cultural-truth-content { position: relative; z-index: 1; }
 .cultural-truth-eyebrow {
@@ -397,37 +372,6 @@ select:focus-visible,
     max-width: 460px;
     margin: var(--space-2xl) auto 0;
 }
-/* The "horizon" light source — a soft warm glow sitting exactly on the
-   product's own base line, wider than the product itself so it reads as
-   an atmospheric light rather than a spotlight glued to the shoe. */
-.cultural-truth-product::before {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 260%;
-    max-width: 900px;
-    height: 200px;
-    background: radial-gradient(ellipse 50% 100% at 50% 50%, rgba(255, 205, 150, 0.55), rgba(198, 108, 58, 0.22) 45%, transparent 75%);
-    pointer-events: none;
-}
-/* A faint "water" ripple texture over the reflection, so the horizon reads
-   as a reflective surface rather than a flat fade. */
-.cultural-truth-product::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 300%;
-    max-width: 1100px;
-    height: 200px;
-    background-image: repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 0 1px, transparent 1px 9px);
-    -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), transparent 65%);
-    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), transparent 65%);
-    pointer-events: none;
-}
 .cultural-truth-product-img {
     position: relative;
     z-index: 2;
@@ -440,18 +384,14 @@ select:focus-visible,
     left: 0;
     width: 100%;
     transform: scaleY(-1);
-    /* Gradient direction is inverted on purpose: this element is flipped
-       with scaleY(-1) above, which also flips the mask's fade direction
-       relative to the screen — "to top" is what ends up reading as "fade
-       to transparent going down, away from the shoe" once rendered. */
-    -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent 40%);
-    mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent 40%);
-    opacity: 0.65;
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), transparent 65%);
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), transparent 65%);
+    opacity: 0.5;
     pointer-events: none;
 }
 
 @media (max-width: 480px) {
-    .cultural-truth-hero { padding: var(--space-2xl) 1rem 9rem; }
+    .cultural-truth-hero { padding: var(--space-2xl) 1rem; }
     .cultural-truth-product { max-width: 300px; }
 }
 

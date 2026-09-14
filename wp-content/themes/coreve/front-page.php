@@ -37,6 +37,7 @@ $collection = coreve_collection_products();
 
 <!-- Section 4 — The Cultural Truth (premium, atmospheric treatment) -->
 <section class="cultural-truth-hero" id="why-coreve">
+	<span class="cultural-truth-bgword" aria-hidden="true">HERS</span>
 	<div class="container cultural-truth-content">
 		<p class="cultural-truth-eyebrow">The Cultural Truth</p>
 		<h2 class="cultural-truth-title">Why Is She Still Wearing His?</h2>
@@ -44,20 +45,16 @@ $collection = coreve_collection_products();
 
 		<?php
 		// Drop a transparent-background product cutout at this path and it
-		// appears automatically — no code change needed.
+		// appears automatically — no code change needed. Renders nothing
+		// (just the background/text above) until the file exists, so there's
+		// no broken-image state in the meantime.
 		$cultural_truth_product = 'cultural-truth-product.png';
 		if ( file_exists( get_template_directory() . '/assets/images/' . $cultural_truth_product ) ) :
 			?>
 			<div class="cultural-truth-product">
-				<!-- Ghost word is anchored inside the product wrapper (not the
-				     section) so it always crosses exactly at the product's own
-				     horizon line, regardless of how tall the copy above is. -->
-				<span class="cultural-truth-bgword" aria-hidden="true">HERS</span>
 				<img src="<?php echo esc_url( coreve_asset_image( $cultural_truth_product ) ); ?>" alt="Coreve sneaker" class="cultural-truth-product-img">
 				<img src="<?php echo esc_url( coreve_asset_image( $cultural_truth_product ) ); ?>" alt="" aria-hidden="true" class="cultural-truth-product-reflection">
 			</div>
-		<?php else : ?>
-			<span class="cultural-truth-bgword cultural-truth-bgword--standalone" aria-hidden="true">HERS</span>
 		<?php endif; ?>
 	</div>
 </section>
