@@ -320,7 +320,12 @@ select:focus-visible,
 .cultural-truth-hero {
     position: relative;
     overflow: hidden;
-    padding: var(--space-3xl) 1.5rem;
+    /* Extra bottom padding reserves room for the product's reflection,
+       which is absolutely positioned (removed from normal flow, so it
+       doesn't naturally grow the section) and would otherwise be clipped
+       by this section's own overflow:hidden (needed to contain the
+       oversized background watermark horizontally). */
+    padding: var(--space-3xl) 1.5rem 14rem;
     background:
         radial-gradient(ellipse 60% 50% at 50% 35%, rgba(140, 74, 44, 0.35), transparent 70%),
         radial-gradient(ellipse 90% 70% at 50% 100%, rgba(38, 34, 29, 0.9), #0C0A09 80%),
@@ -384,14 +389,18 @@ select:focus-visible,
     left: 0;
     width: 100%;
     transform: scaleY(-1);
-    -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), transparent 65%);
-    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), transparent 65%);
-    opacity: 0.5;
+    /* Gradient direction is inverted on purpose: this element is flipped
+       with scaleY(-1) above, which also flips the mask's fade direction
+       relative to the screen — "to top" is what ends up reading as "fade
+       to transparent going down, away from the shoe" once rendered. */
+    -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent 40%);
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent 40%);
+    opacity: 0.65;
     pointer-events: none;
 }
 
 @media (max-width: 480px) {
-    .cultural-truth-hero { padding: var(--space-2xl) 1rem; }
+    .cultural-truth-hero { padding: var(--space-2xl) 1rem 9rem; }
     .cultural-truth-product { max-width: 300px; }
 }
 
