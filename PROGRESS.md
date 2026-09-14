@@ -168,3 +168,13 @@ User asked to relabel the "Add to Bag" button to "Buy Now" in bold. Clarified tw
 Bold applied via the shared `.btn`/`.btn-primary` font-weight (600 → 700), so it's consistent across every button using that class, not a one-off style just for this button. Updated `begin_checkout` analytics tracking (previously tied to the now-removed `.buy-now-btn`) to fire from the renamed primary buttons instead. Removed now-dead `.add-to-bag-btn[data-state="added"]` CSS left over from the old "Added ✓" success state, which no longer exists in this flow.
 
 Verified end-to-end via Puppeteer on all three surfaces: button text and bold weight confirmed, "Choose your size first" validation still works, and each successful click lands on `/checkout/`.
+
+## Post-rebuild change (2026-09-14): Size Guide as a modal
+
+User asked for the Size Guide to open as a popup with a correctly-aligned close (X) button on both mobile and desktop, instead of navigating to the standalone `/size-guide/` page.
+
+Built `assets/js/size-guide-modal.js` + modal markup in `footer.php` + CSS, reusing the same proven pattern as the cart drawer (focus trap, Escape/backdrop/close-button dismissal, respects `prefers-reduced-motion` via the existing global override). Intercepts every `a[href*="/size-guide"]` click sitewide (product cards, product page, sticky buy bar, cart drawer trust content) via progressive enhancement — the real link still works if JS fails. The standalone `/size-guide/` page is untouched and still live for direct links/search/SEO; the modal is a convenience layer on top of it, not a replacement.
+
+Desktop: centered dialog (max-width 560px) with the close button in the panel's top-right corner. Mobile (≤600px): near-full-screen panel with a sticky header, so the close button never scrolls out of view even as the size chart content scrolls beneath it.
+
+Verified end-to-end via Puppeteer on both a true 390px mobile viewport and a 1440px desktop viewport: modal opens without navigating away, close button measures exactly 44×44px and sits correctly in the top-right in both layouts, Escape closes it, and all four entry points (homepage cards, product page, cart drawer, sticky bar) independently confirmed working.

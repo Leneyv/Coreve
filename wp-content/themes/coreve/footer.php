@@ -68,6 +68,35 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- Size Guide modal — opens in place from any "Size Guide" link sitewide.
+	     The standalone /size-guide/ page still exists for direct links/SEO. -->
+	<div class="size-guide-modal" id="size-guide-modal" role="dialog" aria-modal="true" aria-labelledby="size-guide-modal-title" hidden>
+		<div class="size-guide-modal-backdrop" tabindex="-1"></div>
+		<div class="size-guide-modal-panel">
+			<div class="size-guide-modal-header">
+				<h2 id="size-guide-modal-title">Size Guide</h2>
+				<button type="button" class="size-guide-modal-close" aria-label="Close size guide"><i class="ph ph-x" aria-hidden="true"></i></button>
+			</div>
+			<div class="size-guide-modal-body">
+				<p>Coreve sneakers are available in EU 37&ndash;41. Use the chart below to find your size, and if you're between two sizes, we recommend sizing up.</p>
+				<table>
+					<tr><th>EU Size</th><th>IN Size</th><th>UK Size</th><th>Foot Length</th></tr>
+					<tr><td>37</td><td>4</td><td>4</td><td>23.5 cm</td></tr>
+					<tr><td>38</td><td>5</td><td>5</td><td>24.2 cm</td></tr>
+					<tr><td>39</td><td>6</td><td>6</td><td>24.8 cm</td></tr>
+					<tr><td>40</td><td>7</td><td>7</td><td>25.5 cm</td></tr>
+					<tr><td>41</td><td>8</td><td>8</td><td>26.2 cm</td></tr>
+				</table>
+				<h3>How to Measure</h3>
+				<p>Stand on a piece of paper and mark your heel and longest toe, then measure the distance between the two marks. Compare that measurement to the Foot Length column above to find your EU size.</p>
+				<h3>Still Not Sure?</h3>
+				<p>If you're between sizes, size up. For a personal fitting recommendation, message us on WhatsApp at <a href="https://wa.me/919363936665" target="_blank" rel="noopener">+91 93639 36665</a>.</p>
+				<h3>Exchanges</h3>
+				<p>If your size isn't quite right, you can exchange within 7 days of delivery, provided the shoes are unused, unworn, unwashed, and in their original packaging with tags intact.</p>
+			</div>
+		</div>
+	</div>
 </div>
 
 <?php wp_footer(); ?>
