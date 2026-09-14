@@ -84,20 +84,33 @@ add_action( 'wp_enqueue_scripts', 'coreve_scripts' );
 function coreve_social_meta() {
 	$image = coreve_asset_image( 'website_hero_banner_2.webp' );
 	$title = is_front_page() ? get_bloginfo( 'name' ) . ' — Sneakers Made for Women' : wp_get_document_title();
-	$desc  = "India's first sneaker made for women. Designed for her natural stride, handcrafted for all-day comfort.";
+	// Not "India's first" — that claim isn't verified anywhere in the
+	// business's own confirmed copy (see PROGRESS.md Phase 0), so the
+	// default description avoids it rather than repeating an unconfirmed
+	// superlative.
+	$desc = 'Coreve designs sneakers from a women-first perspective — built around her fit, her comfort, and her everyday life.';
 	if ( is_singular( 'product' ) ) {
 		global $post;
 		$product = wc_get_product( $post->ID );
 		if ( $product ) {
-			$desc      = wp_strip_all_tags( $product->get_short_description() ) ?: $desc;
+			$desc      = html_entity_decode( wp_strip_all_tags( $product->get_short_description() ), ENT_QUOTES ) ?: $desc;
 			$image_id  = $product->get_image_id();
 			$image_src = $image_id ? wp_get_attachment_image_url( $image_id, 'large' ) : '';
 			if ( $image_src ) {
 				$image = $image_src;
 			}
 		}
+	} elseif ( is_page() ) {
+		global $post;
+		if ( $post && $post->post_content ) {
+			$excerpt = wp_trim_words( wp_strip_all_tags( $post->post_content ), 30 );
+			if ( $excerpt ) {
+				$desc = $excerpt;
+			}
+		}
 	}
 	?>
+	<meta name="description" content="<?php echo esc_attr( $desc ); ?>">
 	<meta property="og:type" content="website">
 	<meta property="og:site_name" content="<?php bloginfo( 'name' ); ?>">
 	<meta property="og:title" content="<?php echo esc_attr( $title ); ?>">
@@ -111,6 +124,159 @@ function coreve_social_meta() {
 	<?php
 }
 add_action( 'wp_head', 'coreve_social_meta', 1 );
+
+/**
+ * Structured data (Part 16). Organization schema sitewide; Product +
+ * BreadcrumbList on the 5 real sneaker product pages; FAQPage schema only
+ * where the page actually has real, matching visible FAQ content (never
+ * detached from what a visitor can see — that would risk a Google Search
+ * Console structured-data mismatch penalty, and isn't honest either).
+ */
+function coreve_structured_data() {
+	$graphs = array();
+
+	$graphs[] = array(
+		'@type'      => 'Organization',
+		'name'       => 'Coreve',
+		'url'        => home_url( '/' ),
+		'logo'       => coreve_asset_image( 'coreve-footer-logo.webp' ),
+		'contactPoint' => array(
+			'@type'       => 'ContactPoint',
+			'telephone'   => '+91-93639-36665',
+			'contactType' => 'customer service',
+			'email'       => 'hello@coreve.in',
+			'areaServed'  => 'IN',
+		),
+		'address' => array(
+			'@type'           => 'PostalAddress',
+			'streetAddress'   => '17, 2nd Floor, 7th Main Road, 2 Stage Indiranagar',
+			'addressLocality' => 'Bengaluru',
+			'addressRegion'   => 'Karnataka',
+			'postalCode'      => '560038',
+			'addressCountry'  => 'IN',
+		),
+	);
+
+	if ( is_singular( 'product' ) ) {
+		global $post;
+		$product = wc_get_product( $post->ID );
+		$sneaker_ids = array( 117, 118, 119, 120, 121 );
+
+		// Product + Breadcrumb schema applies to every real product (Part
+		// 16: "every product needs schema"), not just the 5 sneakers with
+		// the custom narrative template.
+		if ( $product ) {
+			$image_id = $product->get_image_id();
+			$rating   = $product->get_average_rating();
+			$reviews  = $product->get_review_count();
+
+			$offer_availability = $product->is_in_stock() ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock';
+
+			$product_schema = array(
+				'@type'       => 'Product',
+				'name'        => $product->get_name(),
+				'image'       => $image_id ? wp_get_attachment_image_url( $image_id, 'large' ) : '',
+				'description' => html_entity_decode( wp_strip_all_tags( $product->get_short_description() ), ENT_QUOTES ),
+				'sku'         => (string) $product->get_id(),
+				'brand'       => array( '@type' => 'Brand', 'name' => 'Coreve' ),
+				'offers'      => array(
+					'@type'         => 'Offer',
+					'url'           => get_permalink( $product->get_id() ),
+					'priceCurrency' => 'INR',
+					'price'         => $product->get_price(),
+					'availability'  => $offer_availability,
+				),
+			);
+			// Only include aggregateRating when real reviews exist — never
+			// fabricate a rating for a product with zero reviews.
+			if ( $reviews > 0 ) {
+				$product_schema['aggregateRating'] = array(
+					'@type'       => 'AggregateRating',
+					'ratingValue' => (string) $rating,
+					'reviewCount' => (string) $reviews,
+				);
+			}
+			$graphs[] = $product_schema;
+
+			$graphs[] = array(
+				'@type'           => 'BreadcrumbList',
+				'itemListElement' => array(
+					array( '@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => home_url( '/' ) ),
+					array( '@type' => 'ListItem', 'position' => 2, 'name' => 'Collection', 'item' => home_url( '/shop/' ) ),
+					array( '@type' => 'ListItem', 'position' => 3, 'name' => $product->get_name(), 'item' => get_permalink( $product->get_id() ) ),
+				),
+			);
+		}
+
+		if ( $product && in_array( $product->get_id(), $sneaker_ids, true ) ) {
+			// FAQ schema for the product page's own accordion FAQ section —
+			// matches the visible content exactly (coreve_product_accordion_sections()).
+			// Only the 5 sneakers use the custom template with this accordion.
+			foreach ( coreve_product_accordion_sections() as $section ) {
+				if ( 'FAQ' === $section['title'] ) {
+					$faq_entities = coreve_faq_html_to_schema( $section['content'] );
+					if ( $faq_entities ) {
+						$graphs[] = array( '@type' => 'FAQPage', 'mainEntity' => $faq_entities );
+					}
+				}
+			}
+		}
+	}
+
+	if ( is_front_page() ) {
+		$faq_entities = array();
+		foreach ( coreve_home_faqs() as $faq ) {
+			$faq_entities[] = array(
+				'@type'          => 'Question',
+				'name'           => $faq['q'],
+				'acceptedAnswer' => array( '@type' => 'Answer', 'text' => $faq['a'] ),
+			);
+		}
+		if ( $faq_entities ) {
+			$graphs[] = array( '@type' => 'FAQPage', 'mainEntity' => $faq_entities );
+		}
+	}
+
+	if ( is_page( 'faq' ) ) {
+		global $post;
+		$faq_entities = coreve_faq_html_to_schema( $post->post_content );
+		if ( $faq_entities ) {
+			$graphs[] = array( '@type' => 'FAQPage', 'mainEntity' => $faq_entities );
+		}
+	}
+
+	echo '<script type="application/ld+json">' . wp_json_encode( array(
+		'@context' => 'https://schema.org',
+		'@graph'   => $graphs,
+	) ) . '</script>' . "\n";
+}
+add_action( 'wp_head', 'coreve_structured_data', 2 );
+
+/**
+ * Parses "<p><strong>Question?</strong><br>Answer text</p>" pairs (the
+ * format used by the FAQ page and product accordion FAQ section) into
+ * schema.org Question/Answer entities, so FAQPage schema always matches
+ * what's actually visible on the page rather than being written by hand
+ * a second time and risking drift.
+ */
+function coreve_faq_html_to_schema( $html ) {
+	$entities = array();
+	if ( ! preg_match_all( '/<strong>(.*?)<\/strong>\s*(?:<br\s*\/?>)?(.*?)(?=<p>|<h[1-6]|$)/s', $html, $matches, PREG_SET_ORDER ) ) {
+		return $entities;
+	}
+	foreach ( $matches as $m ) {
+		$question = html_entity_decode( trim( wp_strip_all_tags( $m[1] ) ), ENT_QUOTES );
+		$answer   = html_entity_decode( trim( wp_strip_all_tags( $m[2] ) ), ENT_QUOTES );
+		if ( $question && $answer ) {
+			$entities[] = array(
+				'@type'          => 'Question',
+				'name'           => $question,
+				'acceptedAnswer' => array( '@type' => 'Answer', 'text' => $answer ),
+			);
+		}
+	}
+	return $entities;
+}
 
 function coreve_fallback_menu() {
 	echo '<ul>';
