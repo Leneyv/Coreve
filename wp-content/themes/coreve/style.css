@@ -337,7 +337,7 @@ select:focus-visible,
     font-weight: 800;
     font-size: clamp(8rem, 32vw, 16rem);
     letter-spacing: 0.02em;
-    color: rgba(255, 255, 255, 0.07);
+    color: rgba(255, 255, 255, 0.09);
     white-space: nowrap;
     line-height: 1;
     z-index: 0;
@@ -363,9 +363,13 @@ select:focus-visible,
 .cultural-truth-lede {
     max-width: 640px;
     margin: 0 auto;
-    color: rgba(255, 255, 255, 0.72);
+    color: rgba(255, 255, 255, 0.94);
     font-size: 1.05rem;
     line-height: 1.7;
+    /* Soft warm glow (echoes the section's own accent light) plus a dark
+       contact shadow, so the text stays crisp wherever it falls across
+       the uneven vignette background rather than just being flat-bright. */
+    text-shadow: 0 0 22px rgba(255, 205, 150, 0.35), 0 1px 3px rgba(0, 0, 0, 0.45);
 }
 .cultural-truth-product {
     position: relative;
@@ -394,36 +398,6 @@ select:focus-visible,
     .cultural-truth-hero { padding: var(--space-2xl) 1rem; }
     .cultural-truth-product { max-width: 300px; }
 }
-
-/* ==========================================
-   Cultural Truth comparison (Section 4 follow-up)
-   ========================================== */
-.comparison-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-lg);
-    max-width: 880px;
-    margin: 0 auto;
-}
-.comparison-card {
-    background: var(--color-card);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    padding: var(--space-xl);
-}
-.comparison-card--coreve { border-color: var(--color-accent); border-width: 2px; }
-.comparison-label {
-    display: block;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    font-size: 0.85rem;
-    margin-bottom: var(--space-md);
-    color: var(--color-muted-foreground);
-}
-.comparison-card--coreve .comparison-label { color: var(--color-accent); }
-.comparison-card ul { list-style: disc; padding-left: 1.25rem; }
-.comparison-card li { margin-bottom: var(--space-sm); color: var(--color-foreground); line-height: 1.5; }
 
 /* ==========================================
    Coreve Reveal (Section 5)
@@ -1323,7 +1297,6 @@ body.size-guide-modal-open { overflow: hidden; }
     .product-grid { grid-template-columns: repeat(2, 1fr); }
     .testimonial-grid { grid-template-columns: 1fr; }
     .woocommerce ul.products { grid-template-columns: repeat(2, 1fr); }
-    .comparison-grid { grid-template-columns: 1fr; }
 
     /* The "Why Coreve Exists" banner image is very wide/short; overlaying
        badges on it breaks once the image shrinks below badge-stack height. */

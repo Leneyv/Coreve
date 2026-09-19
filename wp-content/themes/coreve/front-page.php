@@ -59,30 +59,6 @@ $collection = coreve_collection_products();
 	</div>
 </section>
 
-<section class="section section-cream">
-	<div class="container">
-		<p class="section-subtitle" style="margin-bottom: var(--space-xl);">Most sneakers were never built from a women-first point of view.</p>
-		<div class="comparison-grid">
-			<div class="comparison-card">
-				<span class="comparison-label">The Generic Approach</span>
-				<ul>
-					<li>Starts with a men's or unisex last, adjusted smaller</li>
-					<li>Fit is a compromise, not a starting point</li>
-					<li>Style and comfort treated as trade-offs</li>
-				</ul>
-			</div>
-			<div class="comparison-card comparison-card--coreve">
-				<span class="comparison-label">The Coreve Approach</span>
-				<ul>
-					<li>Starts with her proportions and stride, from the first sketch</li>
-					<li>Fit is the foundation, not an afterthought</li>
-					<li>Style and comfort designed to coexist</li>
-				</ul>
-			</div>
-		</div>
-	</div>
-</section>
-
 <!-- Section 5 — Coreve Reveal -->
 <section class="section section-cream">
 	<div class="container">
