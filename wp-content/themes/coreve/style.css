@@ -18,8 +18,16 @@ Text Domain: coreve
     --color-on-primary: #F8F4EC;
     --color-secondary: #6B6255;
     --color-on-secondary: #FFFFFF;
-    --color-accent: #8C4A2C;
+    /* Matches the live coreve.in brand green (sampled directly from the
+       live site's header/badges/buttons) — replaces the earlier clay/
+       chocolate accent. */
+    --color-accent: #00503C;
     --color-on-accent: #FFFFFF;
+    /* Brighter companion shade (also sampled from the live site's own
+       neon-glow/outline accents) — used only where accent text needs to
+       sit on a dark background, since the deep green itself is too close
+       in value to the dark charcoal header/footer to stay legible there. */
+    --color-accent-bright: #2DB742;
     --color-background: #F8F4EC;
     --color-foreground: #201C17;
     --color-card: #FFFFFF;
@@ -196,7 +204,7 @@ select:focus-visible,
     font-size: 0.95rem;
 }
 
-.main-navigation a:hover { color: var(--color-accent); }
+.main-navigation a:hover { color: var(--color-accent-bright); }
 
 .header-icons {
     display: flex;
@@ -218,7 +226,7 @@ select:focus-visible,
     border: none;
     font-size: 1.1rem;
 }
-.header-icons a:hover, .header-icons button#search-toggle:hover { color: var(--color-accent); }
+.header-icons a:hover, .header-icons button#search-toggle:hover { color: var(--color-accent-bright); }
 .header-icons .cart-count {
     background: var(--color-accent);
     color: var(--color-on-accent);
@@ -364,7 +372,7 @@ select:focus-visible,
     letter-spacing: 0.12em;
     font-size: 0.8rem;
     font-weight: 700;
-    color: var(--color-accent);
+    color: var(--color-accent-bright);
     margin-bottom: var(--space-md);
 }
 .cultural-truth-title {
@@ -511,9 +519,10 @@ select:focus-visible,
     position: relative;
     overflow: hidden;
     padding-top: var(--space-3xl);
+    /* Same deep-green diagonal sampled from the live coreve.in header. */
     background:
         radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255, 255, 255, 0.09), transparent 60%),
-        linear-gradient(165deg, #0E4B33, #052A1C 75%);
+        linear-gradient(165deg, #0B3F28, #0E3F31 55%, #196D47 100%);
 }
 /* The headline as a giant background watermark — whiteish, low-opacity,
    sized to stay on one line on desktop and wrap to three lines on mobile. */
@@ -1193,7 +1202,7 @@ body.size-guide-modal-open { overflow: hidden; }
 
 .footer-grid h4 { font-family: var(--font-heading); color: #fff; font-weight: 600; font-size: 1.2rem; margin-bottom: var(--space-md); }
 .footer-grid li { margin-bottom: 0.6rem; font-size: 0.9rem; }
-.footer-grid a:hover { color: var(--color-accent); }
+.footer-grid a:hover { color: var(--color-accent-bright); }
 
 .footer-bottom {
     border-top: 1px solid rgba(255,255,255,0.15);
