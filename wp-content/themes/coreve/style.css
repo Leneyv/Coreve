@@ -1225,6 +1225,14 @@ body.size-guide-modal-open { overflow: hidden; }
 .page-content-wrap table { width: 100%; border-collapse: collapse; margin-bottom: var(--space-lg); }
 .page-content-wrap table td, .page-content-wrap table th { border: 1px solid var(--color-border); padding: 0.6rem; text-align: left; }
 
+.about-process-banner { margin-bottom: var(--space-xl); }
+.about-process-banner img {
+    width: 100%;
+    display: block;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+}
+
 /* ==========================================
    Story page (Why Coreve / India-Middle East)
    ========================================== */
