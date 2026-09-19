@@ -127,9 +127,12 @@ $collection = coreve_collection_products();
 </section>
 
 <!-- Section 8 — Why Coreve Feels Different -->
-<section class="section">
+<section class="section pillars-hero">
+	<!-- The real heading stays in the DOM for screen readers/SEO; the
+	     giant watermark below is its purely decorative visual stand-in. -->
+	<h2 class="sr-only">Why Coreve Feels Different</h2>
+	<span class="pillars-watermark" aria-hidden="true">Why Coreve Feels Different</span>
 	<div class="container">
-		<h2 class="section-title">Why Coreve Feels Different</h2>
 		<div class="pillar-grid">
 			<div class="pillar-card">
 				<span class="pillar-number">01</span>
