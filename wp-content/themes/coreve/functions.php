@@ -1186,3 +1186,81 @@ function coreve_send_order_notification_email( $order_id ) {
 add_action( "woocommerce_order_status_processing", "coreve_send_order_notification_email", 10, 1 );
 add_action( "woocommerce_order_status_completed", "coreve_send_order_notification_email", 10, 1 );
 add_action( "woocommerce_checkout_order_processed", "coreve_send_order_notification_email", 10, 1 );
+
+/**
+ * Sequential Order Numbers starting from KLE99817
+ */
+function coreve_assign_order_number( $order_id, $order = null ) {
+	if ( ! $order_id ) {
+		return "";
+	}
+	// Preserve legacy test orders
+	if ( (int) $order_id <= 213 ) {
+		return (string) $order_id;
+	}
+
+	if ( ! $order instanceof WC_Order ) {
+		$order = wc_get_order( $order_id );
+	}
+	if ( ! $order ) {
+		return (string) $order_id;
+	}
+
+	$existing = $order->get_meta( "_coreve_order_number" );
+	if ( ! empty( $existing ) ) {
+		return $existing;
+	}
+
+	global $wpdb;
+	$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->options} SET option_value = LAST_INSERT_ID(CAST(option_value AS UNSIGNED) + 1) WHERE option_name = %s", 'coreve_next_order_seq' ) );
+	$seq = (int) $wpdb->get_var( "SELECT LAST_INSERT_ID()" );
+
+	if ( ! $seq || $seq < 99817 ) {
+		$seq = 99817;
+		update_option( "coreve_next_order_seq", "99817" );
+	}
+
+	$custom_number = "KLE" . $seq;
+	$order->update_meta_data( "_coreve_order_number", $custom_number );
+	$order->save_meta_data();
+
+	return $custom_number;
+}
+add_action( "woocommerce_new_order", "coreve_assign_order_number", 10, 2 );
+
+/**
+ * Filter WooCommerce order number to use the KLE sequential format.
+ */
+function coreve_custom_order_number( $order_number, $order ) {
+	if ( ! $order instanceof WC_Order ) {
+		$order = wc_get_order( $order );
+	}
+	if ( ! $order ) {
+		return $order_number;
+	}
+
+	// Legacy test orders remain with their numeric IDs
+	if ( (int) $order->get_id() <= 213 ) {
+		return $order_number;
+	}
+
+	$assigned = $order->get_meta( "_coreve_order_number" );
+	if ( ! empty( $assigned ) ) {
+		return $assigned;
+	}
+
+	return coreve_assign_order_number( $order->get_id(), $order );
+}
+add_filter( "woocommerce_order_number", "coreve_custom_order_number", 10, 2 );
+
+/**
+ * Enable order search by custom order number (KLExxxxx) in WooCommerce Admin.
+ */
+add_filter( "woocommerce_order_table_search_query_meta_keys", function( $meta_keys ) {
+	$meta_keys[] = "_coreve_order_number";
+	return $meta_keys;
+} );
+add_filter( "woocommerce_shop_order_search_fields", function( $fields ) {
+	$fields[] = "_coreve_order_number";
+	return $fields;
+} );
