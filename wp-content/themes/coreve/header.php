@@ -12,7 +12,7 @@
 	<div class="trust-bar">
 		<span>Women-first sneakers</span>
 		<span>7-day size exchange</span>
-		<span>Cash on delivery available</span>
+		<span>Free express shipping across India</span>
 	</div>
 	<header id="masthead" class="site-header">
 		<div class="header-inner">

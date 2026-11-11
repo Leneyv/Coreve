@@ -30,10 +30,10 @@
 				<div>
 					<h4>Social Media</h4>
 					<ul>
-						<li><a href="#"><i class="fa-brands fa-facebook" aria-hidden="true"></i> Facebook</a></li>
-						<li><a href="#"><i class="fa-brands fa-instagram" aria-hidden="true"></i> Instagram</a></li>
-						<li><a href="#"><i class="fa-brands fa-youtube" aria-hidden="true"></i> YouTube</a></li>
-						<li><a href="#"><i class="fa-brands fa-x-twitter" aria-hidden="true"></i> X (Twitter)</a></li>
+						<li><a href="#"><i class="ph ph-facebook-logo" aria-hidden="true"></i> Facebook</a></li>
+						<li><a href="https://www.instagram.com/coreve.in" target="_blank" rel="noopener noreferrer"><i class="ph ph-instagram-logo" aria-hidden="true"></i> Instagram</a></li>
+						<li><a href="#"><i class="ph ph-youtube-logo" aria-hidden="true"></i> YouTube</a></li>
+						<li><a href="#"><i class="ph ph-x-logo" aria-hidden="true"></i> X (Twitter)</a></li>
 					</ul>
 				</div>
 			</div>
@@ -55,8 +55,7 @@
 			<div class="cart-drawer-trust">
 				<p><i class="ph ph-truck" aria-hidden="true"></i> Free shipping across India &middot; 2&ndash;10 business days depending on location</p>
 				<p><i class="ph ph-arrow-counter-clockwise" aria-hidden="true"></i> 7-day size exchange</p>
-				<p><i class="ph ph-shield-check" aria-hidden="true"></i> Cash on Delivery available (&#8377;99 fee)</p>
-				<p><i class="ph ph-ruler" aria-hidden="true"></i> Not sure of your size? <a href="<?php echo esc_url( home_url( '/size-guide/' ) ); ?>">See the Size Guide</a></p>
+<p><i class="ph ph-ruler" aria-hidden="true"></i> Not sure of your size? <a href="<?php echo esc_url( home_url( '/size-guide/' ) ); ?>">See the Size Guide</a></p>
 				<p><i class="ph ph-whatsapp-logo" aria-hidden="true"></i> Need help? <a href="https://wa.me/919363936665" target="_blank" rel="noopener">WhatsApp us</a></p>
 			</div>
 			<div class="cart-drawer-footer">

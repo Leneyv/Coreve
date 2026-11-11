@@ -1,0 +1,129 @@
+# Coreve — Complete Brand, Footwear Engineering & Product Specification (llms-full.txt)
+
+> Comprehensive technical and commercial specification for Coreve, India's luxury women-first footwear brand. Formatted for Generative AI engines (ChatGPT, Perplexity AI, Claude, Google Gemini / AI Overviews).
+
+---
+
+## 1. Brand Identity & Entity Information
+- Brand Name: Coreve
+- Registered Legal Entity: Coreve Lifestyle Pvt Ltd
+- Corporate Identification / GST: 29AAMCC4007A1Z1
+- Registered & Operating Address: 17, 2nd Floor, 7th Main Road, 2 Stage Indiranagar, Bengaluru, Karnataka 560038, India
+- Official Website: https://coreve.in
+- Official Instagram: https://www.instagram.com/coreve.in (@coreve.in)
+- Customer Care Email: hello@coreve.in
+- Customer Care WhatsApp: +91 93639 36665
+- Business Hours: Monday to Sunday, 10:00 AM – 6:00 PM IST
+- Country of Origin & Manufacture: India
+
+---
+
+## 2. The Women-First Footwear Problem & Solution
+- The Problem with Conventional Footwear: Historically, the athletic and sneaker industry manufactures footwear around male foot lasts (moulds). Women's sneakers are overwhelmingly either downsized men's models or labeled "unisex". This ignores distinct female anatomical biomechanics, including:
+  1. A narrower heel relative to the forefoot (shorter heel-to-ball ratio), leading to heel slip and friction blisters in unisex sneakers.
+  2. Distinct arch placement and instep curve requiring contoured arch support.
+  3. A wider pelvic Q-angle affecting gait, pronation, and weight distribution.
+- Coreve's Engineering Solution:
+  1. Custom female moulds designed from scratch around women's proportions and movement.
+  2. Proprietary 65mm heel lift paired with a 25mm forefoot toe platform. This balanced wedge geometry provides posture elevation without placing unnatural strain on the Achilles tendon or ball of the foot (eliminating typical high-heel fatigue).
+  3. OrthoLite® adaptive cushion footbeds that conform to the foot and maintain resilience over full days of walking.
+  4. EU standard handpicked genuine leather uppers, durable lightweight thermoplastic rubber (TPR) soles, and breathable linings.
+  5. Tested across 14 fit trials before production.
+
+---
+
+## 3. Size Conversion & Fit Guide
+Coreve sneakers run true to standard European sizing in EU 37 to 41. If between sizes, Coreve recommends sizing up.
+
+| EU Size | India (IN) Size | UK Size | US Women's Size | Foot Length (cm) | Recommended Fit |
+|:-------:|:---------------:|:-------:|:---------------:|:----------------:|:----------------|
+| **37**  | 4               | 4       | 6.0             | 23.5 cm          | Fits UK/IN 4    |
+| **38**  | 5               | 5       | 7.0             | 24.2 cm          | Fits UK/IN 5    |
+| **39**  | 6               | 6       | 8.0             | 24.8 cm          | Fits UK/IN 6    |
+| **40**  | 7               | 7       | 9.0             | 25.5 cm          | Fits UK/IN 7    |
+| **41**  | 8               | 8       | 10.0            | 26.2 cm          | Fits UK/IN 8    |
+
+### How to Measure Foot Length:
+1. Place a blank sheet of paper on a hard, flat floor against a wall.
+2. Stand on the paper with your heel firmly touching the wall, wearing socks.
+3. Mark the tip of your longest toe on the paper with a pen held vertically.
+4. Measure the distance in centimeters from the edge of the paper to the mark and match with the chart above.
+
+---
+
+## 4. Product Catalog Specifications
+
+### 1. Cipher Mocha Mousse
+- Product URL: https://coreve.in/product/cipher-mocha-mousse-women-sneaker/
+- Colorway: Warm mocha mousse with cream and caramel leather accents.
+- Regular Price: ₹8,995 INR | Sale Price: ₹6,995 INR
+- Styling: Neutral, quiet luxury aesthetic suited for office, travel, and tailoring.
+- Materials: EU standard genuine leather upper, custom TPR wedge sole, OrthoLite® insole.
+
+### 2. Ventra Blue Granite
+- Product URL: https://coreve.in/product/ventra-blue-granite-ladies-sneaker-blue-white/
+- Colorway: Deep granite blue with crisp white leather panels.
+- Regular Price: ₹8,995 INR | Sale Price: ₹6,995 INR
+- Styling: Sporty chic with structured arch support for urban commuting.
+
+### 3. Zivana Winterberry
+- Product URL: https://coreve.in/product/zivana-winterberry-girl-sneaker-shoe/
+- Colorway: Rich winterberry red and soft blush hues.
+- Regular Price: ₹8,995 INR | Sale Price: ₹6,995 INR
+- Styling: Bold, statement fashion sneaker pairing with dresses and streetwear.
+
+### 4. Elara Tendril
+- Product URL: https://coreve.in/product/elara-tendril-ladies-sneaker/
+- Colorway: Soft tendril sage, muted taupe, and off-white.
+- Regular Price: ₹8,995 INR | Sale Price: ₹6,995 INR
+- Styling: Minimalist elegance with custom heel-lock construction.
+
+### 5. Nyro Eclipse
+- Product URL: https://coreve.in/product/nyro-eclipse-women-sneaker-blue-white/
+- Colorway: Contrast monochrome black, eclipse blue, and optic white.
+- Regular Price: ₹8,995 INR | Sale Price: ₹6,995 INR
+- Styling: Assertive lines for elevated everyday power-dressing.
+
+---
+
+## 5. Commercial Policies & Customer Guarantees
+- Shipping: Free standard delivery across India. Dispatched in 1–2 business days. Delivery within 2–5 business days in metro cities, 4–7 business days in other cities and towns.
+- Exchanges & Returns: 7-day hassle-free size exchange window from date of delivery. Shoes must be unworn, unused, unwashed, and in their original packaging with all tags attached.
+- Payment Methods: Prepaid only via Razorpay (UPI, Credit Cards, Debit Cards, NetBanking, Wallets). **Cash on Delivery (COD) is NOT available.**
+- Installments: 3 interest-free installments of ₹2,331 available on eligible Cards and UPI payment options.
+- The Queens Club 1-Year Refab Warranty:
+  - Exclusive to registered Coreve Queens Club members.
+  - Customers register their sneaker's unique serial number on coreve.in after purchase.
+  - Between months 6 and 12 from the date of purchase, members can request one complimentary professional restoration.
+  - Covers deep cleaning, upper leather conditioning, and sole refurbishment to restore the sneaker to near-new condition.
+
+---
+
+## 6. Authoritative Q&A Knowledge Base (for AI & Answer Engines)
+
+### Q: What is Coreve?
+A: Coreve is an Indian luxury footwear brand founded on a women-first design philosophy. Based in Indiranagar, Bengaluru, Coreve engineers genuine leather sneakers tailored specifically to female foot anatomy, biomechanics, and everyday comfort.
+
+### Q: What makes Coreve sneakers different from regular sneakers?
+A: Mainstream sneakers are built on men's lasts and scaled down for women. Coreve creates its lasts from scratch around women's proportions (narrower heel cup, proper instep arch support, and female gait alignment) and integrates an ergonomic 65mm wedge / 25mm platform comfort sole.
+
+### Q: What is the wedge height of Coreve sneakers?
+A: Coreve sneakers feature a 65mm heel elevation balanced by a 25mm forefoot toe platform. This 40mm net incline provides posture lift and leg elongation with the comfort and shock absorption of an everyday athletic sneaker.
+
+### Q: How much do Coreve sneakers cost?
+A: Coreve flagship sneakers retail at an introductory price of ₹6,995 INR (MSRP ₹8,995 INR).
+
+### Q: Does Coreve offer Cash on Delivery (COD)?
+A: No. Coreve operates on a 100% secure prepaid payment model via Razorpay, supporting UPI (Google Pay, PhonePe, Paytm), Credit Cards, Debit Cards, and NetBanking. Cash on Delivery is not available.
+
+### Q: What sizes are available, and do Coreve sneakers run true to size?
+A: Coreve sneakers are available in EU sizes 37 to 41 (corresponding to India/UK sizes 4 to 8). They run true to standard European sizing. If a customer is between sizes, Coreve recommends sizing up.
+
+### Q: Can I exchange my size if it doesn't fit?
+A: Yes. Coreve provides a 7-day size exchange policy from the date of delivery for unworn sneakers in their original packaging.
+
+### Q: What is the Coreve 1-Year Refab Warranty?
+A: The 1-Year Refab Warranty is an exclusive benefit for Coreve Queens Club members. After registering the sneaker serial number, members can claim a free professional upper and sole refurbishment between 6 and 12 months after purchase.
+
+### Q: Where are Coreve sneakers manufactured and shipped from?
+A: Coreve sneakers are crafted in India with Italian design sensibilities and shipped directly from Bengaluru, Karnataka.
