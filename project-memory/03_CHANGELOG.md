@@ -207,3 +207,19 @@ This changelog records all code, configuration, database, and infrastructure cha
 * **How Tested & Result:** Validated markdown link structures and local file paths. Result: Tested (Pass).
 * **Potential Breakages:** None (documentation files only).
 * **How to Undo:** Delete `/Users/lenee/coreve/project-memory`.
+
+---
+
+### CHG-015
+* **Date & Time:** 2026-11-18
+* **Linked Command:** [CMD-018](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#cmd-018)
+* **Type:** Fixed / Config
+* **What Changed & Why:** Blocked public HTTP web access to `/project-memory/` in Nginx (`deny all; return 404;`). While memory docs never store raw credentials or PII, internal system blueprints and command logs should not be exposed to external web crawlers or scrapers.
+* **Files Touched:**
+  - `/etc/nginx/sites-available/coreve.in`
+  - `/var/www/coreve.in/nginx-coreve.in.conf`
+  - `/Users/lenee/coreve/nginx-coreve.in.conf`
+* **How Tested & Result:** Ran `curl -sI https://coreve.in/project-memory/00_README_FOR_AI.md` and confirmed HTTP/2 404 response. Result: Tested (Pass).
+* **Potential Breakages:** None.
+* **How to Undo:** Remove the `location ^~ /project-memory/` block from `/etc/nginx/sites-available/coreve.in` and reload Nginx.
+

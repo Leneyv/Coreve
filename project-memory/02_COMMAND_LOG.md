@@ -202,3 +202,18 @@ This log records every instruction given by the user in strict chronological ord
   - `/Users/lenee/coreve/project-memory/11_AGENT_AND_PROMPTS.md`
 * **Result:** Done.
 * **Changelog Link:** [CHG-014](file:///Users/lenee/coreve/project-memory/03_CHANGELOG.md#chg-014)
+
+---
+
+### CMD-018
+* **Date & Time:** 2026-11-18
+* **User Instruction:** "Not requested by user" (Proactive Security Hardening following Project Memory initialization)
+* **Understanding:** Prevent public HTTP web requests from downloading internal `/project-memory/` files by blocking access in the Nginx server configuration (`deny all; return 404;`).
+* **What Was Done:** Added an isolated location block `location ^~ /project-memory/ { deny all; return 404; }` in `/etc/nginx/sites-available/coreve.in`, tested syntax with `nginx -t`, reloaded Nginx, backed up to `/var/www/coreve.in/nginx-coreve.in.conf`, and synced locally.
+* **Files Created or Changed:**
+  - `/etc/nginx/sites-available/coreve.in`
+  - `/var/www/coreve.in/nginx-coreve.in.conf`
+  - `/Users/lenee/coreve/nginx-coreve.in.conf`
+* **Result:** Done.
+* **Changelog Link:** [CHG-015](file:///Users/lenee/coreve/project-memory/03_CHANGELOG.md#chg-015)
+
