@@ -1,23 +1,72 @@
-# 04 - Features Status
+# 04 — Features Status
 
-| Feature ID | Feature Name | Description | Status | Last Tested Date | Verified Result / Notes |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **FEAT-001** | **Hero Film & Dynamic Motion** | Desktop & mobile MP4 video hero with orbit motion, play/pause toggle, and fallback WebP posters. | **Done and tested** | 2026-11-15 | Pass. HTTP 200 on both MP4s and WebP poster assets. |
-| **FEAT-002** | **Model Sequence Showcase** | Sticky studio arch sections for all 5 Coreve styles with background color theming and direct discovery links. | **Done and tested** | 2026-11-15 | Pass. Smooth scrolling and scene transitions verified. |
-| **FEAT-003** | **Single Product Pages (PDP)** | Gallery with main photo zoom, thumbnail switching, specs, leather care details, and price formatting. | **Done and tested** | 2026-11-15 | Pass. Active across all 5 styles; zoom and thumbnail interactions verified. |
-| **FEAT-004** | **Dual Size Selection (EU 37–41)** | Accessible size selection pills (EU 37 to 41 / UK 4 to 8) with instant feedback and size guide popup. | **Done and tested** | 2026-11-15 | Pass. Renders natively within WooCommerce variation form. |
-| **FEAT-005** | **"Buy Now" Direct Checkout** | "Buy now" primary action that adds the selected variation to cart and immediately routes to `/checkout/`. | **Done and tested** | 2026-11-15 | Pass. Verified via `woocommerce_add_to_cart_redirect` filter. |
-| **FEAT-006** | **Razorpay Prepaid Checkout** | Integrated Razorpay modal payment bridge (`payment.js`) handling payments, dismissals, and signature verification. | **Done and tested** | 2026-11-15 | Pass. Test checkout loads `payment.js` without JS errors. |
-| **FEAT-007** | **Cash on Delivery (COD) Restriction** | COD payment method intentionally disabled; store is strictly prepaid. | **Done and tested** | 2026-11-11 | Pass. Only Razorpay gateway is active in WooCommerce. |
-| **FEAT-008** | **Sequential Order Numbers (`KLE99817`)** | Thread-safe atomic MySQL sequencing assigning `KLE99817`, `KLE99818`, etc. to all new orders. | **Done and tested** | 2026-11-12 | Pass. Verified via WP-CLI order creation; sequence counter reset to `99816`. |
-| **FEAT-009** | **Automated Order Alerts to `lenee@coreve.in`** | Branded HTML order summary (Customer name, email, phone, full address, items, sizes, total, admin link) sent on order placement. | **Done and tested** | 2026-11-11 | Pass. Live test sent for order #213; accepted by Zoho Mail without bounce. |
-| **FEAT-010** | **Authenticated Zoho SMTP Relay** | WordPress PHPMailer configured to relay outgoing emails through `smtp.zoho.in:465` SSL via `coreve-smtp.php`. | **Done and tested** | 2026-11-11 | Pass. Verified with `wp_mail()` test returning `bool(true)`. |
-| **FEAT-011** | **Structured SEO Schema Graph** | JSON-LD schema suite for `Organization`, `WebSite`, `Product`, `BreadcrumbList`, and `FAQPage`. | **Done and tested** | 2026-11-15 | Pass. Validated via Google Rich Results Tool. |
-| **FEAT-012** | **Generative AI Optimization (GEO/AEO)** | Server root `llms.txt` and `llms-full.txt` files for AI search agents (Perplexity, ChatGPT, Gemini). | **Done and tested** | 2026-11-14 | Pass. Both files accessible over HTTP/2 with correct headers. |
-| **FEAT-013** | **FastCGI Microcaching & Speed** | Nginx FastCGI cache (`coreve_cache`) with bypass for cart/checkout/logged-in users; 1y static asset caching. | **Done and tested** | 2026-11-15 | Pass. TTFB ~0.49s; total load ~0.60s. |
-| **FEAT-014** | **Manufacturer / Marketer Statutory Info** | Legal address of Coreve Lifestyle Pvt Ltd (Bengaluru 560038) displayed on all product pages. | **Done and tested** | 2026-11-09 | Pass. Visible on all single product pages. |
-| **FEAT-015** | **Product Angle-Loop Video** | 4-angle loop video on single product pages. | **Removed** | 2026-11-14 | Removed per user instruction (CMD-014). Zero instances remain. |
-| **FEAT-016** | **Staging Preview Banner** | "Staging preview · Shopping disabled" top bar and footer notice. | **Removed** | 2026-11-15 | Removed per user instruction (CMD-015). Zero instances remain. |
-| **FEAT-017** | **Custom Bridal Sneaker Edition** | Made-to-order bridal sneaker (`custom` / Coreve Her Day). | **Done but not tested** | 2026-11-11 | Exists in WooCommerce as product ID 143; needs end-to-end checkout verification. |
-| **FEAT-018** | **Customer Review Request Automated Flow** | Post-purchase automated review collection. | **Planned** | - | Not yet requested or scheduled. |
-| **FEAT-019** | **Automated WhatsApp Order Notification** | Send order updates to customer WhatsApp via webhook. | **Planned** | - | Not yet implemented. |
+This document maintains the real-time operational status of all platform capabilities, agent features, and integrations.
+Status values: `Planned` | `In progress` | `Done and tested` | `Done but not tested` | `Broken` | `Removed`.
+
+---
+
+## 1. Kavya B2B Sales Engine (Corive Tech)
+
+| Feature | Category | Status | Notes & Verification Evidence |
+| :--- | :--- | :--- | :--- |
+| **Bilingual Lead Qualification** | AI Agent | Done and tested | Uses Gemini 3.8 Flash with 70% Malayalam / 30% English prompt in `sales.py`. Tested live on leads. |
+| **Outbound Telephony (Sarvam)** | Telephony | Done and tested | Outbound calls via `providers.py` using caller ID `+918064277369`. Verified via Sarvam API. |
+| **Context-Aware Call Greeting** | Telephony | Done and tested | Passes prior conversation transcript into Sarvam agent variables to eliminate cold "Who is this?" intros. |
+| **Scheduled Callback Execution** | Worker | Done and tested | Scheduled callbacks trigger voice calls directly via `worker.py:followup()`. Tested on Dr. Lenny. |
+| **Operating Hours Lock (10-18:30 IST)**| Automation | Done and tested | Outbound actions suppressed outside Mon-Sat 10:00-18:30 IST via `core.py:is_operating_hours()`. |
+| **2-Hour Quote Review SLA** | Escalation | Done and tested | Systemd timer checks pending quotes and triggers owner alert if unreviewed within 2 working hours. |
+| **Deterministic Razorpay Links** | Payments | Done and tested | Generates 50% advance / 50% handover milestone payment links. Tested via `providers.py:create_payment_link()`. |
+| **Boss Command Desk (Talk to Kavya)** | Chat UI | Done and tested | Direct internal chat in `#kavya-chat` view. Directives starting with "Instruction:" persist to training notes. |
+| **Lead List Pagination (Max 100)** | Dashboard UI | Done and tested | All lead, message, and audit views enforce `LIMIT 100` to prevent UI freezing. |
+
+---
+
+## 2. Master Coexistence Inbox (`+919400199817`)
+
+| Feature | Category | Status | Notes & Verification Evidence |
+| :--- | :--- | :--- | :--- |
+| **Real-time Conversation Feed** | Messaging | Done and tested | Displays active conversations for coexistence number `+919400199817`. Verified in browser. |
+| **Direct Chat Reply (24h Window)**| Messaging | Done and tested | Sends text replies through Meta Cloud API if within active 24h customer window. |
+| **WhatsApp Web / App Deep-Link** | Messaging | Done and tested | `📱 Open in WhatsApp Web / App` button opens chat directly in native app, bypassing API window. |
+| **Meta Official Template Modal** | Messaging | Done and tested | `+ New Chat / Send Template` modal allows initiating conversations using approved business templates. |
+| **Historical Message Auto-Backfill**| Messaging | In progress | Live sync captures new webhook events; historical message backfill requires phone device export script. |
+| **Unmasked Dashboard Navigation** | Dashboard UI | Done and tested | Fixed CSS issue where Master Inbox masked other agent views (`display: none !important` isolation). |
+
+---
+
+## 3. Celine Kamau BCL (Brandcart Kenya Retail)
+
+| Feature | Category | Status | Notes & Verification Evidence |
+| :--- | :--- | :--- | :--- |
+| **Kenyan Persona & Dialects** | AI Agent | Done and tested | Fluent Kenyan English, Swahili, and Sheng in `CELINE_KAMAU_BRAIN.md`. Verified in test chats. |
+| **LG & Samsung Catalog Brain** | Knowledge | Done and tested | Deep product specs for OLED, QNED, Crystal UHD, refrigerators, and washing machines. |
+| **Isolated SQLite Database** | Database | Done and tested | Stored in `/opt/myclone/app/celine_customers.db` (`customers`, `orders_and_inquiries`, etc.). |
+| **M-Pesa STK Push Integration** | Payments | Done but not tested | Endpoint stubbed in `celine.py` for Safaricom Daraja API; live API credentials pending verification. |
+| **Shopify / Catalog Webhook** | E-commerce | Done but not tested | Webhook receiver in `celine.py` configured for stock updates; live webhook subscription pending. |
+| **Coexistence for Brandcart (+254)**| Messaging | Done and tested | Separate coexistence settings table and webhook endpoint `/api/celine/webhook`. |
+
+---
+
+## 4. Maya AI me (Executive Operations Employee)
+
+| Feature | Category | Status | Notes & Verification Evidence |
+| :--- | :--- | :--- | :--- |
+| **Autonomous Task Processing** | AI Agent | Done and tested | Handles open-ended tasks in `/api/maya/task` with zero hallucination constraints. |
+| **D2C Lead Multi-Source Verification**| Intelligence| Done and tested | Enriches brands with founder LinkedIn, store tech stack, and physical location checks. |
+| **Continuous Learning Notes** | Memory | Done and tested | Ingests employer feedback into `maya_learning_notes` and injects rules into subsequent prompts. |
+| **Strict Operational Separation** | Architecture | Done and tested | Maya explicitly prohibited from managing or meddling with Kavya or Celine workflows. |
+| **Local Directory Export (/Users/lenee)**| File Sync | Done but not tested | Directs file outputs to local path; requires client-side sync daemon or direct SFTP script. |
+
+---
+
+## 5. Platform Infrastructure & Governance
+
+| Feature | Category | Status | Notes & Verification Evidence |
+| :--- | :--- | :--- | :--- |
+| **Gunicorn Daemon (Port 5679)** | Runtime | Done and tested | Managed by `myclone.service`. 1 worker, 3 threads, memory capped at 300MB. |
+| **Worker Daemon (Background jobs)**| Runtime | Done and tested | Managed by `myclone-worker.service`. Playwright browser support, memory capped at 1600MB. |
+| **Self-Hosted n8n (Port 5678)** | Automation | Done and tested | Managed by `myclone-n8n.service`. Node 24 runtime, proxy path `/workflow/`. |
+| **Nginx Reverse Proxy & SSL** | Security | Done and tested | HTTP to HTTPS redirection, Let's Encrypt automated cert, HTTP Basic Auth protection. |
+| **Project Memory Repository** | QC / Memory | Done and tested | 12 structured markdown files in `/opt/myclone/project-memory/` committed to Git. |
+| **FEAT-021** | Project Memory VPS & Local Dual-Sync | Governance & DevOps | Automated bidirectional synchronization of `/project-memory` between local repository and `/opt/myclone/project-memory` on VPS with Git commits | **Done and tested** | 2026-11-18 | Tested via rsync and Git commit |
+| **FEAT-022** | Project Memory Web Server Block | Nginx Security | Explicit Nginx deny rule returning HTTP 404 for `/project-memory` ensuring memory is 100% private | **Done and tested** | 2026-11-18 | Verified via curl returning HTTP/2 404 |

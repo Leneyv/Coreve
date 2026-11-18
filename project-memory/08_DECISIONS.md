@@ -1,46 +1,55 @@
-# 08 - Architecture Decision Records (ADRs)
+# 08 — Architectural Decisions (ADR)
+
+This record captures key architectural and technical decisions, the problem context, chosen solutions, and alternative options that were evaluated and rejected.
 
 ---
 
-### ADR-001: Hybrid Storefront Module (`coreve-storefront`) vs Standalone Static Site vs Full Next.js
-* **Context:** The client designed a modern, visual design preview under `/staging/` (with video heroes, interactive studio scenes, and custom typography) and wanted it brought live.
-* **Alternatives Considered:**
-  1. *Pure Static HTML via Nginx `location = /`:* Rejected because it completely bypassed WordPress `wp_head()`, breaking analytics, SEO JSON-LD schemas, and dynamic WooCommerce cart/checkout sessions.
-  2. *Full Next.js Headless Rebuild:* Rejected due to high operational complexity and unnecessary hosting overhead for a 5-product boutique catalog.
-  3. *Hybrid WordPress Integration via `mu-plugins`:* **Chosen.**
-* **Rationale:** By loading the storefront through `mu-plugins/coreve-storefront-loader.php` and `template_include`, the site gains the blazing speed (<0.5s TTFB) and aesthetic perfection of the custom design while retaining full WordPress SEO, dynamic WooCommerce variation forms, and Razorpay payment handling.
+### ADR-001: Autonomous Multi-Agent Segregation vs Monolithic Bot
+- **Context:** The business requires handling distinct domains: Kerala B2B IT sales (Kavya), Brandcart Kenya retail e-commerce (Celine Kamau), and executive intelligence (Maya AI me).
+- **Decision:** Implement strict isolation between agents with separate Python blueprints, dedicated database tables, distinct prompts, and isolated UI sub-views. Maya and Celine are strictly barred from interfering with Kavya's pipeline.
+- **Alternatives Rejected:**
+  - *Monolithic single prompt agent:* Fails due to context contamination, confused linguistic registers (mixing Swahili and Malayalam), and dangerous cross-domain hallucinations.
+  - *Microservices on separate servers:* Rejected due to unnecessary operational complexity, multi-server hosting costs, and complex inter-service RPC overhead.
 
 ---
 
-### ADR-002: Authenticated Zoho SMTP Relay vs Local Sendmail Direct Port 25
-* **Context:** Order notifications to `lenee@coreve.in` and customer order emails were failing completely on the server.
-* **Alternatives Considered:**
-  1. *Direct Port 25 Delivery via Postfix:* Rejected. Because `coreve.in`'s MX is hosted on Zoho Mail India, Zoho's anti-spoofing policy immediately rejects incoming unauthenticated port 25 connections claiming to originate from `@coreve.in` (`554 5.7.1 Antispam policy`). Furthermore, shared cloud datacenter IPs fail Forward-Confirmed Reverse DNS (FCrDNS).
-  2. *Third-Party Transactional API (SendGrid, Mailgun):* Rejected as unnecessary extra monthly expense and third-party dependency.
-  3. *Authenticated Zoho SMTP via `coreve-smtp.php`:* **Chosen.**
-* **Rationale:** Sending through `smtp.zoho.in:465` (SSL) authenticates directly with Zoho's infrastructure, guaranteeing 100% inbox delivery and full SPF/DKIM/DMARC alignment.
+### ADR-002: Dual Database Strategy (PostgreSQL + SQLite)
+- **Context:** Kavya and the core platform operate complex relational pipelines (leads, ledger, jobs, audit logs) requiring ACID transactions and concurrency. Celine operates retail inventory and customer lists specific to a single subsidiary store in Kenya.
+- **Decision:** Use PostgreSQL for the core system (`myclone`), and use an embedded SQLite database (`celine_customers.db`) for Celine.
+- **Alternatives Rejected:**
+  - *Storing everything in one PostgreSQL schema:* Poses schema migration risks across unrelated business models and bloats lead tables.
+  - *Running a separate Postgres database instance:* Unnecessary resource overhead on a single VPS with 4GB RAM.
 
 ---
 
-### ADR-003: Atomic MySQL Sequence (`LAST_INSERT_ID`) for Order Numbering (`KLE99817`+) vs Plugin
-* **Context:** The client required all future order numbers to follow a custom branded sequence starting at `KLE99817`.
-* **Alternatives Considered:**
-  1. *Commercial WooCommerce Sequential Order Numbers Plugin:* Rejected to prevent plugin bloat, database overhead, and subscription costs.
-  2. *Standard PHP Counter in wp_options:* Rejected due to concurrency hazards (race conditions could assign duplicate numbers if two customers checkout simultaneously).
-  3. *Atomic MySQL `LAST_INSERT_ID(CAST(option_value AS UNSIGNED) + 1)`:* **Chosen.**
-* **Rationale:** Executing `UPDATE wp_options SET option_value = LAST_INSERT_ID(...)` is a single atomic SQL transaction handled inside the MySQL engine, guaranteeing 100% thread-safety across concurrent checkouts.
+### ADR-003: Official Meta Cloud API with Coexistence vs 3rd-Party BSPs
+- **Context:** The owner uses their primary business number `+919400199817` on a physical phone with WhatsApp Business app, while also wanting automated inbox management and API-driven messaging.
+- **Decision:** Utilize official Meta Cloud API with Phone Coexistence enabled. In the UI, provide dual actions: `📱 Open in WhatsApp Web / App` (bypasses 24-hour customer service window) and `⚡ Send Meta Official Template` (triggers pre-approved Meta HSM via Cloud API).
+- **Alternatives Rejected:**
+  - *Third-party BSPs (Twilio, WATI, AiSensy):* High per-conversation markup, vendor lock-in, and frequent coexistence synchronization failures.
+  - *Unofficial WhatsApp Web scraping (Puppeteer / Baileys):* High risk of phone number ban by Meta, fragile session QR drops, and unreliable message delivery.
 
 ---
 
-### ADR-004: Direct "Buy Now" Auto-Redirect to Checkout vs Traditional Cart Drawer
-* **Context:** The brand sells a curated collection of 5 premium sneakers (average order value ₹6,995).
-* **Alternatives Considered:**
-  1. *Multi-Step Cart Drawer:* Rejected because customers buying luxury sneakers rarely add multiple pairs in a single transaction; extra cart steps add friction and increase cart abandonment.
-  2. *Direct Buy Now Redirect (`woocommerce_add_to_cart_redirect`):* **Chosen.**
-* **Rationale:** Upon size selection and tapping "Buy now", the customer is routed directly to the streamlined `/checkout/` page, maximizing conversion velocity.
+### ADR-004: Context-Accumulating Outbound Telephony
+- **Context:** Early outbound callbacks to scheduled leads (e.g. Dr. Lenny) caused Kavya to ask generic introductory questions ("Hello, I am Kavya. Who am I speaking with?"), causing friction with leads who had already spoken to Corive.
+- **Decision:** Accumulate full prior conversation transcripts (`lead['conversation_transcript']`) into the Sarvam call dossier. Explicitly pass `customer_name` and `prior_conversation` as agent variables, instructing Kavya to greet the lead by name and resume the conversation seamlessly.
+- **Alternatives Rejected:**
+  - *Stateless call prompts:* Results in repetitive, robotic discovery questions that alienate qualified leads.
 
 ---
 
-### ADR-005: Strictly Prepaid (Cash on Delivery Disabled)
-* **Context:** Return-to-Origin (RTO) in Indian footwear e-commerce exceeds 30-40% when Cash on Delivery is enabled, eroding unit economics on handmade leather goods.
-* **Decision:** Keep Cash on Delivery permanently disabled. Only Razorpay prepaid transactions (UPI, Cards, NetBanking) are accepted.
+### ADR-005: Deterministic 50/50 Milestone Payments via Razorpay
+- **Context:** Custom IT services are vulnerable to scope creep and unpaid completion deliveries.
+- **Decision:** Strictly enforce a 50% advance deposit before commencement and 50% handover payment upon completion. All payment links are generated deterministically through the Razorpay API with unique IDs recorded in the `ledger` table.
+- **Alternatives Rejected:**
+  - *Unstructured bank transfers:* High manual reconciliation burden and delayed milestone handoffs.
+  - *Stripe / International gateways:* High currency conversion fees and lack of UPI support in Kerala.
+
+---
+
+### ADR-006: View Isolation with Enforced Inline Style Overrides
+- **Context:** Switching between Master Inbox and other agent views (Kavya, Celine, Maya) resulted in view masking where `#view-master-inbox` overlapped other dashboards due to inline `display: flex;`.
+- **Decision:** Add `.category-view { display: none !important; }` in CSS and enhance `navigateTo()` in `index.html` to programmatically apply `setProperty('display', 'none', 'important')` to all non-active views.
+- **Alternatives Rejected:**
+  - *Multi-page multi-HTML routing:* Requires full page reloads, drops ongoing WebSocket/polling states, and slows down admin interaction.

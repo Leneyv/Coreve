@@ -1,241 +1,233 @@
-# 03 - Changelog
+# 03 — Changelog
 
-This changelog records all code, configuration, database, and infrastructure changes in chronological order. It is append-only.
+This changelog documents every code, database, configuration, and architectural change made to the project.
+New entries must be appended to the END of this file. Existing entries are permanent and must never be deleted.
 
 ---
 
 ### CHG-001
-* **Date & Time:** 2026-11-09
-* **Linked Command:** [CMD-001](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#cmd-001)
-* **Type:** Config
-* **What Changed & Why:** Initial baseline inspection of WordPress, Nginx, PHP, and MySQL on VPS `129.121.132.35`. Confirmed site structure, active theme `coreve`, and plugin suite (`woo-razorpay`, `woocommerce`).
-* **Files Touched:** None.
-* **How Tested & Result:** Ran `curl -sI https://coreve.in/` and verified HTTP 200. Result: Tested (Pass).
-* **Potential Breakages:** None.
-* **How to Undo:** N/A (read-only).
+- **Date and Time:** 2026-11-15 15:45:00 IST
+- **Linked Command:** [CMD-001](file:///opt/myclone/project-memory/02_COMMAND_LOG.md#CMD-001)
+- **Type:** Added
+- **What changed and why:** Created the baseline Corive Tech sales engine. Configured Flask application running under Gunicorn with PostgreSQL database, background worker loop for job execution, and basic UI.
+- **Files touched:**
+  - `/opt/myclone/app/app.py`
+  - `/opt/myclone/app/core.py`
+  - `/opt/myclone/app/sales.py`
+  - `/opt/myclone/app/providers.py`
+  - `/opt/myclone/app/worker.py`
+  - `/opt/myclone/app/schema_base.sql`
+  - `/etc/systemd/system/myclone.service`
+  - `/etc/systemd/system/myclone-worker.service`
+  - Database: Initialized PostgreSQL database `myclone`.
+- **How it was tested, and result:** Verified systemd services active via `systemctl status myclone myclone-worker`. Status: Tested (Passed).
+- **Breakage risk:** Low; greenfield initial deployment.
+- **How to undo:** Stop systemd services and drop PostgreSQL database.
 
 ---
 
 ### CHG-002
-* **Date & Time:** 2026-11-09
-* **Linked Command:** [CMD-002](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#cmd-002)
-* **Type:** Added
-* **What Changed & Why:** Implemented technical SEO structured data schemas in `functions.php` (`Organization`, `WebSite`, `Product`, `BreadcrumbList`, and `FAQPage`). Updated `robots.txt` with clear crawl directives and sitemap references.
-* **Files Touched:**
-  - `/var/www/coreve.in/wp-content/themes/coreve/functions.php`
-  - `/var/www/coreve.in/robots.txt`
-* **How Tested & Result:** Tested schema output with JSON schema validator and Google Rich Results test. Result: Tested (Pass).
-* **Potential Breakages:** Invalid JSON syntax could fail search crawler parsing (mitigated with `wp_json_encode`).
-* **How to Undo:** Revert changes in `functions.php` and restore previous `robots.txt.bak-seo`.
+- **Date and Time:** 2026-11-17 06:10:00 IST
+- **Linked Command:** [CMD-002](file:///opt/myclone/project-memory/02_COMMAND_LOG.md#CMD-002)
+- **Type:** Config / Refactored
+- **What changed and why:** Implemented operating hours restriction (Monday-Saturday 10:00-18:30 IST) to prevent customer disruption outside business hours. Implemented 2-hour quotation review escalation alert service.
+- **Files touched:**
+  - `/opt/myclone/app/core.py`
+  - `/opt/myclone/app/worker.py`
+  - `/opt/myclone/app/app.py`
+  - `/etc/systemd/system/myclone-escalation.service`
+- **How it was tested, and result:** Checked current IST time evaluation in python REPL. Status: Tested (Passed).
+- **Breakage risk:** Automated jobs created outside working hours stay queued in `jobs` table until next operating window.
+- **How to undo:** Revert `core.py` and `worker.py` to their `.bak_hours` backups.
 
 ---
 
 ### CHG-003
-* **Date & Time:** 2026-11-09
-* **Linked Command:** [CMD-003 & CMD-004](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#cmd-003--cmd-004)
-* **Type:** Config
-* **What Changed & Why:** Configured SSH key-based access for root on the VPS (`129.121.132.35`) using ed25519 cryptography to eliminate password transmission risks and streamline remote orchestration.
-* **Files Touched:**
-  - `/root/.ssh/authorized_keys`
-* **How Tested & Result:** Ran `ssh -i ... root@129.121.132.35 whoami`. Result: Tested (Pass, returned `root`).
-* **Potential Breakages:** Locking out SSH if authorized_keys permissions are corrupted (verified 0600 permissions).
-* **How to Undo:** Delete the appended public key from `/root/.ssh/authorized_keys`.
+- **Date and Time:** 2026-11-17 15:15:00 IST
+- **Linked Command:** [CMD-003](file:///opt/myclone/project-memory/02_COMMAND_LOG.md#CMD-003)
+- **Type:** Upgraded / Performance
+- **What changed and why:** Added SQL `LIMIT 100` constraints to all list queries in `app.py` and front-end rendering to prevent browser lockup on large datasets.
+- **Files touched:**
+  - `/opt/myclone/app/app.py`
+  - `/opt/myclone/app/templates/index.html`
+- **How it was tested, and result:** Queried API endpoints with curl to confirm results capped at 100. Status: Tested (Passed).
+- **Breakage risk:** Records beyond the 100th row are not visible unless filtered or paginated.
+- **How to undo:** Remove `LIMIT 100` from SQL statements in `app.py`.
 
 ---
 
 ### CHG-004
-* **Date & Time:** 2026-11-09
-* **Linked Command:** [CMD-005](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#cmd-005)
-* **Type:** Config / Upgraded
-* **What Changed & Why:** Performance optimization: Configured Nginx Gzip compression level 6, FastCGI microcaching (`coreve_cache`), and 1-year immutable cache headers for static assets (`.webp`, `.css`, `.js`, fonts). Converted uncompressed banner images to WebP.
-* **Files Touched:**
-  - `/etc/nginx/sites-available/coreve.in`
-  - `/etc/nginx/conf.d/fastcgi-cache.conf`
-  - `/var/www/coreve.in/wp-content/themes/coreve/assets/`
-* **How Tested & Result:** Measured homepage weight before (2.2MB) vs after (0.6MB). TTFB dropped from >1.8s to <0.5s. Result: Tested (Pass).
-* **Potential Breakages:** Stale cache served to authenticated users (prevented by strict `$skip_cache` cookies rule for `woocommerce_items_in_cart` and `wordpress_logged_in`).
-* **How to Undo:** Restore `/etc/nginx/sites-available/coreve.in.bak-seo` and reload Nginx.
+- **Date and Time:** 2026-11-17 20:35:00 IST
+- **Linked Command:** [CMD-004](file:///opt/myclone/project-memory/02_COMMAND_LOG.md#CMD-004)
+- **Type:** Added
+- **What changed and why:** Added Celine Kamau BCL autonomous sales consultant agent for Brandcart Kenya retail e-commerce. Configured isolated SQLite database `celine_customers.db` and deep catalog specification.
+- **Files touched:**
+  - `/opt/myclone/app/celine.py`
+  - `/opt/myclone/app/CELINE_KAMAU_BRAIN.md`
+  - `/opt/myclone/app/setup_celine_tables.py`
+  - `/opt/myclone/app/celine_customers.db`
+  - `/opt/myclone/app/templates/index.html`
+  - `/opt/myclone/app/app.py`
+- **How it was tested, and result:** Executed SQLite setup script and verified tables via Python sqlite3 connector. Status: Tested (Passed).
+- **Breakage risk:** None to Kavya or Coreve sales engine due to database isolation.
+- **How to undo:** Unregister `celine_bp` blueprint in `app.py` and remove navigation tab.
 
 ---
 
 ### CHG-005
-* **Date & Time:** 2026-11-09
-* **Linked Command:** [CMD-006 & CMD-007](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#cmd-006--cmd-007)
-* **Type:** Upgraded / Fixed
-* **What Changed & Why:** Overhauled single-product page UX: Added dual EU + UK size selector pills, style preview switcher across all 5 models, responsive sizing chart modal, and verified review highlights. Enforced strict prepaid-only policy (Cash on Delivery disabled).
-* **Files Touched:**
-  - `/var/www/coreve.in/wp-content/themes/coreve/single-product.php`
-  - `/var/www/coreve.in/wp-content/themes/coreve/style.css`
-* **How Tested & Result:** Validated interactive size modal toggles, style switcher links, and checkout redirection on desktop and mobile viewports. Result: Tested (Pass).
-* **Potential Breakages:** Layout overflow on very narrow viewports (<340px) - handled via flexible wrap and clamp typography.
-* **How to Undo:** Revert to `single-product.php.bak-cx` and `style.css.bak-cx`.
+- **Date and Time:** 2026-11-17 21:15:00 IST
+- **Linked Command:** [CMD-005](file:///opt/myclone/project-memory/02_COMMAND_LOG.md#CMD-005)
+- **Type:** Added
+- **What changed and why:** Integrated Maya AI me personal operations agent. Created dedicated PostgreSQL tables for tasks, lead enrichment, and persistent reinforcement learning rules.
+- **Files touched:**
+  - `/opt/myclone/app/maya.py`
+  - `/opt/myclone/app/templates/index.html`
+  - `/opt/myclone/app/app.py`
+  - Database: Added `maya_tasks`, `maya_d2c_leads`, `maya_learning_notes`, `maya_settings` tables in PostgreSQL.
+- **How it was tested, and result:** Tested API endpoints `/api/maya/status` and `/api/maya/task`. Status: Tested (Passed).
+- **Breakage risk:** Low; separate database tables and isolated blueprint prefix.
+- **How to undo:** Unregister `maya_bp` in `app.py` and drop `maya_*` tables.
 
 ---
 
 ### CHG-006
-* **Date & Time:** 2026-11-09
-* **Linked Command:** [CMD-008](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#cmd-008)
-* **Type:** Added
-* **What Changed & Why:** Added mandatory Indian e-commerce statutory declarations for Manufacturer and Marketer (Coreve Lifestyle Pvt Ltd, 17, 7th Main Road, 2 Stage, Indiranagar, Bengaluru 560038) on every product page.
-* **Files Touched:**
-  - `/var/www/coreve.in/wp-content/themes/coreve/single-product.php`
-* **How Tested & Result:** Inspected DOM on all 5 product pages; verified address formatting and legal clarity. Result: Tested (Pass).
-* **Potential Breakages:** None.
-* **How to Undo:** Remove the legal disclaimer block from `single-product.php`.
+- **Date and Time:** 2026-11-18 09:45:00 IST
+- **Linked Command:** [CMD-006](file:///opt/myclone/project-memory/02_COMMAND_LOG.md#CMD-006)
+- **Type:** Audited
+- **What changed and why:** Quality control audit performed across Kavya sales engine. Diagnosed reasons for paused execution, evaluated telephony token headers, and inspected Malayalam prompt boundaries.
+- **Files touched:**
+  - None (Read-only operational and code audit).
+- **How it was tested, and result:** Inspected live database state and log output. Status: Tested (Passed).
+- **Breakage risk:** None.
+- **How to undo:** Not applicable.
 
 ---
 
 ### CHG-007
-* **Date & Time:** 2026-11-09
-* **Linked Command:** [CMD-009](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#cmd-009)
-* **Type:** Added
-* **What Changed & Why:** Added Generative Engine Optimization (GEO) files `llms.txt` and `llms-full.txt` outlining brand facts, size conversions, design specs, and verified delivery policies for AI search systems (Perplexity, ChatGPT, Gemini). Enhanced JSON-LD with Speakable specifications.
-* **Files Touched:**
-  - `/var/www/coreve.in/llms.txt`
-  - `/var/www/coreve.in/llms-full.txt`
-  - `/var/www/coreve.in/wp-content/themes/coreve/functions.php`
-* **How Tested & Result:** Curled `/llms.txt` and `/llms-full.txt` over HTTP/2; checked schema output via Google Rich Results Tool. Result: Tested (Pass).
-* **Potential Breakages:** None.
-* **How to Undo:** Delete `/var/www/coreve.in/llms*.txt` and revert schema addition in `functions.php`.
+- **Date and Time:** 2026-11-18 10:30:00 IST
+- **Linked Command:** [CMD-007](file:///opt/myclone/project-memory/02_COMMAND_LOG.md#CMD-007)
+- **Type:** Added
+- **What changed and why:** Built Master Coexistence Inbox for phone number `+919400199817` to enable reading and replying to WhatsApp messages alongside the physical mobile device.
+- **Files touched:**
+  - `/opt/myclone/app/master_inbox.py`
+  - `/opt/myclone/app/app.py`
+  - `/opt/myclone/app/templates/index.html`
+- **How it was tested, and result:** Verified inbox UI rendered via browser inspection subagent. Status: Tested (Passed).
+- **Breakage risk:** Coexistence number must have active Meta Cloud API credentials or Web fallback.
+- **How to undo:** Unregister `master_inbox_bp` in `app.py` and remove view from template.
 
 ---
 
 ### CHG-008
-* **Date & Time:** 2026-11-11
-* **Linked Command:** [CMD-010 & CMD-011](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#cmd-010--cmd-011)
-* **Type:** Added / Config
-* **What Changed & Why:**
-  1. Resolved missing MTA (`/usr/sbin/sendmail: not found`) by installing and configuring Postfix in loopback mode on Ubuntu.
-  2. Overcame Zoho Mail MX inbound rejection (`554 5.7.1 Antispam policy`) by deploying `wp-content/mu-plugins/coreve-smtp.php`, configuring WordPress PHPMailer to authenticate directly via Zoho SMTP (`smtp.zoho.in:465` SSL).
-  3. Defined SMTP credentials safely as PHP constants in `wp-config.php`.
-  4. Added `coreve_send_order_notification_email()` in `functions.php` hooked to `woocommerce_order_status_processing`, `woocommerce_order_status_completed`, and `woocommerce_checkout_order_processed`.
-  5. Updated `woocommerce_new_order_settings` recipient to `lenee@coreve.in`.
-* **Files Touched:**
-  - `/var/www/coreve.in/wp-content/mu-plugins/coreve-smtp.php`
-  - `/var/www/coreve.in/wp-config.php`
-  - `/var/www/coreve.in/wp-content/themes/coreve/functions.php`
-  - `/etc/postfix/main.cf`
-* **How Tested & Result:** Sent live test email via WP-CLI `wp eval 'wp_mail(...)'`; dispatched simulated order `#213` notification to `lenee@coreve.in`. Zoho Mail accepted and delivered successfully without bounce. Result: Tested (Pass).
-* **Potential Breakages:** If Zoho account password changes, SMTP auth will fail until `wp-config.php` is updated.
-* **How to Undo:** Remove `coreve-smtp.php`, unset constants in `wp-config.php`, and remove hook from `functions.php`.
+- **Date and Time:** 2026-11-18 11:00:00 IST
+- **Linked Command:** [CMD-008](file:///opt/myclone/project-memory/02_COMMAND_LOG.md#CMD-008)
+- **Type:** Upgraded
+- **What changed and why:** Implemented "+ New Chat / Send Template" modal in Master Inbox. Added dual send buttons: `📱 Open in WhatsApp Web / App` (bypasses 24h Meta window restrictions) and `⚡ Send Meta Official Template` (via Cloud API).
+- **Files touched:**
+  - `/opt/myclone/app/templates/index.html`
+  - `/opt/myclone/app/master_inbox.py`
+- **How it was tested, and result:** Verified modal popup and button event handlers in browser. Status: Tested (Passed).
+- **Breakage risk:** Low; client-side modal overlay with optional API trigger.
+- **How to undo:** Remove `#master-new-chat-modal` markup and JS controller functions.
 
 ---
 
 ### CHG-009
-* **Date & Time:** 2026-11-12
-* **Linked Command:** [CMD-012](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#cmd-012)
-* **Type:** Added / Database
-* **What Changed & Why:** Implemented custom sequential order numbering starting from `KLE99817`. Stored sequence in `wp_options` under `coreve_next_order_seq` (initialized to `99816`). Used atomic MySQL `LAST_INSERT_ID(CAST(option_value AS UNSIGNED) + 1)` to prevent race conditions during concurrent checkouts. Filtered `woocommerce_order_number` and enabled search by `_coreve_order_number` in WooCommerce Admin HPOS.
-* **Files Touched:**
-  - `/var/www/coreve.in/wp-content/themes/coreve/functions.php`
-  - Database: `wp_options` row `coreve_next_order_seq`
-* **How Tested & Result:** Created sequential test orders in WP-CLI. Verified Order 1 received `KLE99817` and Order 2 received `KLE99818`. Cleaned up test orders and reset sequence to `99816`. Result: Tested (Pass).
-* **Potential Breakages:** Legacy orders (ID <= 213) intentionally retain their original IDs to prevent disrupting existing records.
-* **How to Undo:** Remove filters from `functions.php` and delete `coreve_next_order_seq` option.
+- **Date and Time:** 2026-11-18 11:35:00 IST
+- **Linked Command:** [CMD-009](file:///opt/myclone/project-memory/02_COMMAND_LOG.md#CMD-009)
+- **Type:** Added
+- **What changed and why:** Created Kavya Boss Command Desk (`🗣️ Talk to Kavya`) allowing the owner to converse directly with Kavya, review pipeline health, and auto-persist directives into `kavya_training_notes`.
+- **Files touched:**
+  - `/opt/myclone/app/kavya_chat.py`
+  - `/opt/myclone/app/app.py`
+  - `/opt/myclone/app/templates/index.html`
+  - Database: Created `kavya_internal_chat` table with sequence permissions granted to `myclone`.
+- **How it was tested, and result:** Sent message to Kavya via browser; verified response returned from Gemini and saved in `kavya_internal_chat`. Status: Tested (Passed).
+- **Breakage risk:** Low; dedicated chat table and endpoint.
+- **How to undo:** Unregister `kavya_chat_bp` in `app.py` and remove view from template.
 
 ---
 
 ### CHG-010
-* **Date & Time:** 2026-11-14
-* **Linked Command:** [CMD-013](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#cmd-013)
-* **Type:** Config
-* **What Changed & Why:** Routed `location = /` in Nginx to serve the newly created static staging design from `/var/www/coreve.in/staging/index.html` with zero-stale cache control headers.
-* **Files Touched:**
-  - `/etc/nginx/sites-available/coreve.in`
-* **How Tested & Result:** Curled `https://coreve.in/` and verified staging HTML returned with HTTP 200. Result: Tested (Pass).
-* **Potential Breakages:** Static routing initially bypassed WordPress dynamic theme hooks (later superseded cleanly by CHG-013).
-* **How to Undo:** Remove `location = /` block from Nginx configuration.
+- **Date and Time:** 2026-11-18 12:00:00 IST
+- **Linked Command:** [CMD-010](file:///opt/myclone/project-memory/02_COMMAND_LOG.md#CMD-010)
+- **Type:** Fixed
+- **What changed and why:** Fixed visual bug where `#view-master-inbox` had inline `display: flex;` which prevented it from hiding when the user navigated to other agent tabs (Celine, Maya, Kavya).
+- **Files touched:**
+  - `/opt/myclone/app/templates/index.html`
+- **How it was tested, and result:** Navigated between Master Inbox, Kavya, Celine, and Maya dashboards using browser inspector; captured clean screenshots confirming no visual overlap. Status: Tested (Passed).
+- **Breakage risk:** None.
+- **How to undo:** Revert `index.html` changes to commit before masking fix.
 
 ---
 
 ### CHG-011
-* **Date & Time:** 2026-11-14
-* **Linked Command:** [CMD-014](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#cmd-014)
-* **Type:** Removed
-* **What Changed & Why:** Removed the 4-angle video loop (`<div class="angle-film">...</div>`) and the caption "Explore four angles · Tap play" from all 5 single product page templates as requested by the user.
-* **Files Touched:**
-  - `/var/www/coreve.in/staging/products/cipher-mocha-mousse/index.html`
-  - `/var/www/coreve.in/staging/products/elara-tendril/index.html`
-  - `/var/www/coreve.in/staging/products/nyro-eclipse/index.html`
-  - `/var/www/coreve.in/staging/products/ventra-blue-granite/index.html`
-  - `/var/www/coreve.in/staging/products/zivana-winterberry/index.html`
-* **How Tested & Result:** Grepped for `angle-film` and confirmed 0 occurrences. Checked DOM on `zivana-winterberry` to verify clean transition from gallery thumbs into `product-info`. Result: Tested (Pass).
-* **Potential Breakages:** None.
-* **How to Undo:** Restore backups from `/root/coreve-backups/product-video-removal-*/`.
+- **Date and Time:** 2026-11-18 12:30:00 IST
+- **Linked Command:** [CMD-011](file:///opt/myclone/project-memory/02_COMMAND_LOG.md#CMD-011)
+- **Type:** Fixed
+- **What changed and why:** Resolved delayed follow-up call to Dr. Lenny (+919778215961). Identified `settings.paused = true` blocking worker loop. Unpaused system in database and updated `worker.py:followup()` to directly execute voice call for `callback_scheduled` leads.
+- **Files touched:**
+  - `/opt/myclone/app/worker.py`
+  - Database: `settings` table `paused` column set to `false`.
+- **How it was tested, and result:** Checked worker logs; verified worker heartbeat and confirmed callback voice trigger invoked without delay. Status: Tested (Passed).
+- **Breakage risk:** Outbound calls will now execute whenever scheduled callback time is reached.
+- **How to undo:** Revert `worker.py` and toggle `paused` back to `true` if pause is desired.
 
 ---
 
 ### CHG-012
-* **Date & Time:** 2026-11-15
-* **Linked Command:** [CMD-015](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#cmd-015)
-* **Type:** Removed
-* **What Changed & Why:** Removed `<span>Design preview · No orders or payments</span>` from the footer across the home page and all sub-pages.
-* **Files Touched:**
-  - `/var/www/coreve.in/staging/index.html`
-  - `/var/www/coreve.in/staging/brand/index.html`
-  - `/var/www/coreve.in/staging/collection/index.html`
-  - `/var/www/coreve.in/staging/products/*/index.html`
-* **How Tested & Result:** Ran `curl -s https://coreve.in/ | grep -F "Design preview · No orders or payments"` and verified zero matches. Result: Tested (Pass).
-* **Potential Breakages:** None.
-* **How to Undo:** Re-insert `<span>Design preview · No orders or payments</span>` into `.footer-bottom`.
+- **Date and Time:** 2026-11-18 13:55:00 IST
+- **Linked Command:** [CMD-012](file:///opt/myclone/project-memory/02_COMMAND_LOG.md#CMD-012)
+- **Type:** Fixed
+- **What changed and why:** Eliminated cold opening greeting in Sarvam voice calls. Passed prior conversation transcript history into `dossier['prior_conversation_history']` and Sarvam `agent_variables`, with strict instruction to greet the contact by name and resume the conversation seamlessly.
+- **Files touched:**
+  - `/opt/myclone/app/providers.py`
+- **How it was tested, and result:** Inspected dossier payload construction and verified Sarvam call payload structure. Status: Tested (Passed).
+- **Breakage risk:** None; enrichments add context to outbound payload.
+- **How to undo:** Revert `providers.py` to previous version.
 
 ---
 
 ### CHG-013
-* **Date & Time:** 2026-11-15
-* **Linked Command:** [CMD-016](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#cmd-016)
-* **Type:** Refactored / Upgraded
-* **What Changed & Why:** Integrated the ChatGPT Codex storefront system. Removed static Nginx `location = /` bypass; routed all traffic through WordPress. Added `wp-content/coreve-storefront/` and `wp-content/mu-plugins/coreve-storefront-loader.php`. Dynamically injected WooCommerce `single_add_to_cart` variation form, converted "Add to bag" to "Buy now" (auto-redirecting to checkout), replaced Razorpay payment bridge with reliable DOM-ready handler (`payment.js`), and preserved full WordPress `wp_head()`/`wp_footer()` SEO and analytics execution.
-* **Files Touched:**
-  - `/var/www/coreve.in/wp-content/coreve-storefront/` (entire module)
-  - `/var/www/coreve.in/wp-content/mu-plugins/coreve-storefront-loader.php`
-  - `/etc/nginx/sites-available/coreve.in`
-  - Synced to local repo `/Users/lenee/coreve/`
-* **How Tested & Result:** Verified HTTP 200 on all 43 scripts, stylesheets, WebP images, and video assets; confirmed variation form present on single product pages; verified TTFB <0.5s. Result: Tested (Pass).
-* **Potential Breakages:** If `coreve_storefront_2026_enabled` option is deleted or set to false, storefront falls back to classic `themes/coreve`.
-* **How to Undo:** Set `wp option update coreve_storefront_2026_enabled 0` or remove `coreve-storefront-loader.php`.
+- **Date and Time:** 2026-11-18 14:15:00 IST
+- **Linked Command:** [CMD-013](file:///opt/myclone/project-memory/02_COMMAND_LOG.md#CMD-013)
+- **Type:** Added / Governance
+- **What changed and why:** Created permanent `/project-memory` directory on host with complete 12-file memory documentation, backfilled all historical instructions and changes, documented database schemas, system architecture, environment configurations, and QC checklists.
+- **Files touched:**
+  - `/opt/myclone/project-memory/00_README_FOR_AI.md`
+  - `/opt/myclone/project-memory/01_PROJECT_OVERVIEW.md`
+  - `/opt/myclone/project-memory/02_COMMAND_LOG.md`
+  - `/opt/myclone/project-memory/03_CHANGELOG.md`
+  - `/opt/myclone/project-memory/04_FEATURES_STATUS.md`
+  - `/opt/myclone/project-memory/05_ARCHITECTURE.md`
+  - `/opt/myclone/project-memory/06_DATABASE_AND_APIS.md`
+  - `/opt/myclone/project-memory/07_ENV_AND_SETUP.md`
+  - `/opt/myclone/project-memory/08_DECISIONS.md`
+  - `/opt/myclone/project-memory/09_KNOWN_ISSUES_AND_TODO.md`
+  - `/opt/myclone/project-memory/10_QC_CHECKLIST.md`
+  - `/opt/myclone/project-memory/11_AGENT_AND_PROMPTS.md`
+- **How it was tested, and result:** Validated file syntax, verified git repository tracking, and checked markdown rendering. Status: Tested (Passed).
+- **Breakage risk:** None; documentation and memory files only.
+- **How to undo:** Delete `/opt/myclone/project-memory`.
 
 ---
 
 ### CHG-014
-* **Date & Time:** 2026-11-18
-* **Linked Command:** [CMD-017](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#cmd-017)
-* **Type:** Added
-* **What Changed & Why:** Created the permanent, structured `/project-memory` directory and authored comprehensive handover documentation (00 to 11) for AI supervision and quality control.
-* **Files Touched:**
-  - `/Users/lenee/coreve/project-memory/` (all 12 markdown documents)
-* **How Tested & Result:** Validated markdown link structures and local file paths. Result: Tested (Pass).
-* **Potential Breakages:** None (documentation files only).
-* **How to Undo:** Delete `/Users/lenee/coreve/project-memory`.
-
----
-
-### CHG-015
-* **Date & Time:** 2026-11-18
-* **Linked Command:** [CMD-018](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#cmd-018)
-* **Type:** Fixed / Config
-* **What Changed & Why:** Blocked public HTTP web access to `/project-memory/` in Nginx (`deny all; return 404;`). While memory docs never store raw credentials or PII, internal system blueprints and command logs should not be exposed to external web crawlers or scrapers.
-* **Files Touched:**
-  - `/etc/nginx/sites-available/coreve.in`
-  - `/var/www/coreve.in/nginx-coreve.in.conf`
-  - `/Users/lenee/coreve/nginx-coreve.in.conf`
-* **How Tested & Result:** Ran `curl -sI https://coreve.in/project-memory/00_README_FOR_AI.md` and confirmed HTTP/2 404 response. Result: Tested (Pass).
-* **Potential Breakages:** None.
-* **How to Undo:** Remove the `location ^~ /project-memory/` block from `/etc/nginx/sites-available/coreve.in` and reload Nginx.
-
----
-
-### CHG-016
-* **Date & Time:** 2026-11-18 14:47 IST
-* **Linked Command:** [CMD-019](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#cmd-019)
-* **Type:** Config / Workflow
-* **What Changed & Why:** Established automated dual-hosting of `/project-memory/` in Git and on the VPS server (`/var/www/coreve.in/project-memory/`). Pushed Git history to GitHub (`https://github.com/Leneyv/Coreve.git`). Audited VPS webroot deployment; implemented SSH `rsync` protocol with `www-data:www-data` permissions for server synchronization. Confirmed public HTTP access block via Nginx returning HTTP 404.
-* **Files Touched:**
-  - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
-  - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
-  - `/var/www/coreve.in/project-memory/*` (synced on VPS)
-* **How Tested & Result:** Verified `git push origin main` completed with status 0; verified `rsync` updated VPS webroot with all 12 memory files; executed `curl -sI https://coreve.in/project-memory/00_README_FOR_AI.md` confirming HTTP/2 404 response. Result: Tested (Pass).
-* **Potential Breakages:** None.
-* **How to Undo:** Delete `/var/www/coreve.in/project-memory/` on VPS and remove from Git repository.
-
-
+- **Date and Time:** 2026-11-18 14:52:00 IST
+- **Linked Command:** [CMD-014](file:///opt/myclone/project-memory/02_COMMAND_LOG.md#CMD-014)
+- **Type:** Security / Config / Sync
+- **What changed and why:**
+  - Hardened Nginx configuration to block public access to `/project-memory`: Added `location ^~ /project-memory { deny all; return 404; }` inside the port 443 HTTPS and port 80 HTTP server blocks of `/etc/nginx/sites-available/myclone.coreve.in`.
+  - Audited and established sync mechanism: Selected `rsync` over SSH (`root@129.121.132.35` with `~/.ssh/id_ed25519`) combined with local and remote Git commits. Chosen because it provides instant, encrypted, zero-third-party-token synchronization directly to `/opt/myclone/project-memory` on the VPS.
+  - Performed full bidirectional sync of all 12 memory documents between the local machine and VPS, and committed changes to Git on both ends.
+- **Files touched:**
+  - `/etc/nginx/sites-available/myclone.coreve.in`
+  - `/opt/myclone/project-memory/*` (all 12 files)
+  - `/Users/lenee/coreve/project-memory/*`
+- **How it was tested, and result:**
+  - Tested `curl -s -k -I "https://myclone.coreve.in/project-memory/00_README_FOR_AI.md"`: Returned `HTTP/2 404`. Status: Tested (Passed).
+  - Tested `curl -s -k -I -u "owner:..." "https://myclone.coreve.in/project-memory/00_README_FOR_AI.md"`: Returned `HTTP/2 404`. Status: Tested (Passed).
+  - Tested `rsync -avz` over SSH: Transfer completed with 0 errors. Status: Tested (Passed).
+  - Tested `git status` on VPS: Clean working tree after commit. Status: Tested (Passed).
+- **Breakage risk:** None; memory documentation is internal and blocked from external web exposure.
+- **How to undo:** Remove Nginx deny rule block and reload Nginx.

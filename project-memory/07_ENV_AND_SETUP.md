@@ -1,106 +1,160 @@
-# 07 - Environment, Setup & Deployment
+# 07 — Environment & Setup Guide
 
-> **SECURITY NOTICE:**
-> Never store raw passwords, secret keys, or customer PII in any documentation file. All secrets must be referenced by variable/constant names only.
-
----
-
-## 1. Environment Variables & Constants
-
-Configuration settings are stored in `/var/www/coreve.in/wp-config.php`.
-
-### Database Constants
-| Constant Name | Description | Example / Allowed Values |
-| :--- | :--- | :--- |
-| `DB_NAME` | MySQL database name | `coreve_db` |
-| `DB_USER` | MySQL database user | `coreve_user` |
-| `DB_PASSWORD` | MySQL database user password | `[REDACTED_SECRET]` |
-| `DB_HOST` | Database host and port | `localhost` |
-| `DB_CHARSET` | Character encoding | `utf8mb4` |
-
-### Zoho SMTP Constants (`coreve-smtp.php`)
-| Constant Name | Description | Value / Purpose |
-| :--- | :--- | :--- |
-| `COREVE_SMTP_HOST` | Outgoing SMTP server hostname | `smtp.zoho.in` |
-| `COREVE_SMTP_PORT` | Outgoing SMTP port | `465` (SSL) or `587` (TLS) |
-| `COREVE_SMTP_SECURE` | Encryption protocol | `ssl` (for 465) or `tls` (for 587) |
-| `COREVE_SMTP_USER` | SMTP username | Sender email (e.g. `lenee@coreve.in`) |
-| `COREVE_SMTP_PASS` | Zoho application-specific password | `[REDACTED_SECRET]` |
-| `COREVE_SMTP_FROM` | Default "From" email address | `lenee@coreve.in` |
-| `COREVE_SMTP_FROM_NAME` | Default "From" display name | `Coreve Orders` |
-
-### Razorpay Gateway Settings
-* Stored in WordPress database options table (`woocommerce_razorpay_settings`).
-* Keys: `key_id`, `key_secret` (configured in WP Admin > WooCommerce > Settings > Payments > Razorpay).
+## 1. System Requirements & Prerequisites
+- **OS:** Ubuntu 22.04 LTS or 24.04 LTS (x86_64)
+- **Python:** Python 3.12+ with `python3-venv` and `python3-pip`
+- **Node.js:** Node.js v24+ (self-hosted in `/opt/myclone/node24`)
+- **Database:** PostgreSQL 16+ running on `localhost:5432`
+- **Reverse Proxy:** Nginx with Let's Encrypt Certbot
+- **Process Manager:** Systemd
 
 ---
 
-## 2. Server Infrastructure & Services
+## 2. Directory Layout & Setup from Scratch
 
-* **OS:** Ubuntu 24.04 LTS (x86_64)
-* **IP Address:** `129.121.132.35`
-* **SSH Access:** `ssh -i <path_to_private_key> root@129.121.132.35`
-* **Services:**
-  - Nginx: `systemctl status nginx`
-  - PHP 8.3 FPM: `systemctl status php8.3-fpm`
-  - MariaDB/MySQL: `systemctl status mariadb`
-  - Postfix MTA: `systemctl status postfix`
-
-### Useful Maintenance Commands
 ```bash
-# Check Nginx configuration syntax
-nginx -t
+# 1. Create base directories
+sudo mkdir -p /opt/myclone/app
+sudo mkdir -p /var/lib/myclone/ops
+sudo mkdir -p /var/lib/myclone/n8n
+sudo mkdir -p /etc/myclone
 
-# Reload Nginx without dropping connections
-systemctl reload nginx
+# 2. Create unprivileged system user
+sudo useradd -r -s /bin/false -d /var/lib/myclone myclone
+sudo chown -R myclone:myclone /var/lib/myclone
+sudo chown -R root:myclone /opt/myclone
+sudo chmod -R 775 /opt/myclone/app
 
-# Clear Nginx FastCGI microcache
-rm -rf /var/cache/nginx/coreve/* && systemctl reload nginx
-
-# Restart PHP-FPM
-systemctl restart php8.3-fpm
-
-# Check mail transfer logs in systemd journal
-journalctl -u postfix@-.service -n 50 --no-pager
-
-# Run WP-CLI commands as web user
-sudo -u www-data wp --path=/var/www/coreve.in <command>
+# 3. Initialize Python 3.12 Virtual Environment
+cd /opt/myclone
+python3.12 -m venv venv
+./venv/bin/pip install --upgrade pip
+./venv/bin/pip install -r app/requirements.txt
+./venv/bin/playwright install chromium firefox --with-deps
 ```
 
 ---
 
-## 3. Deployment & Code Synchronization
+## 3. Database Initialization
 
-### Repository Hierarchy
-* **Local Git Working Tree:** `/Users/lenee/coreve/`
-* **Production Webroot:** `/var/www/coreve.in/`
-
-### Deployment Flow: Local to Remote
 ```bash
-# 1. Sync theme updates
-rsync -avz -e "ssh -i ~/.gemini/antigravity/scratch/ssh_keys/id_ed25519" \
-  /Users/lenee/coreve/wp-content/themes/coreve/ \
-  root@129.121.132.35:/var/www/coreve.in/wp-content/themes/coreve/
+# PostgreSQL Setup
+sudo -u postgres psql -c "CREATE USER myclone WITH PASSWORD 'SANITISED_PASSWORD';"
+sudo -u postgres psql -c "CREATE DATABASE myclone OWNER myclone;"
+sudo -u postgres psql -d myclone -f /opt/myclone/app/schema_base.sql
+sudo -u postgres psql -d myclone -c "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO myclone;"
+sudo -u postgres psql -d myclone -c "GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO myclone;"
 
-# 2. Sync storefront updates
-rsync -avz -e "ssh -i ~/.gemini/antigravity/scratch/ssh_keys/id_ed25519" \
-  /Users/lenee/coreve/wp-content/coreve-storefront/ \
-  root@129.121.132.35:/var/www/coreve.in/wp-content/coreve-storefront/
-
-# 3. Sync mu-plugins
-rsync -avz -e "ssh -i ~/.gemini/antigravity/scratch/ssh_keys/id_ed25519" \
-  /Users/lenee/coreve/wp-content/mu-plugins/ \
-  root@129.121.132.35:/var/www/coreve.in/wp-content/mu-plugins/
-
-# 4. Set correct ownership and flush FastCGI cache on server
-ssh -i ~/.gemini/antigravity/scratch/ssh_keys/id_ed25519 root@129.121.132.35 \
-  "chown -R www-data:www-data /var/www/coreve.in/wp-content && rm -rf /var/cache/nginx/coreve/* && systemctl reload nginx"
+# SQLite Celine Database Setup
+cd /opt/myclone/app
+/opt/myclone/venv/bin/python3 setup_celine_tables.py
+sudo chown myclone:myclone celine_customers.db
+sudo chmod 664 celine_customers.db
 ```
 
-### Pulling Live Updates: Remote to Local
-```bash
-rsync -avz -e "ssh -i ~/.gemini/antigravity/scratch/ssh_keys/id_ed25519" \
-  --exclude="uploads" --exclude="cache" \
-  root@129.121.132.35:/var/www/coreve.in/wp-content/ \
-  /Users/lenee/coreve/wp-content/
+---
+
+## 4. Systemd Service Daemons
+
+The control plane runs four systemd daemons.
+
+### A. Web API Server (`/etc/systemd/system/myclone.service`)
+```ini
+[Unit]
+Description=Corive Tech private sales control plane
+After=network.target postgresql.service
+
+[Service]
+User=myclone
+Group=myclone
+WorkingDirectory=/opt/myclone/app
+EnvironmentFile=/etc/myclone/runtime.env
+ExecStart=/opt/myclone/venv/bin/gunicorn --bind 127.0.0.1:5679 --workers 1 --threads 3 --timeout 60 app:app
+Restart=on-failure
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+MemoryMax=300M
+
+[Install]
+WantedBy=multi-user.target
 ```
+
+### B. Durable Worker (`/etc/systemd/system/myclone-worker.service`)
+```ini
+[Unit]
+Description=Corive Kavya durable sales workflow worker
+After=network.target postgresql.service myclone.service
+
+[Service]
+User=myclone
+Group=myclone
+WorkingDirectory=/opt/myclone/app
+EnvironmentFile=/etc/myclone/runtime.env
+Environment=HOME=/var/lib/myclone
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=PLAYWRIGHT_BROWSERS_PATH=/opt/myclone/browsers
+ExecStart=/opt/myclone/venv/bin/python worker.py
+Restart=on-failure
+RestartSec=10
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/myclone/ops
+MemoryMax=1600M
+Nice=5
+
+[Install]
+WantedBy=multi-user.target
+```
+
+### C. n8n Engine (`/etc/systemd/system/myclone-n8n.service`)
+Binds n8n workflow engine to `127.0.0.1:5678` with proxying under `/workflow/`.
+
+### D. Escalation Checker (`/etc/systemd/system/myclone-escalation.service`)
+Oneshot timer service checking 2-hour quotation review SLA.
+
+### Daemon Management Commands:
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable --now myclone.service myclone-worker.service myclone-n8n.service
+sudo systemctl restart myclone.service myclone-worker.service
+```
+
+---
+
+## 5. Environment Variable Reference
+
+All operational secrets and endpoints are managed in `/etc/myclone/runtime.env`.
+> [!IMPORTANT]
+> NEVER COMMIT OR PASTE ACTUAL SECRETS IN MEMORY OR REPOSITORY FILES.
+
+| Variable Name | Required | Purpose & Description |
+| :--- | :---: | :--- |
+| `GEMINI_API_KEY` | Yes | Google Gemini API key for structured inference and natural language extraction |
+| `GEMINI_MODEL` | Yes | Selected model identifier (e.g. `gemini-2.5-flash` or `gemini-3.8-flash`) |
+| `OUTREACH_ENABLED` | Yes | Boolean flag (`true`/`false`) toggling automated outbound dispatches |
+| `SARVAM_API_KEY` | Yes | API authentication key for Sarvam conversational voice telephony |
+| `SARVAM_ORG_ID` | Yes | Sarvam organization account ID |
+| `SARVAM_WORKSPACE_ID` | Yes | Sarvam workspace scope ID |
+| `SARVAM_AGENT_ID` | Yes | Pre-configured Sarvam voice agent configuration ID |
+| `SARVAM_CALLER_ID` | Yes | E.164 outbound caller ID assigned by Sarvam (`+918064277369`) |
+| `SARVAM_CONNECTION_ID`| Yes | Telecom SIP trunk or telephony routing ID |
+| `RAZORPAY_KEY_ID` | Yes | Public key ID for Razorpay API |
+| `RAZORPAY_KEY_SECRET` | Yes | Private API secret key for Razorpay API |
+| `ESCALATION_PRIMARY_PHONE` | Yes | E.164 phone number for high-priority quote alerts |
+| `ESCALATION_BACKUP_PHONE` | Yes | Backup phone number for unresolved escalations |
+| `OWNER_NOTIFICATION_EMAIL`| Yes | Recipient email address for quotations and system alerts |
+| `SENDER_EMAIL` | Yes | Outbound SMTP sender email address |
+
+---
+
+## 6. Nginx Reverse Proxy & HTTP Basic Auth
+
+The application is served securely over HTTPS via Nginx:
+- Port 5679 is proxied for all application routes.
+- HTTP Basic Auth protects UI endpoints using `/etc/nginx/myclone.htpasswd`.
+- Webhooks `/api/whatsapp/webhook`, `/api/webhook/sarvam/*`, `/api/razorpay/webhook`, and `/api/celine/webhook` have `auth_basic off;` to allow incoming third-party callbacks.
+- Static assets and webhooks enforce `Cache-Control: no-store` and standard security headers.

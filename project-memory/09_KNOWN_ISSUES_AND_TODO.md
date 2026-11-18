@@ -1,30 +1,43 @@
-# 09 - Known Issues, Risks & TODO
+# 09 — Known Issues & Backlog
 
-Ordered by priority (P1 = Critical/High, P2 = Medium, P3 = Low).
-
----
-
-## 1. Known Risks & Technical Debt
-
-### [P1] Zoho SMTP Password Expiration / Password Change Risk
-* **Description:** The Zoho SMTP relay is currently configured in `wp-config.php` using the account password provided by the user. If the account password is changed or multi-factor authentication (MFA) is reconfigured on the Zoho account, SMTP authentication will immediately fail, halting order notification emails.
-* **Mitigation / Next Step:** Generate a dedicated permanent **Zoho Application-Specific Password** ("App Password") from Zoho Accounts Security console and replace the master password in `wp-config.php`.
-
-### [P2] Custom Bridal Edition (`custom` / Product ID 143) Navigation
-* **Description:** The storefront module currently maps the 5 primary production models (`cipher-mocha-mousse`, `ventra-blue-granite`, `zivana-winterberry`, `elara-tendril`, `nyro-eclipse`). The custom bridal version (`Coreve Her Day Handmade Custom Version` - ID 143) exists in WooCommerce and is linked in editorial copy, but does not have a dedicated card in the `coreve_sf_map()`.
-* **Mitigation / Next Step:** Add custom mapping in `coreve_sf_map()` in `storefront.php` if the bridal edition should be directly accessible via the modern storefront renderer.
-
-### [P3] FastCGI Cache Invalidation on Product Stock Updates
-* **Description:** If inventory levels change, the FastCGI cache on `coreve.in` holds pages for up to 60 minutes for unauthenticated users unless explicitly cleared.
-* **Mitigation / Next Step:** Add an automated hook in `functions.php` on `woocommerce_update_product` to automatically execute a cache purge or purge single URI via Nginx cache purge module.
+This document tracks identified bugs, architectural risks, technical debt, and pending tasks ordered by urgency and priority.
 
 ---
 
-## 2. Unfinished Work & Feature Roadmap
+## 1. High Priority (Immediate Operational Impact)
 
-| Priority | Task Description | Target Milestone | Complexity |
+| Issue ID | Description & Impact | Technical Risk | Suggested Solution | Status |
+| :--- | :--- | :--- | :--- | :--- |
+| **ISSUE-001** | **Sarvam Telephony Credit Exhaustion** | If Sarvam prepaid wallet reaches ₹0, outbound calls fail silently. | Add credit balance check in `providers.py` or automated email alert when balance < ₹500. | Open |
+| **ISSUE-002** | **Meta 24-Hour Window Limitation** | In Master Inbox, freeform text replies via Meta API fail if lead has not messaged in past 24 hours. | UI now provides `📱 Open in WhatsApp Web / App` button; need more pre-approved HSM templates. | Mitigated |
+| **ISSUE-003** | **Historical WhatsApp Message Backfill** | Meta Cloud API only receives webhooks from registration forward; does not pull historical device chats. | Implement one-time WhatsApp chat history parser from exported `.txt` or device backup script. | Open |
+
+---
+
+## 2. Medium Priority (Stability & Enhancement)
+
+| Issue ID | Description & Impact | Technical Risk | Suggested Solution | Status |
+| :--- | :--- | :--- | :--- | :--- |
+| **ISSUE-004** | **SQLite Concurrency for Brandcart Kenya** | `celine_customers.db` uses SQLite. High concurrent write load from WhatsApp traffic may lock DB (`database is locked`). | Migrate `celine_customers.db` into a dedicated PostgreSQL schema if traffic exceeds 10 concurrent writes/sec. | Open |
+| **ISSUE-005** | **Maya Local File Export Synchronization** | Maya directs outputs to `/Users/lenee/Downloads/maya`, but server is remote VPS (`129.121.132.35`). | Implement automated SFTP or webhook push script to transfer generated reports to local workstation. | Open |
+| **ISSUE-006** | **M-Pesa Safaricom Production Keys** | M-Pesa STK push currently in sandbox readiness; production Daraja credentials required for live KES settlement. | Acquire and configure live Safaricom Daraja Shortcode and Passkey in `celine_coexistence_settings`. | Pending Credentials |
+
+---
+
+## 3. Low Priority (Cosmetics & UI Enhancements)
+
+| Issue ID | Description & Impact | Technical Risk | Suggested Solution | Status |
+| :--- | :--- | :--- | :--- | :--- |
+| **ISSUE-007** | **Pagination Controls Beyond LIMIT 100** | Lists currently cap at 100 items via `LIMIT 100` without numeric page buttons (Page 1, 2, 3...). | Implement offset-based or cursor-based pagination controls in table footers. | Open |
+| **ISSUE-008** | **Raw Log Dark Mode Contrast** | Certain monospace text elements in the raw audit log tab have low contrast in dark theme. | Standardize CSS text color tokens to `--text-secondary` across all preformatted code tags. | Open |
+
+---
+
+## 4. Completed & Resolved Issues
+
+| Issue ID | Description | Resolution Date | Resolution Details |
 | :--- | :--- | :--- | :--- |
-| **P2** | **Automated Logistics Integration (Shiprocket / Delhivery):** Connect WooCommerce webhooks to Shiprocket for automated AWB and pickup scheduling. | Next Release | Medium |
-| **P2** | **WhatsApp Notification Bridge:** Integrate a WhatsApp business API webhook (Interakt/Wati) to send tracking links to customers upon dispatch. | Next Release | Medium |
-| **P3** | **Automated Review Collection Flow:** 14-day post-delivery email/WhatsApp asking verified buyers for photo reviews. | Future | Low |
-| **P3** | **Abandoned Checkout Recovery:** Follow-up email sequence for shoppers who drop off on the checkout page. | Future | Low |
+| **FIXED-001** | **Master Inbox View Masking** | 2026-11-18 | Removed inline `display: flex;` on `#view-master-inbox`; added `.category-view { display: none !important; }`. |
+| **FIXED-002** | **Dr. Lenny Delayed Scheduled Callback** | 2026-11-18 | Unpaused `settings.paused = false` and updated `worker.py:followup()` to trigger callback directly. |
+| **FIXED-003** | **Cold Voice Call Greeting** | 2026-11-18 | Injected prior conversation transcript and lead name into Sarvam agent variables in `providers.py`. |
+| **FIXED-004** | **Postgres Permissions for kavya_internal_chat** | 2026-11-18 | Granted full privileges and sequence rights to user `myclone`. |
