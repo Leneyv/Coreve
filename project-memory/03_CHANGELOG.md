@@ -223,3 +223,19 @@ This changelog records all code, configuration, database, and infrastructure cha
 * **Potential Breakages:** None.
 * **How to Undo:** Remove the `location ^~ /project-memory/` block from `/etc/nginx/sites-available/coreve.in` and reload Nginx.
 
+---
+
+### CHG-016
+* **Date & Time:** 2026-11-18 14:47 IST
+* **Linked Command:** [CMD-019](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#cmd-019)
+* **Type:** Config / Workflow
+* **What Changed & Why:** Established automated dual-hosting of `/project-memory/` in Git and on the VPS server (`/var/www/coreve.in/project-memory/`). Pushed Git history to GitHub (`https://github.com/Leneyv/Coreve.git`). Audited VPS webroot deployment; implemented SSH `rsync` protocol with `www-data:www-data` permissions for server synchronization. Confirmed public HTTP access block via Nginx returning HTTP 404.
+* **Files Touched:**
+  - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
+  - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
+  - `/var/www/coreve.in/project-memory/*` (synced on VPS)
+* **How Tested & Result:** Verified `git push origin main` completed with status 0; verified `rsync` updated VPS webroot with all 12 memory files; executed `curl -sI https://coreve.in/project-memory/00_README_FOR_AI.md` confirming HTTP/2 404 response. Result: Tested (Pass).
+* **Potential Breakages:** None.
+* **How to Undo:** Delete `/var/www/coreve.in/project-memory/` on VPS and remove from Git repository.
+
+

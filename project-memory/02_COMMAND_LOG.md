@@ -217,3 +217,18 @@ This log records every instruction given by the user in strict chronological ord
 * **Result:** Done.
 * **Changelog Link:** [CHG-015](file:///Users/lenee/coreve/project-memory/03_CHANGELOG.md#chg-015)
 
+---
+
+### CMD-019
+* **Date & Time:** 2026-11-18 14:47 IST
+* **User Instruction:** "STANDING RULE: HOST THE PROJECT MEMORY IN THE PROJECT DIRECTORY AND ON OUR VPS SERVER ... Please do the following, and explain each step in plain English as you go."
+* **Understanding:** Ensure `/project-memory` is permanently hosted both in the Git repository (committed and pushed to GitHub) and on the VPS server webroot (`/var/www/coreve.in/project-memory/`). Verify deployment mechanism, perform first full sync, confirm web server blocks public HTTP access (returning 404/403), and enforce automatic dual-sync at the conclusion of every task.
+* **What Was Done:** Checked `.gitignore` to ensure `project-memory/` is tracked; pushed all commits to GitHub (`origin main`); inspected VPS architecture (Nginx 1.24, PHP 8.3-FPM, MariaDB, non-git webroot at `/var/www/coreve.in`); chose SSH `rsync` as the production sync protocol; rsynced all 12 memory docs to `/var/www/coreve.in/project-memory/`; set `www-data:www-data` ownership; verified Nginx 404 response on public web requests.
+* **Files Created or Changed:**
+  - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
+  - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
+  - `/var/www/coreve.in/project-memory/*` (synced on VPS)
+* **Result:** Done.
+* **Changelog Link:** [CHG-016](file:///Users/lenee/coreve/project-memory/03_CHANGELOG.md#chg-016)
+
+
