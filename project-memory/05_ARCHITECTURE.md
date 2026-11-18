@@ -12,6 +12,7 @@
 │   ├── worker.py                        # Autonomous background job loop, callbacks, status polling
 │   ├── master_inbox.py                  # Master Coexistence Inbox blueprint (+919400199817)
 │   ├── kavya_chat.py                    # Talk to Kavya (Boss Command Desk) blueprint
+│   ├── kavya_flow.py                    # Kavya Agent Swarm & n8n-style visual workflow controller
 │   ├── celine.py                        # Celine Kamau BCL (Brandcart Kenya) retail blueprint
 │   ├── maya.py                          # Maya AI me (Executive operations) blueprint
 │   ├── research.py                      # Lead dossier builder and automated web enrichment
@@ -46,6 +47,7 @@
 | `worker.py` | Continuous background daemon (`myclone-worker.service`). Polls `jobs` table every 10 seconds, checks pending callbacks, executes voice calls, and polls Sarvam call status. |
 | `master_inbox.py` | Dedicated controller for Master Coexistence Inbox on `+919400199817`. Handles WhatsApp message history querying, template triggers, and message dispatches. |
 | `kavya_chat.py` | Dedicated controller for direct owner-to-Kavya conversation. Persists directives into `kavya_internal_chat` and auto-extracts training rules into `kavya_training_notes`. |
+| `kavya_flow.py` | Controller and REST API for Kavya Agent Swarm. Manages dynamic agents in `kavya_agents`, telemetry aggregation, and n8n visual graph states. |
 | `celine.py` | Isolated controller for Celine Kamau BCL. Queries `celine_customers.db` (SQLite), handles Brandcart Kenya inquiries, product searches, and Kenyan coexistence settings. |
 | `maya.py` | Autonomous controller for Maya AI me. Handles open-ended task execution, lead verification, continuous learning notes, and isolated task status tracking. |
 | `index.html` | Monolithic responsive single-page web interface containing isolated subviews (`#view-master-inbox`, `#view-kavya`, `#view-celine`, `#view-maya`, `#kavya-chat`) controlled by vanilla JS. |

@@ -220,3 +220,25 @@ New entries must be appended to the END of this file. Existing entries are perma
   - `/opt/myclone/project-memory/10_QC_CHECKLIST.md`
 - **Result:** Done
 - **Link to Changelog:** [CHG-014](file:///opt/myclone/project-memory/03_CHANGELOG.md#CHG-014)
+
+---
+
+### CMD-015
+- **Date and Time:** 2026-11-18 18:28:00 IST
+- **Instruction:** `i want a sub tab under kavya for me to visualy see (the flow n8n type) who is doing what and how many agent we do have inside kavya's agentic ai and allow me to add and remove frm the dashboard more agents to work with kavya`
+- **Understanding:** Create a dedicated n8n-style visual agent workflow sub-tab under Kavya that shows who is doing what, how many specialized agents exist in her swarm, and allows adding and removing agents directly from the UI.
+- **What was done:**
+  1. Created PostgreSQL table `kavya_agents` in `myclone` database with columns `id`, `name`, `role_description`, `stage`, `engine`, `system_prompt`, `is_core`, `active`, `telemetry_count`.
+  2. Populated the 7 core specialized agents: Web Scraper & Dossier Builder, Outbound Sarvam Voice Telephony Agent, Meta WhatsApp Nurture Agent, Gemini Cognitive Extraction Agent, 2-Hour SLA Escalation Agent, Razorpay Milestone Closer Agent, and Boss Directives Supervisor Agent.
+  3. Created backend REST API blueprint in `/opt/myclone/app/kavya_flow.py` with endpoints `GET /api/kavya/agents`, `POST /api/kavya/agents`, `PUT /api/kavya/agents/<id>`, `DELETE /api/kavya/agents/<id>`, and `POST /api/kavya/agents/<id>/toggle`. Registered in `app.py`.
+  4. Added `🕸️ Agent Swarm & Flow (n8n)` sub-tab under Kavya in the sidebar navigation with real-time agent count badge.
+  5. Implemented `#view-kavya-flow` containing a dark-grid n8n-style visual workflow canvas, stage badges, telemetry metric cards, prompt inspection modal, and `+ Add New Agent to Swarm` modal.
+  6. Tested with browser automation: verified 7 core agents rendered, added 8th agent ("SEO Competitor Scout Agent"), verified live canvas addition, deleted 8th agent, and verified clean restoration to 7 agents.
+- **Files created or changed:**
+  - `/opt/myclone/app/kavya_flow.py`
+  - `/opt/myclone/app/app.py`
+  - `/opt/myclone/app/templates/index.html`
+  - Database: PostgreSQL table `kavya_agents`
+- **Result:** Done
+- **Link to Changelog:** [CHG-015](file:///opt/myclone/project-memory/03_CHANGELOG.md#CHG-015)
+

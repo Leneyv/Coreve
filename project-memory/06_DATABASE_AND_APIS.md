@@ -60,6 +60,20 @@ Permanent directive and learning rules extracted from boss instructions.
 - `active` (BOOLEAN): Flag indicating if note is currently active.
 - `created_at` (TIMESTAMPTZ)
 
+#### `kavya_agents`
+Specialized autonomous agent units operating inside Kavya's agentic swarm.
+- `id` (SERIAL PRIMARY KEY)
+- `name` (VARCHAR): Agent name.
+- `role_description` (TEXT): Plain English definition of agent's responsibilities.
+- `stage` (VARCHAR): Pipeline stage (`discovery`, `telephony`, `qualification`, `extraction`, `quotation`, `closing`, `supervision`, `custom`).
+- `engine` (VARCHAR): AI model or runtime (`Gemini 3.8 Flash`, `Sarvam AI Outbound (+918064277369)`, `Playwright & DOM Parser`, etc.).
+- `system_prompt` (TEXT): Specialized directives and guardrails.
+- `is_core` (BOOLEAN): Flag protecting core pipeline agents from deletion.
+- `active` (BOOLEAN): Operational status flag.
+- `telemetry_count` (INT): Processed workload metrics.
+- `created_at` / `updated_at` (TIMESTAMPTZ)
+
+
 #### `ledger`
 Financial accounting records for customer quotes and payment transactions.
 - `id` (SERIAL PRIMARY KEY)
@@ -128,6 +142,14 @@ Isolated database for Brandcart Kenya retail commerce located at `/opt/myclone/a
 ### Boss Command Desk (`kavya_chat.py` prefix: `/api/kavya-chat`)
 - `GET /api/kavya-chat/history` : Retrieves internal conversation history with Kavya.
 - `POST /api/kavya-chat/send` : Sends message/directive to Kavya; invokes Gemini inference and persists rules.
+
+### Kavya Agent Swarm & Flow (`kavya_flow.py` prefix: `/api/kavya`)
+- `GET /api/kavya/agents` : Lists all specialized agents in Kavya's swarm, telemetry metrics, and active counts.
+- `POST /api/kavya/agents` : Adds a new specialized agent to Kavya's swarm.
+- `PUT /api/kavya/agents/<id>` : Updates configuration, engine, or prompt of an agent.
+- `DELETE /api/kavya/agents/<id>` : Removes a custom agent (core system agents are protected).
+- `POST /api/kavya/agents/<id>/toggle` : Toggles active / paused state of any agent.
+
 
 ### Celine Kenya (`celine.py` prefix: `/api/celine`)
 - `GET /api/celine/dashboard` : Returns Kenya retail KPIs (inquiries, orders, KES revenue).

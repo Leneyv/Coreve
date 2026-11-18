@@ -18,6 +18,8 @@ Status values: `Planned` | `In progress` | `Done and tested` | `Done but not tes
 | **Deterministic Razorpay Links** | Payments | Done and tested | Generates 50% advance / 50% handover milestone payment links. Tested via `providers.py:create_payment_link()`. |
 | **Boss Command Desk (Talk to Kavya)** | Chat UI | Done and tested | Direct internal chat in `#kavya-chat` view. Directives starting with "Instruction:" persist to training notes. |
 | **Lead List Pagination (Max 100)** | Dashboard UI | Done and tested | All lead, message, and audit views enforce `LIMIT 100` to prevent UI freezing. |
+| **Agent Swarm & n8n Visual Flow** | Workflow UI / Swarm | Done and tested | Interactive n8n-style workflow canvas in `#view-kavya-flow`. Visualizes 7 core agents, who does what, and supports adding/removing agents dynamically via PostgreSQL table `kavya_agents`. |
+
 
 ---
 

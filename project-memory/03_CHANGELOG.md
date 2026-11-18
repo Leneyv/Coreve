@@ -231,3 +231,26 @@ New entries must be appended to the END of this file. Existing entries are perma
   - Tested `git status` on VPS: Clean working tree after commit. Status: Tested (Passed).
 - **Breakage risk:** None; memory documentation is internal and blocked from external web exposure.
 - **How to undo:** Remove Nginx deny rule block and reload Nginx.
+
+---
+
+### CHG-015
+- **Date and Time:** 2026-11-18 18:36:00 IST
+- **Linked Command:** [CMD-015](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#CMD-015)
+- **Type:** Added / Upgraded
+- **What changed and why:**
+  - Implemented the Kavya Agent Swarm & Visual Workflow (n8n-style) sub-tab in the dashboard.
+  - Added PostgreSQL table `kavya_agents` to track swarm members, roles, stages, engines, prompts, and active statuses.
+  - Built REST API blueprint `kavya_flow.py` (`GET`, `POST`, `PUT`, `DELETE`, `POST /toggle`) and registered in `app.py`.
+  - Added visual workflow interface `#view-kavya-flow` with dark-grid canvas, stage icons, real-time metrics, prompt inspection modal, and dynamic add/remove node controls.
+- **Files touched:**
+  - `/opt/myclone/app/kavya_flow.py`
+  - `/opt/myclone/app/app.py`
+  - `/opt/myclone/app/templates/index.html`
+  - Database: PostgreSQL table `kavya_agents`
+- **How it was tested, and result:**
+  - Tested REST API with curl: verified list of 7 core agents, added custom agent, toggled active state, tested core agent deletion protection, and verified successful deletion of custom agent.
+  - Tested browser UI via subagent: navigated to `#kavya-flow`, verified all 7 agent nodes rendered, submitted new agent via modal, verified 8th card appeared in canvas with updated count badges, clicked remove, and verified clean deletion and return to 7 agents. Status: Tested (Passed).
+- **Breakage risk:** None; core agents are protected from deletion (`is_core = true`).
+- **How to undo:** Unregister `kavya_flow_bp` in `app.py`, drop `kavya_agents` table or restore `index.html.bak_before_kavya_flow`.
+
