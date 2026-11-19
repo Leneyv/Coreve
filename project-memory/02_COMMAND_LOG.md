@@ -654,6 +654,19 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done (User guided to resolve asset assignment blocking token generation).
 - **Link to Changelog:** None
 
+---
+
+### CMD-049
+- **Date and Time:** 2026-11-19 19:00:00 IST
+- **Instruction:** User uploaded screenshot `media_1795094942131_c5c24788.jpg` displaying the "Select assets and assign permissions" modal open on Facebook Pages.
+- **Understanding:** User followed instructions and opened the asset assignment dialog. Guide the user to select the "Apps" category in the first column, check "Kavya Wassap", toggle "Manage app", and click "Assign assets".
+- **What was done:**
+  1. Highlighted exact clicks needed on the user's open modal: Column 1 ("Apps") -> Column 2 ("Kavya Wassap") -> Column 3 ("Manage app" Full Control toggle) -> "Assign assets" button.
+- **Files created or changed:**
+  - None (UI navigation guidance)
+- **Result:** Done (User guided to complete asset assignment).
+- **Link to Changelog:** None
+
 
 
 
