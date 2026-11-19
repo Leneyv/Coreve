@@ -517,6 +517,23 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done
 - **Link to Changelog:** None (Interactive guidance)
 
+---
+
+### CMD-040
+- **Date and Time:** 2026-11-19 15:19:00 IST
+- **Instruction:** `popp like this and now it created and this is the tocken EAAWZBtgTIge4BTP3kzri...` [User provided Meta access token]
+- **Understanding:** User completed the Meta OAuth dialog for "Kavya Wassap" app and provided the generated access token. Validate the token against Meta Graph API, query and extract the Mycoreve Phone Number ID (`1352344067971735`), update `/var/lib/myclone/ops/integrations.json` and `celine_coexistence_settings`, and execute live test message dispatch to `+919778215961`.
+- **What was done:**
+  1. Validated token via `https://graph.facebook.com/debug_token`: Confirmed valid USER token for App `1617063857127918` (`Kavya Wassap`) with granted scopes `whatsapp_business_management` and `whatsapp_business_messaging`.
+  2. Queried Meta Graph API endpoint `https://graph.facebook.com/v21.0/972757048782467/phone_numbers`: Discovered Phone Number ID `1352344067971735` for `+91 94001 99817` (`Mycoreve`).
+  3. Updated `/var/lib/myclone/ops/integrations.json` with Phone Number ID `1352344067971735`, WABA ID `972757048782467`, and active access token.
+  4. Updated SQLite table `celine_coexistence_settings` in `/var/lib/myclone/celine_customers.db` with active credentials.
+  5. Triggered live dispatch via `POST http://127.0.0.1:5679/api/inbox/6/send` to Dr. Lenny (`+919778215961`): Successfully delivered via Meta Cloud API with HTTP 200, Meta Message ID `wamid.HBgMOTE5Nzc4MjE1OTYxFQIAERgUQ0VDQjFDNkJFNTdGRDQzMkY0RjAA`, and status `sent` in PostgreSQL `messages` table (row ID 23).
+- **Files created or changed:** `/var/lib/myclone/ops/integrations.json`, `/var/lib/myclone/celine_customers.db`
+- **Result:** Done (Fully verified live on Meta Cloud API and PostgreSQL).
+- **Link to Changelog:** CHG-016
+
+
 
 
 
