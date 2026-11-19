@@ -667,6 +667,20 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done (User guided to complete asset assignment).
 - **Link to Changelog:** None
 
+---
+
+### CMD-050
+- **Date and Time:** 2026-11-19 19:03:00 IST
+- **Instruction:** User uploaded screenshot `media_1795095097851_344204dd.jpg` showing `KavyaSystemUser` has Ad accounts and WhatsApp accounts assigned, but not the App asset (`Kavya Wassap`).
+- **Understanding:** To unlock token generation permissions for `Kavya Wassap`, the system user must be assigned the App role. Guide the user to go to the left sidebar menu: Business assets -> Apps, select `Kavya Wassap`, click "Add people" / "Assign assets", select `KavyaSystemUser`, enable "Manage app" (Full control), and if the app is not yet added to the business portfolio, use App ID `1617063857127918`.
+- **What was done:**
+  1. Identified that `KavyaSystemUser` has 6 assets assigned (1 Ad account, 5 WhatsApp accounts), but 0 Apps.
+  2. Provided direct instructions to assign the app role via Business assets -> Apps -> Kavya Wassap -> Add people -> KavyaSystemUser -> Full control.
+- **Files created or changed:**
+  - None (Meta configuration guidance)
+- **Result:** Done (User guided to link app to system user).
+- **Link to Changelog:** None
+
 
 
 
