@@ -242,3 +242,15 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done
 - **Link to Changelog:** [CHG-015](file:///opt/myclone/project-memory/03_CHANGELOG.md#CHG-015)
 
+---
+
+### CMD-016
+- **Date and Time:** 2026-11-19 11:05:00 IST
+- **Instruction:** `what is RAG and whats the use of that ?`
+- **Understanding:** Provide a clear, comprehensive architectural and business explanation of Retrieval-Augmented Generation (RAG), explaining how it works (Retrieve, Augment, Generate), why it is used (preventing hallucinations, grounding AI in proprietary company documents without expensive fine-tuning), and how it directly applies to this project (Celine's product catalogs, Kavya's IT case studies, and Maya's document intelligence).
+- **What was done:** Delivered an executive and technical briefing on RAG concepts, workflows, benefits, and practical use cases across the Corive Tech multi-agent platform.
+- **Files created or changed:** None (informational explanation).
+- **Result:** Done
+- **Link to Changelog:** None (Informational query; no code or schema modified)
+
+
