@@ -590,6 +590,25 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done
 - **Link to Changelog:** None (Live dispatch execution)
 
+---
+
+### CMD-045
+- **Date and Time:** 2026-11-19 16:20:00 IST
+- **Instruction:** `i am seeing the voice call message as text on my whatsap inbox that is wrong i want only see the whaatsap message inside the whatsap inbox correct it`
+- **Understanding:** User identified that voice call transcripts (from Sarvam AI telephony) and call attempt cards were being injected into the WhatsApp Inbox timeline as chat bubbles, cluttering and confusing the WhatsApp conversation feed. Purge voice call transcripts from WhatsApp inbox timelines so the chat box strictly and exclusively displays genuine WhatsApp messages.
+- **What was done:**
+  1. Modified `/opt/myclone/app/app.py` in `/api/inbox/<int:lead_id>`: removed `calls` and `transcript_turn` iteration from `timeline`, populating `timeline` purely with `whatsapp_message` records from the `messages` table.
+  2. Modified `/opt/myclone/app/master_inbox.py`: in `master_inbox_threads()`, set preview `snippet` strictly to `last_msg_body` (or `'No WhatsApp messages yet'`), removing fallback to voice call transcripts. In `master_inbox_thread_detail()`, restricted `timeline` strictly to `whatsapp_message`.
+  3. Modified `/opt/myclone/app/templates/index.html`: updated both `#view-inbox` and `#view-master-inbox` chat rendering loops to strictly render `whatsapp_message` items only.
+  4. Restarted `myclone` service and tested `/api/inbox/6` and `/api/master-inbox/thread/6`: verified 100% of items are `whatsapp_message`, with zero voice call turns.
+- **Files created or changed:**
+  - `/opt/myclone/app/app.py`
+  - `/opt/myclone/app/master_inbox.py`
+  - `/opt/myclone/app/templates/index.html`
+- **Result:** Done (Tested and verified in API and UI templates).
+- **Link to Changelog:** CHG-018
+
+
 
 
 

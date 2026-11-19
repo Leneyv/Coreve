@@ -289,5 +289,26 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Breakage risk:** None; prevents cross-team credential leakage.
 - **How to undo:** N/A (Standard isolation state).
 
+---
+
+### CHG-018
+- **Date and Time:** 2026-11-19 16:24:00 IST
+- **Linked Command:** [CMD-045](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#CMD-045)
+- **Type:** Fixed / Refactored
+- **What changed and why:**
+  - WhatsApp Inbox feeds (both single lead view and Master Inbox) were previously mixing voice call transcript turns (`channel: 'call'`) and call attempt cards into the chat bubbles alongside actual WhatsApp messages.
+  - Refactored the data ingestion and frontend rendering so that WhatsApp timelines strictly contain messages from the `messages` table (`whatsapp_message`).
+  - Removed voice call transcripts and call attempts from WhatsApp thread snippets and chat bubble feeds.
+- **Files touched:**
+  - `/opt/myclone/app/app.py`
+  - `/opt/myclone/app/master_inbox.py`
+  - `/opt/myclone/app/templates/index.html`
+- **How it was tested, and result:**
+  - Queried `GET /api/inbox/6` via curl: verified 14 items returned, all of type `whatsapp_message`, 0 transcript turns.
+  - Queried `GET /api/master-inbox/thread/6` via curl: verified 14 items returned, all of type `whatsapp_message`, 0 transcript turns. Status: Tested (Passed).
+- **Breakage risk:** None; call audio player and call summary remain accessible in the call history section without polluting the text chat feed.
+- **How to undo:** Restore `app.py.bak_clean_wa_inbox`, `master_inbox.py.bak_clean_wa_inbox`, and `index.html.bak_clean_wa_inbox`.
+
+
 
 
