@@ -576,6 +576,21 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done
 - **Link to Changelog:** None (Status report)
 
+---
+
+### CMD-044
+- **Date and Time:** 2026-11-19 16:16:00 IST
+- **Instruction:** `i hve send a message from 9778215961 to 9400199817`
+- **Understanding:** User sent an inbound WhatsApp message from handset 9778215961 to 9400199817 to open the 24-hour customer service window. Trigger live outbound response from Kavya to 9778215961 via `/api/inbox/6/send` and verify delivery status.
+- **What was done:**
+  1. Triggered `POST http://127.0.0.1:5679/api/inbox/6/send` on VPS: returned `{"ok": true, "sent": true, "mode": "cloud_api"}`.
+  2. Verified row inserted in PostgreSQL `messages` table (row ID 24, provider_id: `wamid.HBgMOTE5Nzc4MjE1OTYxFQIAERgUQ0VEOTNDMTk1MDQzQ0FGREI3MDcA`).
+  3. Prompted user to check handset for the live message and check whether the inbound message shows single tick or double tick.
+- **Files created or changed:** None (Live dispatch execution).
+- **Result:** Done
+- **Link to Changelog:** None (Live dispatch execution)
+
+
 
 
 
