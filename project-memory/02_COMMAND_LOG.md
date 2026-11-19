@@ -506,6 +506,18 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done
 - **Link to Changelog:** None (Interactive guidance)
 
+---
+
+### CMD-039
+- **Date and Time:** 2026-11-19 15:15:00 IST
+- **Instruction:** `i cnast see 9400xxx` [User uploaded screenshot showing From dropdown containing +91 93639 36665, +1 555 189 3688, and "+ Add phone number"]
+- **Understanding:** Number +91 94001 99817 belongs to WABA 972757048782467 rather than the newly generated test sandbox WABA. The "Generate access token" button explicitly allows selecting one or more WhatsApp accounts across the portfolio. Direct user to click "Generate access token" and select Mycoreve to produce a token that authorizes querying the Phone Number ID via Graph API.
+- **What was done:** Instructed user to click "Generate access token", select Mycoreve in the modal, and paste the resulting token.
+- **Files created or changed:** None (Interactive UI guidance).
+- **Result:** Done
+- **Link to Changelog:** None (Interactive guidance)
+
+
 
 
 
