@@ -268,5 +268,17 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done
 - **Link to Changelog:** None (Diagnostic audit and status report)
 
+---
+
+### CMD-018
+- **Date and Time:** 2026-11-19 14:02:00 IST
+- **Instruction:** `i have added money to whatsp` [attached screenshot of Meta Billing Hub completing ₹500 payment to WABA 972757048782467 "Mycoreve"]
+- **Understanding:** User has successfully added ₹500 prepaid balance to the WhatsApp Business Account (WABA ID: 972757048782467 "Mycoreve") via UPI on Meta Business Manager. Acknowledge funding, verify that WABA ID matches system records, and explain the final remaining step: obtaining the Phone Number ID and System User Access Token from Meta Developer Console to enable live outbound dispatches.
+- **What was done:** Verified WABA ID matching against `/var/lib/myclone/ops/integrations.json` (`972757048782467`), documented account funding status, and guided user to retrieve Phone Number ID and Access Token.
+- **Files created or changed:** None (Operational acknowledgement & guidance).
+- **Result:** Done
+- **Link to Changelog:** None (Operational instruction & balance update)
+
+
 
 
