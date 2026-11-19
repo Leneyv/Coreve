@@ -772,6 +772,23 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done (Parameters provided to user).
 - **Link to Changelog:** None
 
+---
+
+### CMD-057
+- **Date and Time:** 2026-11-19 23:52:00 IST
+- **Instruction:** User asked: `this is the same webhook using for celine ? celine wa connected to another business with another number i dont want you too confuse each other`
+- **Understanding:** Clarify strict architectural separation between Kavya and Celine. Confirm that Celine uses a completely distinct, dedicated webhook URL and distinct verify token, preventing any collision or cross-contamination between the two businesses and phone numbers.
+- **What was done:**
+  1. Inspected `/opt/myclone/app/celine.py` and `/var/lib/myclone/celine_customers.db`:
+     - Kavya Endpoint: `https://myclone.coreve.in/api/whatsapp/webhook` | Token: `coreve_wa_verify_2026` | Phone: `+91 94001 99817`
+     - Celine Endpoint: `https://myclone.coreve.in/api/celine/webhook` | Token: `brandcart_celine_secret_2026` | Phone: `+254 781 547547`
+  2. Verified Celine endpoint via curl: returned HTTP 200 with test challenge.
+  3. Clearly documented the absolute separation for the user.
+- **Files created or changed:**
+  - None (Clarification & endpoint validation)
+- **Result:** Done (Complete separation confirmed and explained).
+- **Link to Changelog:** None
+
 
 
 
