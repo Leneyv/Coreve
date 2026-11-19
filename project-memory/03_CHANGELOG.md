@@ -365,3 +365,20 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Breakage risk:** None.
 - **How to undo:** Delete `wp-content/mu-plugins/coreve-gtm.php` and flush cache.
 
+---
+
+### CHG-022
+- **Date and Time:** 2026-11-20 00:16:00 IST
+- **Linked Command:** [CMD-062](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#CMD-062)
+- **Type:** Config / Verification
+- **What changed and why:**
+  - Verified and confirmed Google Analytics 4 web stream tag alignment with `GTM-TM3ZZV8C`.
+  - Confirmed readiness for Google's live site tester on `https://coreve.in`.
+- **Files touched:**
+  - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
+  - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
+- **How it was tested, and result:**
+  - Verified `https://coreve.in` returns HTTP 200 with `GTM-TM3ZZV8C` in `<head>` and `<body>`. Status: Tested (Passed).
+- **Breakage risk:** None.
+- **How to undo:** N/A.
+

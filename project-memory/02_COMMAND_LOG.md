@@ -858,3 +858,19 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done.
 - **Link to Changelog:** CHG-021
 
+---
+
+### CMD-062
+- **Date and Time:** 2026-11-20 00:16:00 IST
+- **Instruction:** User provided second screenshot showing Google Analytics 4 Web Stream setup (`analytics.google.com`) for `https://coreve.in` with prompt `do this too`.
+- **Understanding:** Verify and confirm that the Google Tag (`GTM-TM3ZZV8C`) is active and ready to pass the Google Analytics Web Stream verification test (`Test your website: https://coreve.in`).
+- **What was done:**
+  1. Verified that the GA4 web stream uses the exact same Google Tag (`GTM-TM3ZZV8C`) installed in `wp-content/mu-plugins/coreve-gtm.php`.
+  2. Confirmed HTML source on `https://coreve.in` outputs the tag immediately inside `<head>` and noscript in `<body>` with zero caching delays.
+  3. Validated HTTP 200 response and absence of restrictive CSP headers.
+- **Files created or changed:**
+  - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
+  - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
+- **Result:** Done.
+- **Link to Changelog:** CHG-022
+
