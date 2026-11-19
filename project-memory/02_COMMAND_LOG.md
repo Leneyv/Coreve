@@ -352,6 +352,18 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done
 - **Link to Changelog:** None (Interactive guidance)
 
+---
+
+### CMD-025
+- **Date and Time:** 2026-11-19 14:22:00 IST
+- **Instruction:** [User uploaded screenshot of "Add people and set permissions" modal for WhatsApp account +91 94001 99817]
+- **Understanding:** The modal shows "Conversions API System User (system user)" as an assignable user. Guide user to check this user, enable full control permissions on the right pane, and click "Assign".
+- **What was done:** Instructed user to check "Conversions API System User (system user)", toggle on Full Control/Manage on the right pane, and click the blue "Assign" button.
+- **Files created or changed:** None (Interactive UI guidance).
+- **Result:** Done
+- **Link to Changelog:** None (Interactive guidance)
+
+
 
 
 
