@@ -473,6 +473,18 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done
 - **Link to Changelog:** None (Interactive guidance)
 
+---
+
+### CMD-036
+- **Date and Time:** 2026-11-19 14:52:00 IST
+- **Instruction:** `created` [User uploaded screenshot of Kavya Wassap dashboard showing "Customize the Connect with customers through WhatsApp use case"]
+- **Understanding:** App "Kavya Wassap" has been successfully created. Guide user to click the first customization action "Customize the Connect with customers through WhatsApp use case" to reach the API Setup and Phone Number ID page.
+- **What was done:** Instructed user to click "Customize the Connect with customers through WhatsApp use case" on the dashboard.
+- **Files created or changed:** None (Interactive UI guidance).
+- **Result:** Done
+- **Link to Changelog:** None (Interactive guidance)
+
+
 
 
 
