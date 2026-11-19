@@ -319,6 +319,18 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done
 - **Link to Changelog:** None (Interactive guidance)
 
+---
+
+### CMD-022
+- **Date and Time:** 2026-11-19 14:17:00 IST
+- **Instruction:** `where accounts ?` [User attached screenshot showing slide-out drawer covering the inner Business Settings navigation column]
+- **Understanding:** The outer navigation drawer opened over the inner Business Settings submenu column where "Accounts" resides. Guide user to close the drawer (`≡`) to reveal the inner settings column containing "Accounts" -> "WhatsApp accounts", or provide the direct URL.
+- **What was done:** Explained that the slideout menu is covering the inner settings navigation column. Instructed user to click `≡` to close the overlay drawer, find "Accounts" in the inner column, or navigate directly to `business.facebook.com/latest/settings/whatsapp_accounts`.
+- **Files created or changed:** None (Interactive UI guidance).
+- **Result:** Done
+- **Link to Changelog:** None (Interactive guidance)
+
+
 
 
 
