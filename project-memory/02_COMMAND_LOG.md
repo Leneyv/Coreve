@@ -462,6 +462,18 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done
 - **Link to Changelog:** None (Interactive guidance)
 
+---
+
+### CMD-035
+- **Date and Time:** 2026-11-19 14:50:00 IST
+- **Instruction:** [User uploaded screenshot of Meta App Creation wizard at "Requirements" step showing "No requirements identified"]
+- **Understanding:** Step 4 has no publishing requirements. Instruct user to click the blue "Next" button to proceed to the Overview/Finish step.
+- **What was done:** Instructed user to click the blue "Next" button.
+- **Files created or changed:** None (Interactive UI guidance).
+- **Result:** Done
+- **Link to Changelog:** None (Interactive guidance)
+
+
 
 
 
