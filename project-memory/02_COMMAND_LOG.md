@@ -709,6 +709,20 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done (User guided to resolve permission availability block).
 - **Link to Changelog:** None
 
+---
+
+### CMD-053
+- **Date and Time:** 2026-11-19 19:35:00 IST
+- **Instruction:** User uploaded screenshot `media_1795097032899_5f1ecf88.jpg` showing all permissions unlocked and selected (`whatsapp_business_messaging`, `whatsapp_business_management`, `manage_app_solution`, `whatsapp_business_manage_events`).
+- **Understanding:** The permissions block is resolved. Guide user to click the blue "Continue" button, complete token generation, and copy the permanent access token.
+- **What was done:**
+  1. Verified from screenshot that required WhatsApp permissions are selected.
+  2. Directed user to click "Continue" to generate and copy the permanent token.
+- **Files created or changed:**
+  - None (Workflow completion guidance)
+- **Result:** Done (User guided to final token copy step).
+- **Link to Changelog:** None
+
 
 
 
