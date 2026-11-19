@@ -253,4 +253,20 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done
 - **Link to Changelog:** None (Informational query; no code or schema modified)
 
+---
+
+### CMD-017
+- **Date and Time:** 2026-11-19 13:47:00 IST
+- **Instruction:** `i am fixing somehing with celine same case for kavya also, kavya unable to send whatsap message check the status`
+- **Understanding:** Diagnose why Kavya is unable to send WhatsApp messages, inspect server logs, check PostgreSQL messages/jobs tables, verify Meta Cloud API credential status for Kavya (+91 94001 99817) and compare with Celine's (+254 781 547 547) Meta OAuth error_subcode 2593181.
+- **What was done:**
+  1. Inspected Gunicorn systemd journal logs: Found Celine returning Meta API HTTP 400 with `error_subcode: 2593181` ("Application does not have permission for this phone number").
+  2. Inspected PostgreSQL `messages` table for Kavya: Found 11 recent outgoing messages (IDs 11 to 21) stuck in `pending_token` status.
+  3. Checked `/var/lib/myclone/ops/integrations.json` and `/etc/myclone/runtime.env`: Confirmed `WA_PHONE_NUMBER_ID` and `WA_ACCESS_TOKEN` are completely unconfigured (None/empty) for Kavya, causing `providers.send_wa()` to raise `Blocked('WhatsApp provider not connected')`.
+  4. Documented exact resolution steps to activate live Meta Cloud API messaging for Kavya via `#view-setup` or `/api/settings`.
+- **Files created or changed:** None (Diagnostic audit).
+- **Result:** Done
+- **Link to Changelog:** None (Diagnostic audit and status report)
+
+
 
