@@ -822,33 +822,20 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done (Patched 24-hour window bypass in dispatch guard; live reply delivered to phone).
 - **Link to Changelog:** CHG-019
 
+---
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+### CMD-060
+- **Date and Time:** 2026-11-20 00:07:00 IST
+- **Instruction:** User requested: `i want to automate abandend cart recovery for coreve.in`
+- **Understanding:** Architect and plan an automated abandoned cart and checkout recovery system for `coreve.in` luxury footwear e-commerce, capturing pre-submit customer contact data (email/phone), orchestrating timed multi-touch recovery emails via Zoho Mail SMTP, and preparing WhatsApp recovery channels.
+- **What was done:**
+  1. Audited active WooCommerce configuration, checkout blocks, and WP Cron on VPS webroot (`/var/www/coreve.in`).
+  2. Formulated complete luxury recovery architecture: real-time input capture, 3-touch branded email sequence (30m, 24h, 48h) via Zoho SMTP (`smtp.zoho.in:465`), and WhatsApp concierge recovery.
+  3. Evaluated implementation paths: Option 1 (`woo-cart-abandonment-recovery` open-source engine) vs Option 2 (custom bespoke MU-plugin).
+  4. Presented actionable deployment plan to user.
+- **Files created or changed:**
+  - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
+  - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
+- **Result:** In progress / Proposed to user.
+- **Link to Changelog:** CHG-020
 

@@ -327,6 +327,21 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Breakage risk:** Low; only active conversations with recent inbound customer messages bypass the outbound pause. Cold unsolicited outreach remains strictly restricted to working hours.
 - **How to undo:** Revert `providers.py` to require `owner=False` in `send_wa`.
 
+---
 
-
+### CHG-020
+- **Date and Time:** 2026-11-20 00:07:00 IST
+- **Linked Command:** [CMD-060](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#CMD-060)
+- **Type:** Planned / Architecture
+- **What changed and why:**
+  - Designed the end-to-end automated abandoned cart recovery workflow for `coreve.in` to recover lost revenue on luxury wedge sneakers (₹6,995 - ₹8,995).
+  - Outlined pre-submit contact capture (debounced AJAX capture on checkout fields), timed 3-touch recovery email sequence using Coreve's Zoho Mail SMTP (`lenee@coreve.in`), and WhatsApp recovery integration for India market.
+  - Recommended deployment of industry-standard `woo-cart-abandonment-recovery` plugin vs custom MU-plugin engine.
+- **Files touched:**
+  - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
+  - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
+- **How it was tested, and result:**
+  - Verified WP Cron and Action Scheduler actively running on VPS webroot; verified Zoho SMTP operational. Status: Verified readiness.
+- **Breakage risk:** None (planning phase).
+- **How to undo:** N/A.
 
