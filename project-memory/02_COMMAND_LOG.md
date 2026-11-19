@@ -874,3 +874,28 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done.
 - **Link to Changelog:** CHG-022
 
+---
+
+### CMD-063
+- **Date and Time:** 2026-11-20 00:18:00 IST
+- **Instruction:** User approved: `do this Option A (Fastest & Most Complete): I can install and configure woo-cart-abandonment-recovery right now on your VPS, brand the 3 email templates with Coreve's fonts, colors, and logos, and test a recovery flow with a test cart.`
+- **Understanding:** Fully install, configure, luxury-brand, and verify Option A (`woo-cart-abandonment-recovery`) on `coreve.in`.
+- **What was done:**
+  1. Installed and activated `woo-cart-abandonment-recovery` via WP-CLI on production VPS (`129.121.132.35`).
+  2. Configured global sender settings: From Name `Coreve`, From Email `lenee@coreve.in`, Reply Email `hello@coreve.in`, Admin Notifications `lenee@coreve.in`, Cart Cutoff `15 mins`, Lost Time `30 mins`.
+  3. Replaced all 3 default email templates with custom-coded responsive luxury HTML email designs matching Coreve brand standards (#123a2d Forest Green, #b4947f Warm Sand accents, typography, trust bar, and WhatsApp concierge links):
+     - Template 1: 30 minutes (`Did you leave your pair behind? | Coreve`)
+     - Template 2: 24 hours (`Handcrafted for her: 65mm ergonomic comfort | Coreve`)
+     - Template 3: 48 hours (`Need personal sizing advice before your pair sells out? | Coreve`)
+  4. Executed live test email dispatch via Zoho Mail SMTP relay (`smtp.zoho.in:465` SSL) to `lenee@coreve.in` (Status: Send Result: true).
+  5. Simulated abandoned cart session in database, executed email scheduler, verified scheduled queues in `wp_cartflows_ca_email_history`, and cleaned up test records.
+  6. Synced plugin to local Git repository.
+- **Files created or changed:**
+  - `/var/www/coreve.in/wp-content/plugins/woo-cart-abandonment-recovery/` (synced to local)
+  - Database tables: `wp_cartflows_ca_email_templates`, `wp_options`
+  - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
+  - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
+  - `/Users/lenee/coreve/project-memory/04_FEATURES_STATUS.md`
+- **Result:** Done and tested.
+- **Link to Changelog:** CHG-023
+

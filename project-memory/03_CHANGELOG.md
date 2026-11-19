@@ -382,3 +382,28 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Breakage risk:** None.
 - **How to undo:** N/A.
 
+---
+
+### CHG-023
+- **Date and Time:** 2026-11-20 00:18:00 IST
+- **Linked Command:** [CMD-063](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#CMD-063)
+- **Type:** Added / Upgraded
+- **What changed and why:**
+  - Deployed and configured full automated abandoned cart recovery system on `coreve.in` using `woo-cart-abandonment-recovery`.
+  - Configured sender identities to `Coreve` <`lenee@coreve.in`>, reply-to `hello@coreve.in`.
+  - Overhauled all 3 recovery email templates to custom luxury HTML format incorporating Coreve brand identity, trust badges (Free Pan-India Delivery, 7-Day Exchange, Italian Design), dynamic product tables, 1-click cart restoration links, and WhatsApp concierge touchpoint.
+  - Activated 3-stage sequence: 30 minutes, 24 hours, and 48 hours.
+- **Files touched:**
+  - `/wp-content/plugins/woo-cart-abandonment-recovery/` (installed on server, synced to local git)
+  - `wp_cartflows_ca_email_templates` (DB rows 1, 2, 3 updated and activated)
+  - `wp_options` (`wcf_ca_*` options configured)
+  - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
+  - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
+  - `/Users/lenee/coreve/project-memory/04_FEATURES_STATUS.md`
+- **How it was tested, and result:**
+  - Tested live SMTP delivery of template 1 to `lenee@coreve.in` via Zoho Mail relay (`smtp.zoho.in:465`); returned `Send Result: true`.
+  - Tested session abandonment simulation and verified 3 automated follow-ups scheduled at +30m, +24h, and +48h in `wp_cartflows_ca_email_history`.
+  - Verified checkout block compatibility. Status: Tested (Passed).
+- **Breakage risk:** None. Operates asynchronously via WP Cron without adding latency to checkout.
+- **How to undo:** Deactivate `woo-cart-abandonment-recovery` via WP-CLI.
+
