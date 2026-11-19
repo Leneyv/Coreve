@@ -608,6 +608,23 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done (Tested and verified in API and UI templates).
 - **Link to Changelog:** CHG-018
 
+---
+
+### CMD-046
+- **Date and Time:** 2026-11-19 17:25:00 IST
+- **Instruction:** `i have send a message from 9778215961 to 9400199817 from my mobile app and its not arrived in our inbox why`
+- **Understanding:** User sent a test inbound WhatsApp message from personal mobile `+919778215961` to WhatsApp business number `+919400199817`, but the message did not appear in the dashboard's WhatsApp inbox. Investigate the failure, verify server webhook readiness, and determine why Meta has not forwarded the message.
+- **What was done:**
+  1. Inspected `/var/log/nginx/access.log` on VPS: verified zero HTTP requests to `/api/whatsapp/webhook`, confirming Meta has not sent any webhook payload.
+  2. Tested webhook verification endpoint `https://myclone.coreve.in/api/whatsapp/webhook?hub.mode=subscribe&hub.challenge=test_challenge_123&hub.verify_token=coreve_wa_verify_2026`: confirmed server returns HTTP 200 with challenge string.
+  3. Inspected Meta App status and Graph API: identified that Meta Developer App `Kavya Wassap` (1617063857127918) has not been configured with the Callback URL and Webhook subscription (`messages` field) under WhatsApp -> Configuration, so Meta does not know where to deliver inbound messages.
+  4. Identified that the temporary access token generated in Meta API Setup has also expired (`Session has expired... code: 190, subcode: 463`).
+  5. Documented exact step-by-step instructions for user to configure Webhook URL and `messages` subscription in Meta for Developers console.
+- **Files created or changed:**
+  - None (Diagnosis & validation)
+- **Result:** Done (Root cause diagnosed: Webhook callback URL and `messages` field not yet subscribed in Meta Developer App).
+- **Link to Changelog:** None (Configuration guidance)
+
 
 
 
