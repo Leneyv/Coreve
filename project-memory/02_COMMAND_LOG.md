@@ -723,6 +723,26 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done (User guided to final token copy step).
 - **Link to Changelog:** None
 
+---
+
+### CMD-054
+- **Date and Time:** 2026-11-19 19:53:00 IST
+- **Instruction:** User provided generated Meta Permanent System User Access Token: `EAAWZBtgTIge4BTCV4...`.
+- **Understanding:** Test and validate the permanent token with Meta Graph API, verify WABA and Phone ID access, subscribe the WABA to the app, write the token to `/var/lib/myclone/ops/integrations.json`, restart the `myclone` service, and verify live WhatsApp delivery to Dr. Lenny (`+919778215961`).
+- **What was done:**
+  1. Validated token via Meta Graph API v21.0:
+     - `/me`: System User `KavyaSystemUser` (`122103965289550315`), HTTP 200.
+     - Phone ID `1352344067971735` (`+91 94001 99817`, `Mycoreve`), HTTP 200.
+     - WABA `972757048782467` (`Mycoreve`), HTTP 200.
+     - Subscribed WABA to app via `POST /972757048782467/subscribed_apps`: `{"success": true}`, HTTP 200.
+  2. Updated `/var/lib/myclone/ops/integrations.json` on VPS with permanent token and restarted `myclone` service.
+  3. Verified `/api/master-inbox/config`: returned `has_token: true`, `has_phone_id: true`.
+  4. Tested live dispatch via `/api/master-inbox/send` to Lead ID 6 (`+919778215961`): sent successfully via Meta Cloud API with provider ID `wamid.HBgMOTE5Nzc4MjE1OTYxFQIAERgUQ0U4QzBCQjExOEZCQkVGMzVCN0QA`.
+- **Files created or changed:**
+  - `/var/lib/myclone/ops/integrations.json` (VPS)
+- **Result:** Done (Permanent token active, WABA subscribed, live WhatsApp message sent and verified).
+- **Link to Changelog:** None (Configuration & runtime update)
+
 
 
 
