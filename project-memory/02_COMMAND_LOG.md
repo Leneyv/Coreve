@@ -407,6 +407,18 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done
 - **Link to Changelog:** None (Interactive guidance)
 
+---
+
+### CMD-030
+- **Date and Time:** 2026-11-19 14:35:00 IST
+- **Instruction:** `look at it not active` [User uploaded screenshot showing tooltip: "In order to generate a system user access token, an app must be part of this business portfolio. Please add an app."]
+- **Understanding:** Meta requires an App to be connected to the Business Portfolio before generating a system user token. Direct user to click "Apps" under Business assets in the left menu.
+- **What was done:** Analyzed tooltip message and guided user to click "Apps" in the left sidebar under Business assets to connect the Meta App (`1665756461922180`).
+- **Files created or changed:** None (Interactive UI guidance).
+- **Result:** Done
+- **Link to Changelog:** None (Interactive guidance)
+
+
 
 
 
