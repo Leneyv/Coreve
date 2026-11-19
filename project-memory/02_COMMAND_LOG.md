@@ -308,6 +308,18 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done
 - **Link to Changelog:** None (Operational instruction)
 
+---
+
+### CMD-021
+- **Date and Time:** 2026-11-19 14:14:00 IST
+- **Instruction:** `i will copy paste 1 by 1 screen heere you guide me` [User attached screenshot of "Create system user" modal opened after clicking `+ Add`]
+- **Understanding:** User clicked `+ Add` on the System Users screen which opened the "Create system user" modal. Guide the user step-by-step to close this modal (`X`) and navigate via the hamburger menu (`≡`) or the Accounts icon to the "WhatsApp accounts" section.
+- **What was done:** Analyzed the modal screenshot, instructed user to close the popup via `X`, click the `≡` hamburger icon at the top left next to "Settings" to expand the navigation menu, and select "WhatsApp accounts" under Accounts.
+- **Files created or changed:** None (Interactive UI guidance).
+- **Result:** Done
+- **Link to Changelog:** None (Interactive guidance)
+
+
 
 
 
