@@ -279,6 +279,25 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done
 - **Link to Changelog:** None (Operational instruction & balance update)
 
+---
+
+### CMD-019
+- **Date and Time:** 2026-11-19 14:10:00 IST
+- **Instruction:** `try to send a message by kavya to 9778215961 let see weather it is wokring or not`
+- **Understanding:** Execute a live WhatsApp message dispatch test from Kavya to Lead ID 6 (+919778215961, Dr. Lenny) via the API endpoint, check return payload, database record, and inspect live Meta Graph API connection status.
+- **What was done:**
+  1. Executed POST request to `/api/inbox/6/send` on VPS (`127.0.0.1:5679`) targeting +919778215961.
+  2. Verified API response: returned `{"ok": true, "sent": false, "mode": "manual", "message": "Message logged to history. Open WhatsApp Web to send.", "wa_web_url": "..."}`.
+  3. Inspected PostgreSQL `messages` table: new message record ID 22 logged with status `manual_logged`.
+  4. Diagnosed root cause via Meta Graph API:
+     - In `/var/lib/myclone/ops/integrations.json`, `WA_PHONE_NUMBER_ID` and `WA_ACCESS_TOKEN` are not yet populated.
+     - Queried Meta Graph API `debug_token` on the existing token: Valid system user (`122150485341151350`, App: `1665756461922180`) with granted scopes `whatsapp_business_messaging` and `whatsapp_business_management`.
+     - Queried assigned assets: `me/assigned_whatsapp_business_accounts` returned `{"data": []}`, confirming that in Meta Business Manager, the WhatsApp Business Account has not yet been assigned to the System User under Business Assets.
+- **Files created or changed:** None (Live execution and diagnostic testing).
+- **Result:** Done (Live tested; confirmed fallback to manual mode until WABA asset assignment is completed).
+- **Link to Changelog:** None (Live testing & diagnosis)
+
+
 
 
 
