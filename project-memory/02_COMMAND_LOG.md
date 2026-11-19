@@ -743,6 +743,20 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done (Permanent token active, WABA subscribed, live WhatsApp message sent and verified).
 - **Link to Changelog:** None (Configuration & runtime update)
 
+---
+
+### CMD-055
+- **Date and Time:** 2026-11-19 20:03:00 IST
+- **Instruction:** User requested a clean, streamlined step-by-step SOP/guide based on the complete end-to-end setup achieved for Kavya, so the user can follow it cleanly for Celine's team without going back and forth. User explicitly emphasized not touching Celine's credentials or doing work for Celine here.
+- **Understanding:** Compile a complete, ordered, zero-friction checklist and blueprint synthesizing all lessons learned (App creation, Business Portfolio asset linking, System User App role assignment to prevent the "No permissions available" error, Never-expiring token generation with exact WhatsApp scopes, Webhook URL verification and `messages` field subscription, and WABA app subscription).
+- **What was done:**
+  1. Synthesized the end-to-end workflow into 5 logical phases with exact UI paths and common traps avoided.
+  2. Preserved team separation boundaries (no actions on Celine's database or runtime).
+- **Files created or changed:**
+  - None (Documentation & SOP guidance)
+- **Result:** Done (SOP provided to user).
+- **Link to Changelog:** None
+
 
 
 
