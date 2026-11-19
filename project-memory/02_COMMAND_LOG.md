@@ -297,6 +297,18 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done (Live tested; confirmed fallback to manual mode until WABA asset assignment is completed).
 - **Link to Changelog:** None (Live testing & diagnosis)
 
+---
+
+### CMD-020
+- **Date and Time:** 2026-11-19 14:12:00 IST
+- **Instruction:** [User uploaded screenshot of Meta Business Settings showing Conversions API System User assigned assets]
+- **Understanding:** Inspect user's Meta Business Settings screen for `Conversions API System User` (ID: 61581271187611). Confirm that only Pages, Ad accounts, Pixels, and Datasets are assigned, with no WhatsApp Accounts connected yet. Guide user with exact click-by-click instructions on their screen to assign the Mycoreve WhatsApp account and retrieve the Phone Number ID.
+- **What was done:** Analyzed screenshot UI elements. Provided clear step-by-step guidance to assign the "Mycoreve" WhatsApp Account to "Conversions API System User" using either the `+ Add` button or the Accounts navigation on the left pane, and where to grab the Phone Number ID.
+- **Files created or changed:** None (Operational UI guidance).
+- **Result:** Done
+- **Link to Changelog:** None (Operational instruction)
+
+
 
 
 
