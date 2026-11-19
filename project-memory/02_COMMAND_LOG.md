@@ -374,6 +374,18 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done
 - **Link to Changelog:** None (Interactive guidance)
 
+---
+
+### CMD-027
+- **Date and Time:** 2026-11-19 14:25:00 IST
+- **Instruction:** [User uploaded screenshot of `···` menu options: "Assign people", "Remove from business portfolio"]
+- **Understanding:** The top `···` button only contains portfolio actions. Direct the user to click the "More v" tab (next to Partners) or use the direct WhatsApp Manager URL `https://business.facebook.com/wa/manage/phone-numbers/?waba_id=972757048782467` to view the Phone Number ID table.
+- **What was done:** Provided instructions to click the "More v" dropdown tab or open the direct WhatsApp Manager URL to locate the Phone Number ID.
+- **Files created or changed:** None (Interactive UI guidance).
+- **Result:** Done
+- **Link to Changelog:** None (Interactive guidance)
+
+
 
 
 
