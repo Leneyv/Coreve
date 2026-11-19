@@ -330,6 +330,18 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done
 - **Link to Changelog:** None (Interactive guidance)
 
+---
+
+### CMD-023
+- **Date and Time:** 2026-11-19 14:20:00 IST
+- **Instruction:** [User uploaded screenshot of Business Settings showing "Business assets" tree]
+- **Understanding:** User revealed the Business Settings navigation tree showing "Business assets". "WhatsApp accounts" is visible in the list directly under "Business assets". Guide user to click "WhatsApp accounts".
+- **What was done:** Pointed user to the "WhatsApp accounts" menu item visible under the "Business assets" section in the left sidebar and requested the next screenshot.
+- **Files created or changed:** None (Interactive UI guidance).
+- **Result:** Done
+- **Link to Changelog:** None (Interactive guidance)
+
+
 
 
 
