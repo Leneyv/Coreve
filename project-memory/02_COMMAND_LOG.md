@@ -385,6 +385,18 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done
 - **Link to Changelog:** None (Interactive guidance)
 
+---
+
+### CMD-028
+- **Date and Time:** 2026-11-19 14:31:00 IST
+- **Instruction:** [User uploaded screenshot of "More v" dropdown showing "Linked WhatsApp accounts" and "Messaging accounts"]
+- **Understanding:** The "More v" dropdown does not provide a direct link to the Phone Number ID. Pivoted to the easiest, automated path: guided the user to return to System Users -> Conversions API System User -> click "Generate token" with `whatsapp_business_messaging` & `whatsapp_business_management`. Once generated, the agent will automatically query the Meta Graph API to extract the Phone Number ID without requiring manual navigation.
+- **What was done:** Directed user to System Users -> Conversions API System User -> Generate token, with exact permission checkboxes.
+- **Files created or changed:** None (Interactive UI guidance).
+- **Result:** Done
+- **Link to Changelog:** None (Interactive guidance)
+
+
 
 
 
