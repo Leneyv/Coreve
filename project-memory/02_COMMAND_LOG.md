@@ -681,6 +681,20 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done (User guided to link app to system user).
 - **Link to Changelog:** None
 
+---
+
+### CMD-051
+- **Date and Time:** 2026-11-19 19:05:00 IST
+- **Instruction:** User uploaded screenshot `media_1795095209187_dc91ca19.jpg` showing `Kavya Wassap` successfully assigned to `KavyaSystemUser` under Apps with Full access.
+- **Understanding:** The App asset assignment is complete. Guide the user to click the "Generate token" button at the top right, select `Kavya Wassap`, choose "Never" for expiration, check the two WhatsApp permissions (`whatsapp_business_messaging`, `whatsapp_business_management`), and copy the generated token.
+- **What was done:**
+  1. Verified from screenshot that `Kavya Wassap` is now an assigned asset with Full access.
+  2. Guided the user to the final token generation step and specific permissions to check.
+- **Files created or changed:**
+  - None (Workflow completion guidance)
+- **Result:** Done (User guided to generate permanent system user token).
+- **Link to Changelog:** None
+
 
 
 
