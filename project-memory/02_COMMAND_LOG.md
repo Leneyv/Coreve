@@ -396,6 +396,18 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done
 - **Link to Changelog:** None (Interactive guidance)
 
+---
+
+### CMD-029
+- **Date and Time:** 2026-11-19 14:33:00 IST
+- **Instruction:** [User uploaded screenshot of System Users page showing "WhatsApp accounts: unknown, Full access" assigned to Conversions API System User]
+- **Understanding:** Asset assignment verified on System Users page (now showing 6 assets including WhatsApp accounts). Instruct user to click the "Generate token" button next to "Revoke tokens".
+- **What was done:** Confirmed WhatsApp accounts asset presence (6 assets total) and instructed user to click "Generate token".
+- **Files created or changed:** None (Interactive UI guidance).
+- **Result:** Done
+- **Link to Changelog:** None (Interactive guidance)
+
+
 
 
 
