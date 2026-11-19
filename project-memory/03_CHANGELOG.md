@@ -407,3 +407,23 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Breakage risk:** None. Operates asynchronously via WP Cron without adding latency to checkout.
 - **How to undo:** Deactivate `woo-cart-abandonment-recovery` via WP-CLI.
 
+---
+
+### CHG-024
+- **Date and Time:** 2026-11-20 00:30:00 IST
+- **Linked Command:** [CMD-064](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#CMD-064)
+- **Type:** Config / Refactored
+- **What changed and why:**
+  - Standardized customer-facing and order notification emails to `hello@coreve.in` instead of `lenee@coreve.in`.
+  - Updated `wp-config.php`, WooCommerce options, cart recovery options, and `functions.php` order alert hooks.
+- **Files touched:**
+  - `/var/www/coreve.in/wp-config.php`
+  - `/wp-content/themes/coreve/functions.php`
+  - `wp_options` (WooCommerce and WCF recovery options)
+  - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
+  - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
+- **How it was tested, and result:**
+  - Dispatched test email using `wp_mail('hello@coreve.in', ...)`: returned `true`. Status: Tested (Passed).
+- **Breakage risk:** None.
+- **How to undo:** Revert options, `wp-config.php`, and `functions.php` to `lenee@coreve.in`.
+

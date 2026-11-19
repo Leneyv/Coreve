@@ -984,11 +984,11 @@ add_filter( 'woocommerce_structured_data_breadcrumblist', '__return_empty_array'
  * Configure recipient for standard WooCommerce New Order emails.
  */
 add_filter( "woocommerce_email_recipient_new_order", function( $recipient, $order ) {
-	return "lenee@coreve.in";
+	return "hello@coreve.in";
 }, 10, 2 );
 
 /**
- * Send dedicated comprehensive order notification email to lenee@coreve.in.
+ * Send dedicated comprehensive order notification email to hello@coreve.in.
  */
 function coreve_send_order_notification_email( $order_id ) {
 	if ( ! $order_id ) {
@@ -1004,7 +1004,7 @@ function coreve_send_order_notification_email( $order_id ) {
 		return false;
 	}
 
-	$to = "lenee@coreve.in";
+	$to = "hello@coreve.in";
 	$order_number = $order->get_order_number();
 	$order_date = $order->get_date_created() ? $order->get_date_created()->date_i18n( "d M Y, h:i A" ) : current_time( "d M Y, h:i A" );
 	$customer_name = trim( $order->get_formatted_billing_full_name() );
@@ -1171,7 +1171,7 @@ function coreve_send_order_notification_email( $order_id ) {
 
 	$headers = array(
 		"Content-Type: text/html; charset=UTF-8",
-		"From: Coreve Orders <lenee@coreve.in>",
+		"From: Coreve Orders <hello@coreve.in>",
 		"Reply-To: " . $customer_name . " <" . $customer_email . ">",
 	);
 

@@ -899,3 +899,32 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done and tested.
 - **Link to Changelog:** CHG-023
 
+---
+
+### CMD-064
+- **Date and Time:** 2026-11-20 00:30:00 IST
+- **Instruction:** User instructed: `use hello@coreve.in instead of lenee@coreve.in`
+- **Understanding:** Replace `lenee@coreve.in` with `hello@coreve.in` across all store email configurations, including WooCommerce order notification recipients, sender/reply addresses, cart abandonment recovery sender/admin settings, and SMTP `From` headers.
+- **What was done:**
+  1. Updated `/var/www/coreve.in/wp-config.php`: changed `COREVE_SMTP_FROM` to `hello@coreve.in` and `COREVE_SMTP_FROM_NAME` to `Coreve` (keeping authenticated SMTP login credentials intact).
+  2. Updated database `wp_options`:
+     - `wcf_ca_from_email` -> `hello@coreve.in`
+     - `wcf_ca_admin_email` -> `hello@coreve.in`
+     - `wcf_ca_reply_email` -> `hello@coreve.in`
+     - `woocommerce_email_from_address` -> `hello@coreve.in`
+     - `woocommerce_new_order_settings` (recipient) -> `hello@coreve.in`
+     - `woocommerce_cancelled_order_settings` (recipient) -> `hello@coreve.in`
+     - `woocommerce_failed_order_settings` (recipient) -> `hello@coreve.in`
+  3. Updated `wp-content/themes/coreve/functions.php`:
+     - Hook `woocommerce_email_recipient_new_order` returns `hello@coreve.in`.
+     - Function `coreve_send_order_notification_email` sends to `hello@coreve.in` with `From: Coreve Orders <hello@coreve.in>`.
+  4. Verified delivery with test email via WP-CLI: returned `true`.
+- **Files created or changed:**
+  - `/var/www/coreve.in/wp-config.php`
+  - `/var/www/coreve.in/wp-content/themes/coreve/functions.php` (synced to local)
+  - `/Users/lenee/coreve/wp-content/themes/coreve/functions.php`
+  - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
+  - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
+- **Result:** Done and tested.
+- **Link to Changelog:** CHG-024
+
