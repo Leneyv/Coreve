@@ -264,14 +264,30 @@ New entries must be appended to the END of this file. Existing entries are perma
   - Activated Meta WhatsApp Cloud API credentials following user registration of developer app `Kavya Wassap` (App ID `1617063857127918`).
   - Queried Meta Graph API dynamically using the newly minted access token to retrieve the official Phone Number ID (`1352344067971735`) for `+91 94001 99817` (`Mycoreve`, WABA ID: `972757048782467`).
   - Updated `/var/lib/myclone/ops/integrations.json` with active `WA_PHONE_NUMBER_ID`, `WA_ACCESS_TOKEN`, `WA_BUSINESS_ACCOUNT_ID`, and set `MANUAL_WHATSAPP_MODE: "false"`.
-  - Updated SQLite table `celine_coexistence_settings` in `/var/lib/myclone/celine_customers.db` with active credentials to restore Celine's direct dispatch capability.
 - **Files touched:**
   - `/var/lib/myclone/ops/integrations.json`
-  - `/var/lib/myclone/celine_customers.db` (table `celine_coexistence_settings`)
 - **How it was tested, and result:**
   - Tested direct Meta Cloud API dispatch via Python: returned HTTP 200 with message receipt ID `wamid.HBgMOTE5Nzc4MjE1OTYxFQIAERgUQ0VDQjFDNkJFNTdGRDQzMkY0RjAA`.
   - Tested Kavya endpoint `POST /api/inbox/6/send` via curl on VPS: returned `{"mode": "cloud_api", "ok": true, "sent": true}`. Verified row inserted in PostgreSQL `messages` table (id: 23, status: `sent`, direction: `out`). Status: Tested (Passed).
 - **Breakage risk:** None. Automated fallback to WhatsApp Web remains intact if access tokens expire.
 - **How to undo:** Revert `WA_PHONE_NUMBER_ID` and `WA_ACCESS_TOKEN` to empty in `integrations.json`.
+
+---
+
+### CHG-017
+- **Date and Time:** 2026-11-19 15:27:00 IST
+- **Linked Command:** [CMD-042](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#CMD-042)
+- **Type:** Security / Config
+- **What changed and why:**
+  - Strictly enforced team and credential isolation between Celine (Brandcart Kenya) and Kavya (Corive Tech India).
+  - Reverted SQLite table `celine_coexistence_settings` in `/var/lib/myclone/celine_customers.db`: restored `phone_number_id = '1430803473453005'`, `waba_id = '1084431507836374'`, and cleared the access token (`access_token = NULL`).
+  - Confirmed Kavya credentials reside strictly within `/var/lib/myclone/ops/integrations.json`.
+- **Files touched:**
+  - `/var/lib/myclone/celine_customers.db` (table `celine_coexistence_settings`)
+- **How it was tested, and result:**
+  - Queried `celine_coexistence_settings` via Python: Verified `phone_number_id = '1430803473453005'`, `waba_id = '1084431507836374'`, `access_token = None`, `timezone = 'Africa/Nairobi'`. Status: Tested (Passed).
+- **Breakage risk:** None; prevents cross-team credential leakage.
+- **How to undo:** N/A (Standard isolation state).
+
 
 

@@ -548,6 +548,21 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done
 - **Link to Changelog:** None (Diagnostic investigation)
 
+---
+
+### CMD-042
+- **Date and Time:** 2026-11-19 15:27:00 IST
+- **Instruction:** `celine is an individual diffrent team than you her credentials are diffrent never ever mistkenly take any other persons credential`
+- **Understanding:** User strictly reiterated team and credential boundaries: Celine is a completely separate team (Brandcart Kenya, +254 781 547547, WABA 1084431507836374) and must never have her settings mixed or touched with Kavya/India credentials. Revert and clean Celine's settings in `celine_customers.db` immediately to enforce absolute isolation.
+- **What was done:**
+  1. Acknowledged and strictly enforced team boundary rule.
+  2. Immediately restored SQLite table `celine_coexistence_settings` in `/var/lib/myclone/celine_customers.db` to Phone Number ID `1430803473453005`, WABA ID `1084431507836374`, and cleared the Indian token (`access_token = NULL`).
+  3. Verified that Kavya credentials reside strictly and exclusively in `/var/lib/myclone/ops/integrations.json` (Phone Number ID `1352344067971735`, WABA `972757048782467`).
+- **Files created or changed:** `/var/lib/myclone/celine_customers.db` (table `celine_coexistence_settings`).
+- **Result:** Done (Strict credential isolation restored and verified).
+- **Link to Changelog:** CHG-017
+
+
 
 
 
