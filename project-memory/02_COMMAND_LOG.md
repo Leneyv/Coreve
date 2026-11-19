@@ -640,6 +640,20 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done (User guided on token renewal).
 - **Link to Changelog:** None
 
+---
+
+### CMD-048
+- **Date and Time:** 2026-11-19 18:58:00 IST
+- **Instruction:** User uploaded screenshot `media_1795094820755_41bd5203.jpg` showing Meta Business Settings error in Generate Token modal: `No permissions available - Assign an app role to the system user, or select another app to continue`.
+- **Understanding:** In Meta Business Manager, a System User cannot generate a token for an App until that App is explicitly assigned as an asset to the System User with the "Manage App" (Admin/Full Control) role. Guide the user through closing the modal, clicking "Assign Assets", selecting the App asset with Manage App permissions, and regenerating the token.
+- **What was done:**
+  1. Identified root cause: System user `KavyaSystemUser` has not been assigned the App asset in Meta Business Settings.
+  2. Documented step-by-step instructions to Assign Asset -> Apps -> Kavya Wassap -> Manage App -> Save Changes, then retry token generation.
+- **Files created or changed:**
+  - None (Meta configuration guidance)
+- **Result:** Done (User guided to resolve asset assignment blocking token generation).
+- **Link to Changelog:** None
+
 
 
 
