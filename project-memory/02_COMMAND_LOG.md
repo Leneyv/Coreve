@@ -418,6 +418,18 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done
 - **Link to Changelog:** None (Interactive guidance)
 
+---
+
+### CMD-031
+- **Date and Time:** 2026-11-19 14:37:00 IST
+- **Instruction:** `i cliced on add button` [User uploaded screenshot of "What do you want to do?" modal with "Connect an app ID"]
+- **Understanding:** Modal presents "Create a new app ID", "Connect an app ID", and "Request access to an app ID". Guide user to select "Connect an app ID" and provide App ID `1665756461922180`.
+- **What was done:** Instructed user to click "Connect an app ID" (2nd option) and enter the known Meta App ID `1665756461922180`.
+- **Files created or changed:** None (Interactive UI guidance).
+- **Result:** Done
+- **Link to Changelog:** None (Interactive guidance)
+
+
 
 
 
