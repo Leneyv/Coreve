@@ -363,6 +363,18 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done
 - **Link to Changelog:** None (Interactive guidance)
 
+---
+
+### CMD-026
+- **Date and Time:** 2026-11-19 14:24:00 IST
+- **Instruction:** `done whats next` [User uploaded screenshot showing Conversions API System User successfully assigned with Full Access to +91 94001 99817]
+- **Understanding:** System user assignment is complete. Next, guide user to locate the Phone Number ID (via the `···` menu or WhatsApp Manager) and regenerate the token under System users to ensure asset claims are active on the access token.
+- **What was done:** Instructed user to click the `···` button at the top right to locate WhatsApp Manager / Phone Number ID, and outlined the token regeneration step.
+- **Files created or changed:** None (Interactive UI guidance).
+- **Result:** Done
+- **Link to Changelog:** None (Interactive guidance)
+
+
 
 
 
