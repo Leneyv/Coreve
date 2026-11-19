@@ -839,3 +839,22 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** In progress / Proposed to user.
 - **Link to Changelog:** CHG-020
 
+---
+
+### CMD-061
+- **Date and Time:** 2026-11-20 00:13:00 IST
+- **Instruction:** User provided screenshot requesting manual installation of Google Tag / Google Tag Manager container `GTM-TM3ZZV8C`.
+- **Understanding:** Embed the Google tag snippet for container `GTM-TM3ZZV8C` immediately inside the `<head>` tag and the corresponding `<noscript>` container inside `<body>` across all pages of `coreve.in`.
+- **What was done:**
+  1. Created `wp-content/mu-plugins/coreve-gtm.php` hooking into `wp_head` (priority 1) and `wp_body_open` (priority 1) so it executes globally across both custom storefront and classic templates.
+  2. Synced `coreve-gtm.php` to VPS webroot (`/var/www/coreve.in/wp-content/mu-plugins/coreve-gtm.php`) with `www-data:www-data` ownership.
+  3. Purged Nginx FastCGI cache (`/var/cache/nginx/coreve/*`).
+  4. Verified via curl on homepage, product pages, and checkout that `GTM-TM3ZZV8C` is present immediately in `<head>` and `<body>`.
+- **Files created or changed:**
+  - `/Users/lenee/coreve/wp-content/mu-plugins/coreve-gtm.php`
+  - `/var/www/coreve.in/wp-content/mu-plugins/coreve-gtm.php`
+  - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
+  - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
+- **Result:** Done.
+- **Link to Changelog:** CHG-021
+

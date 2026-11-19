@@ -345,3 +345,23 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Breakage risk:** None (planning phase).
 - **How to undo:** N/A.
 
+---
+
+### CHG-021
+- **Date and Time:** 2026-11-20 00:13:00 IST
+- **Linked Command:** [CMD-061](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#CMD-061)
+- **Type:** Added / Config
+- **What changed and why:**
+  - Installed Google Tag Manager container `GTM-TM3ZZV8C` across the entire `coreve.in` site.
+  - Implemented via dedicated MU-plugin `wp-content/mu-plugins/coreve-gtm.php` at priority 1 on `wp_head` and `wp_body_open`.
+  - Cleared Nginx FastCGI cache on VPS to ensure immediate propagation.
+- **Files touched:**
+  - `/Users/lenee/coreve/wp-content/mu-plugins/coreve-gtm.php`
+  - `/var/www/coreve.in/wp-content/mu-plugins/coreve-gtm.php`
+  - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
+  - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
+- **How it was tested, and result:**
+  - Tested `curl -sL https://coreve.in/`, `https://coreve.in/product/zivana-winterberry-girl-sneaker-shoe/`, and `https://coreve.in/checkout/` confirming `https://www.googletagmanager.com/gtm.js?id=GTM-TM3ZZV8C` renders at the top of `<head>` and noscript iframe in `<body>`. Status: Tested (Passed).
+- **Breakage risk:** None.
+- **How to undo:** Delete `wp-content/mu-plugins/coreve-gtm.php` and flush cache.
+
