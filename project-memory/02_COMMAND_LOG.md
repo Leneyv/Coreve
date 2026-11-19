@@ -695,6 +695,20 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done (User guided to generate permanent system user token).
 - **Link to Changelog:** None
 
+---
+
+### CMD-052
+- **Date and Time:** 2026-11-19 19:30:00 IST
+- **Instruction:** User reported "still showing" with screenshot `media_1795096713022_b6019fb9.jpg` indicating `No permissions available` persists in the Generate Token dialog.
+- **Understanding:** In Meta Business Settings, permission availability for a system user can be blocked by: 1) stale browser cache requiring a page hard-refresh after asset assignment, or 2) the app itself in Meta Developer Console (`developers.facebook.com`) lacks Standard Access enabled under "Permissions and features" for `whatsapp_business_messaging` and `whatsapp_business_management`. Provide clear instructions for hard-refreshing, enabling Standard Access in the App dashboard, and offer the 24-hr API Setup token as an instant immediate-send fallback.
+- **What was done:**
+  1. Identified caching and developer console Standard Access requirements.
+  2. Formulated guidance covering browser refresh, Developer App permissions activation, and instant 24-hr fallback.
+- **Files created or changed:**
+  - None (Meta configuration guidance)
+- **Result:** Done (User guided to resolve permission availability block).
+- **Link to Changelog:** None
+
 
 
 
