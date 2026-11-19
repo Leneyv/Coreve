@@ -484,6 +484,18 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done
 - **Link to Changelog:** None (Interactive guidance)
 
+---
+
+### CMD-037
+- **Date and Time:** 2026-11-19 14:53:00 IST
+- **Instruction:** [User uploaded screenshot of WhatsApp Quickstart showing "API Setup" / "Start using the API" button]
+- **Understanding:** User is at the WhatsApp Quickstart screen. Guide user to click the blue "Start using the API" button or "API Setup" on the left menu to view credentials.
+- **What was done:** Instructed user to click "Start using the API" (or "API Setup" in the left menu) to view the Phone Number ID and Access Token.
+- **Files created or changed:** None (Interactive UI guidance).
+- **Result:** Done
+- **Link to Changelog:** None (Interactive guidance)
+
+
 
 
 
