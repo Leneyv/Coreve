@@ -789,6 +789,23 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done (Complete separation confirmed and explained).
 - **Link to Changelog:** None
 
+---
+
+### CMD-058
+- **Date and Time:** 2026-11-19 23:57:00 IST
+- **Instruction:** User requested: `this alwo done now send a sample message to 9778215961 let me see kavya can do this or now`
+- **Understanding:** Send a live test WhatsApp message from Kavya (`+91 94001 99817`) to user's handset `+919778215961` via Meta WhatsApp Cloud API and verify transmission and delivery receipts.
+- **What was done:**
+  1. Dispatched test message via `/api/master-inbox/send` to Lead ID 6 (`+919778215961`):
+     - Text: `ഹലോ Dr. Lenny! Kavya AI ആണ് സംസാരിക്കുന്നത്. ഞങ്ങളുടെ WhatsApp integration ഇപ്പോൾ 100% active ആണ്. ഇത് താങ്കൾക്ക് അയച്ച confirmation test message ആണ്.`
+     - Result: HTTP 200, Mode: `cloud_api`, Provider ID: `wamid.HBgMOTE5Nzc4MjE1OTYxFQIAERgUQ0UyMEUyMzE3NkYyQTJFRkZGOUEA`.
+  2. Verified PostgreSQL `messages` table row 27:
+     - Confirmed status transitioned from `sent` to `delivered` via incoming Meta delivery webhook receipt.
+- **Files created or changed:**
+  - None (Live test dispatch)
+- **Result:** Done (Message transmitted, delivered, and confirmed via delivery webhook).
+- **Link to Changelog:** None
+
 
 
 
