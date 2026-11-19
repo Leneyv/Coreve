@@ -341,6 +341,18 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done
 - **Link to Changelog:** None (Interactive guidance)
 
+---
+
+### CMD-024
+- **Date and Time:** 2026-11-19 14:21:00 IST
+- **Instruction:** [User uploaded screenshot of WhatsApp accounts page showing Mycoreve (+91 94001 99817)]
+- **Understanding:** User is now on the WhatsApp accounts page with Mycoreve (+91 94001 99817, Status: Connected) selected. Guide user to click the "Assign people" button to link the System User.
+- **What was done:** Analyzed the screenshot showing "Assign people", "Assign partner", and phone details. Instructed user to click "Assign people" to add Conversions API System User.
+- **Files created or changed:** None (Interactive UI guidance).
+- **Result:** Done
+- **Link to Changelog:** None (Interactive guidance)
+
+
 
 
 
