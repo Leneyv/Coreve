@@ -495,6 +495,18 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done
 - **Link to Changelog:** None (Interactive guidance)
 
+---
+
+### CMD-038
+- **Date and Time:** 2026-11-19 15:13:00 IST
+- **Instruction:** [User uploaded screenshot of Meta WhatsApp API Setup page]
+- **Understanding:** User has successfully reached the official WhatsApp API Setup screen. Guide user to select "Mycoreve (+91 94001 99817)" from the "From" dropdown to reveal the Phone Number ID, and click the blue "Generate access token" button.
+- **What was done:** Instructed user to select Mycoreve in the From dropdown, copy the revealed Phone number ID, and click "Generate access token" to copy the token.
+- **Files created or changed:** None (Interactive UI guidance).
+- **Result:** Done
+- **Link to Changelog:** None (Interactive guidance)
+
+
 
 
 
