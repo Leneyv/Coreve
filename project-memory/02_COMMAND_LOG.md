@@ -757,6 +757,21 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done (SOP provided to user).
 - **Link to Changelog:** None
 
+---
+
+### CMD-056
+- **Date and Time:** 2026-11-19 23:48:00 IST
+- **Instruction:** User asked: `wahts kavyas Callback URL and Verify token`
+- **Understanding:** Retrieve and state the exact WhatsApp Webhook Callback URL and Verify Token configured for Kavya's private sales workspace.
+- **What was done:**
+  1. Verified configured values from `/var/lib/myclone/ops/integrations.json`:
+     - Callback URL: `https://myclone.coreve.in/api/whatsapp/webhook`
+     - Verify Token: `coreve_wa_verify_2026`
+- **Files created or changed:**
+  - None (Parameter lookup)
+- **Result:** Done (Parameters provided to user).
+- **Link to Changelog:** None
+
 
 
 
