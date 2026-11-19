@@ -625,6 +625,21 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done (Root cause diagnosed: Webhook callback URL and `messages` field not yet subscribed in Meta Developer App).
 - **Link to Changelog:** None (Configuration guidance)
 
+---
+
+### CMD-047
+- **Date and Time:** 2026-11-19 17:33:00 IST
+- **Instruction:** User uploaded screenshot `media_1795089148513_3d4582c5.jpg` with a pink pointer highlighting the warning banner: `⚠️ Logged. Meta Access Token expired or invalid. Please update your token in Meta Coexistence Setup. Deliver in WhatsApp Web ->` when sending `ok i am sening the quotation`.
+- **Understanding:** Outbound sending via Meta Cloud API failed with error code 190 because the temporary 24-hour developer token generated in API Setup expired at 03:00 PST. Explain why this occurred, guide the user on the quick refresh (new token from API Setup) and the permanent fix (Meta Business System User token with no expiration), and explain how to update it in the dashboard.
+- **What was done:**
+  1. Verified message #25 in PostgreSQL database: confirmed outbound message `ok i am sening the quotation` was safely captured with fallback status `manual_logged`.
+  2. Verified Meta API error code 190 in `master_inbox.py`: confirmed temporary token expiry.
+  3. Formulated step-by-step guidance for refreshing the token immediately or creating a permanent System User token.
+- **Files created or changed:**
+  - None (Operational guidance & token update workflow)
+- **Result:** Done (User guided on token renewal).
+- **Link to Changelog:** None
+
 
 
 
