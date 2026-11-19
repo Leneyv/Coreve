@@ -440,6 +440,18 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done
 - **Link to Changelog:** None (Interactive guidance)
 
+---
+
+### CMD-033
+- **Date and Time:** 2026-11-19 14:45:00 IST
+- **Instruction:** `it asked me to register so i register i mean this link https://developers.facebook.com/apps/` [User uploaded screenshot of Meta Developers Apps console showing "No apps yet" with "Business portfolio: No business portfolio selected"]
+- **Understanding:** User registered as a Meta Developer. The console currently displays "No business portfolio selected". Direct user to check the "Business portfolio" dropdown for "Coreve Ads", or click the green "Create App" button to configure WhatsApp Cloud API directly for Coreve Ads.
+- **What was done:** Instructed user to select "Coreve Ads" in the Business portfolio dropdown, or click "Create App" (selecting Other/Business -> WhatsApp) to spin up the official WhatsApp Cloud API connection.
+- **Files created or changed:** None (Interactive UI guidance).
+- **Result:** Done
+- **Link to Changelog:** None (Interactive guidance)
+
+
 
 
 
