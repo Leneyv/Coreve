@@ -309,6 +309,24 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Breakage risk:** None; call audio player and call summary remain accessible in the call history section without polluting the text chat feed.
 - **How to undo:** Restore `app.py.bak_clean_wa_inbox`, `master_inbox.py.bak_clean_wa_inbox`, and `index.html.bak_clean_wa_inbox`.
 
+---
+
+### CHG-019
+- **Date and Time:** 2026-11-20 00:07:00 IST
+- **Linked Command:** [CMD-059](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#CMD-059)
+- **Type:** Fixed
+- **What changed and why:**
+  - Inbound WhatsApp customer conversations were previously having automated AI replies blocked by `dispatch_guard` if the owner had paused cold outreach (`settings.paused = true`) or if the customer messaged outside working hours (10:00-18:30 IST).
+  - This caused automated replies to fail with `core.Blocked` and get recorded into the database as `pending_token` without actually being transmitted to Meta Cloud API.
+  - Refactored `providers.send_wa`: dynamically checks if `in_window` is active (`last_inbound_at` < 24 hours), and passes `owner=in_window` to `dispatch_guard`, ensuring customer service conversations within the Meta 24-hour window are dispatched instantly 24/7 even when cold discovery outreach is paused.
+- **Files touched:**
+  - `/opt/myclone/app/providers.py`
+- **How it was tested, and result:**
+  - Executed `providers.send_wa(6, ...)` via python runtime on VPS: confirmed successful transmission to Meta Cloud API (`wamid.HBgMOTE5Nzc4MjE1OTYxFQIAERgUQ0UzRDM2ODY3OUM4QzVGOTVGOTAA`).
+  - Webhook delivery receipt received: PostgreSQL `messages` row updated to `status: delivered`. Status: Tested (Passed).
+- **Breakage risk:** Low; only active conversations with recent inbound customer messages bypass the outbound pause. Cold unsolicited outreach remains strictly restricted to working hours.
+- **How to undo:** Revert `providers.py` to require `owner=False` in `send_wa`.
+
 
 
 

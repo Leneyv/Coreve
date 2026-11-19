@@ -806,6 +806,22 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done (Message transmitted, delivered, and confirmed via delivery webhook).
 - **Link to Changelog:** None
 
+---
+
+### CMD-059
+- **Date and Time:** 2026-11-20 00:07:00 IST
+- **Instruction:** User reported: `kavyas inbox is not live and instant there is a reply i have dne whne kavya send me a message there is not reply from her also i cant see that mesage from kavyas inbox` and provided screenshot `media_1795112964790_dbc6ed66.jpg`.
+- **Understanding:** Investigate why inbound messages (`Ok`, `I want website`) triggered Kavya AI replies in PostgreSQL that were marked `status: pending_token` and not delivered to user's phone, while displaying as sent bubbles in the dashboard.
+- **What was done:**
+  1. Diagnosed root cause: `providers.send_wa` called `dispatch_guard(lead_id, channel='whatsapp')` without `owner=True`. `dispatch_guard` checked whether `settings.paused` was true (outreach was paused by user) and whether the current time was outside 10:00-18:30 IST (it was midnight 00:03 IST). This raised `Blocked` exception, causing `worker.py` to record the message as `pending_token` rather than transmitting it to Meta Cloud API.
+  2. Patched `/opt/myclone/app/providers.py`: checked if customer is within the 24-hour service window (`in_window = True`), passing `owner=in_window` to `dispatch_guard`. Active inbound customer conversations inside the 24-hour window are now exempt from cold outreach pausing and 10:00-18:30 office hours restrictions.
+  3. Restarted `myclone` and `myclone-worker` systemd services.
+  4. Dispatched the actual response text to user handset `+919778215961` (Lead ID: 6); confirmed delivery receipt with Meta Provider ID `wamid.HBgMOTE5Nzc4MjE1OTYxFQIAERgUQ0UzRDM2ODY3OUM4QzVGOTVGOTAA` (Status: `delivered`). Cleaned up stale `pending_token` rows 29 and 31.
+- **Files created or changed:**
+  - `/opt/myclone/app/providers.py`
+- **Result:** Done (Patched 24-hour window bypass in dispatch guard; live reply delivered to phone).
+- **Link to Changelog:** CHG-019
+
 
 
 
