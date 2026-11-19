@@ -429,6 +429,18 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done
 - **Link to Changelog:** None (Interactive guidance)
 
+---
+
+### CMD-032
+- **Date and Time:** 2026-11-19 14:40:00 IST
+- **Instruction:** [User uploaded screenshot showing Meta error: "There was an unexpected technical issue. Please try again." on Add an app modal]
+- **Understanding:** Meta Business Suite blocked claiming ownership of the developer app. Transitioned user to the canonical Meta for Developers console (`https://developers.facebook.com/apps/`) where App `1665756461922180` lives, to directly copy the Phone Number ID and Access Token under WhatsApp -> API Setup.
+- **What was done:** Advised user to click Cancel on the modal and open `https://developers.facebook.com/apps/` directly to access WhatsApp -> API Setup.
+- **Files created or changed:** None (Interactive UI guidance).
+- **Result:** Done
+- **Link to Changelog:** None (Interactive guidance)
+
+
 
 
 
