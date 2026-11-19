@@ -533,6 +533,22 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done (Fully verified live on Meta Cloud API and PostgreSQL).
 - **Link to Changelog:** CHG-016
 
+---
+
+### CMD-041
+- **Date and Time:** 2026-11-19 15:24:00 IST
+- **Instruction:** `i have acess to. 919778215961 this number and i have not reveived any message yet`
+- **Understanding:** User reports that the message has not appeared on handset +919778215961 despite Meta HTTP 200 and wamid generation. Investigate Meta Cloud API delivery mechanics, 24-hour customer service window status, template requirements, and SMB Coexistence mode constraints.
+- **What was done:**
+  1. Queried Meta Graph API for Phone Number ID `1352344067971735`: Verified account_mode `LIVE`, platform_type `CLOUD_API`, and SMB Coexistence status.
+  2. Queried message templates for WABA `972757048782467`: Confirmed 0 message templates exist.
+  3. Inspected Lead ID 6 `last_inbound_at`: Timestamp was 2026-11-17 (> 47 hours ago). Under Meta's 24-hour customer window rule, freeform text messages without an approved template are dropped by Meta's routing layer if the customer has not messaged the business in the last 24 hours.
+  4. Diagnosed the requirement: To open the 24-hour freeform messaging window, the recipient phone must send an inbound message (e.g. "Hi") to +91 94001 99817, or an approved message template must be used for business-initiated conversations.
+- **Files created or changed:** None (Diagnostic investigation).
+- **Result:** Done
+- **Link to Changelog:** None (Diagnostic investigation)
+
+
 
 
 
