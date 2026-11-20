@@ -1131,7 +1131,7 @@ New private Boss Dashboard: https://myclone.coreve.in/#boss. Full release/eviden
 
 ---
 
-### CMD-068
+### CMD-070
 - **Date and Time:** 2026-11-20 15:05:00 IST
 - **Instruction:** User shared screenshot showing Kavya's Boss Chat / Inbox obstructed by plan approval cards (`Plan #2 · completed`, `Plan #1 · rejected` with large raw JSON blocks) and requested: "kavyas inbox is blocking by this approval please put an option to minimize that".
 - **Understanding:** Add a clean minimize/collapse toggle for the `#kavya-approval-plans` container in the Corive dashboard (`https://myclone.coreve.in`):
@@ -1149,4 +1149,39 @@ New private Boss Dashboard: https://myclone.coreve.in/#boss. Full release/eviden
   - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
   - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
 - **Result:** Done and verified.
-- **Link to Changelog:** CHG-028
+- **Link to Changelog:** CHG-030
+
+---
+
+### CMD-071
+- **Date and Time:** 2026-11-20 16:15:00 IST
+- **Instruction:** User requested: "whne a message comes from https://web.coreve.in/ it has to be identified as kavyas lead by kavya and take action so do the necessory text t mark as this is for kavya"
+- **Understanding:**
+  1. Update all WhatsApp CTA buttons, service links, footer link, and the interactive audit form on `https://web.coreve.in/` (`index.html`) so that pre-filled text contains an explicit and unmistakable identifier: `[web.coreve.in | Kavya Lead]`.
+  2. Update the backend WhatsApp message receiver in `/opt/myclone/app/sales.py` and inbound gating in `/opt/myclone/app/whatsapp_scope.py`:
+     - Detect `[web.coreve.in | Kavya Lead]` tag and website identifiers (`web.coreve.in`, `kavya lead`, `hi kavya`).
+     - Immediately designate the contact as `category='web.coreve.in Inbound Lead'`, `status='contacted'`, `wa_opt_in=true`, and `business='Inbound Lead (web.coreve.in)'` (or customer's business name from form).
+     - Update `contacted_by_kavya()` so website inbound leads are recognized as eligible for autonomous automation (bypassing the outbound call restriction).
+     - Extract structured form fields (`*Name:*`, `*Business:*`, `*Website:*`, `*Primary Requirement:*`) to populate `decision_maker`, `business`, `website`, and `scope` directly in CRM.
+     - Add explicit system prompt guidance to `sales.py:PROMPT` instructing Kavya to enthusiastically welcome website leads, acknowledge their specific requested service, and initiate immediate discovery.
+- **What was done:**
+  1. Updated 8 WhatsApp CTAs and the `handleAuditSubmit` script in `/var/www/web.coreve.in/index.html` (VPS & local repo):
+     - Nav & Hero: `Hi Kavya [web.coreve.in | Kavya Lead], I would like to discuss a project with Coreve Tech` / `...discuss an IT solution for my business`.
+     - 5 Service cards: Web Development, AI Agents, Sarvam Voice AI, Meta WhatsApp API, Custom ERP.
+     - Footer official WhatsApp link & Audit discovery form.
+  2. Updated `/opt/myclone/app/whatsapp_scope.py` to allow leads with `l.category = 'web.coreve.in Inbound Lead'` in `CONTACT_SQL`.
+  3. Updated `/opt/myclone/app/sales.py`:
+     - Enhanced `receive_message` with `is_web_lead` regex detection, automatic status/category enrollment, form field extraction, and auto-queueing of reply jobs.
+     - Added `WEBSITE INBOUND LEADS (web.coreve.in)` directive to `sales.py:PROMPT`.
+  4. Reloaded systemd units and restarted `myclone` and `myclone-worker`.
+  5. Ran live end-to-end simulation verifying that an inbound message with the website tag automatically creates the lead, passes `contacted_by_kavya`, queues the reply, and triggers Kavya's autonomous discovery pipeline.
+- **Files created or changed:**
+  - `/Users/lenee/coreve/web.coreve.in/index.html` (Local & VPS `/var/www/web.coreve.in/index.html`)
+  - `/opt/myclone/app/whatsapp_scope.py` (VPS)
+  - `/opt/myclone/app/sales.py` (VPS)
+  - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
+  - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
+  - `/Users/lenee/coreve/project-memory/04_FEATURES_STATUS.md`
+- **Result:** Done and tested (Fully verified live).
+- **Link to Changelog:** CHG-031
+

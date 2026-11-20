@@ -612,9 +612,9 @@ New private Boss Dashboard: https://myclone.coreve.in/#boss. Full release/eviden
 
 ---
 
-### CHG-028
+### CHG-030
 - **Date and Time:** 2026-11-20 15:05:00 IST
-- **Linked Command:** [CMD-068](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#CMD-068)
+- **Linked Command:** [CMD-070](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#CMD-070)
 - **Type:** UI / Enhancement
 - **What changed and why:**
   - In Talk to Kavya (Boss Chat), action plan approval cards (`Plan #2 · completed`, `Plan #1 · rejected`) previously rendered as full-width unconstrained blocks with raw JSON `<pre>` tags right above the message input, dominating the view and obstructing the conversation stream.
@@ -634,3 +634,32 @@ New private Boss Dashboard: https://myclone.coreve.in/#boss. Full release/eviden
   - Verified default collapsed state when no plans are pending. Status: Tested (Passed).
 - **Breakage risk:** None.
 - **How to undo:** Revert `index.html` from `index.html.bak_before_plan_minimize`.
+
+---
+
+### CHG-031
+- **Date and Time:** 2026-11-20 16:15:00 IST
+- **Linked Command:** [CMD-071](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#CMD-071)
+- **Type:** Feature / Inbound Automation
+- **What changed and why:**
+  - Inbound WhatsApp messages initiated from `https://web.coreve.in/` previously lacked identifying tags and were categorized as generic personal chats (`personal_inbox`), automatically blocking Kavya's autonomous response pipeline with `{'automation':'off_personal_chat'}`.
+  - Tagged all WhatsApp CTAs on `web.coreve.in` with `[web.coreve.in | Kavya Lead]` across navigation, hero, 5 core services, footer, and discovery audit form.
+  - Updated `/opt/myclone/app/whatsapp_scope.py` to recognize leads with `category='web.coreve.in Inbound Lead'` as fully eligible for automatic responses.
+  - Updated `/opt/myclone/app/sales.py:receive_message`:
+    - Inbound messages containing `web.coreve.in` / `Kavya Lead` tags are automatically created/enrolled with `category='web.coreve.in Inbound Lead'`, `status='contacted'`, and `wa_opt_in=true`.
+    - Automatically extracts structured form fields (`Name`, `Business`, `Website`, `Primary Requirement`) directly into the lead record.
+    - Added prompt directive to `sales.py:PROMPT` instructing Kavya to warmly welcome the web lead, acknowledge the specific requested service, and initiate immediate discovery.
+- **Files touched:**
+  - `/Users/lenee/coreve/web.coreve.in/index.html` (Local & VPS `/var/www/web.coreve.in/index.html`)
+  - `/opt/myclone/app/whatsapp_scope.py` (VPS)
+  - `/opt/myclone/app/sales.py` (VPS)
+  - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
+  - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
+  - `/Users/lenee/coreve/project-memory/04_FEATURES_STATUS.md`
+- **How it was tested, and result:**
+  - Updated website CTAs and synced to `/var/www/web.coreve.in/index.html`.
+  - Restarted `myclone` and `myclone-worker`.
+  - Executed simulated inbound message containing `Hi Kavya [web.coreve.in | Kavya Lead]...` via test script on VPS.
+  - Verified lead creation: `status='contacted'`, `category='web.coreve.in Inbound Lead'`, `wa_opt_in=true`, `contacted_by_kavya: True`, and `reply` job queued and executed by worker. Status: Tested (Passed).
+- **Breakage risk:** None. Outbound cold calling gating and personal chat protection remain intact for non-tagged personal messages.
+- **How to undo:** Revert `sales.py` from `sales.py.bak_web_lead` and remove the category check in `whatsapp_scope.py`.
