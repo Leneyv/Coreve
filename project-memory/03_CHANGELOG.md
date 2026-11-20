@@ -427,3 +427,28 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Breakage risk:** None.
 - **How to undo:** Revert options, `wp-config.php`, and `functions.php` to `lenee@coreve.in`.
 
+---
+
+### CHG-025
+- **Date and Time:** 2026-11-20 09:30:00 IST
+- **Linked Command:** [CMD-065](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#CMD-065)
+- **Type:** Feature / Enhancement
+- **What changed and why:**
+  - Kavya previously did not trigger a scope handover email when customers asked "How much ?" or requested pricing, because the LLM prompt lacked an explicit quote request trigger and `set_scope` suppressed duplicate scope emails if `scope_sent_at` was already populated. Additionally, notification email was pointed to `leninvarghese@gmail.com` rather than `lenee@coreve.in`.
+  - Configured `OWNER_NOTIFICATION_EMAIL` to `lenee@coreve.in`.
+  - Added `force=True` flag to `set_scope` in `core.py` to allow quote inquiries to re-trigger scope handovers even if text has not changed.
+  - Added "CRITICAL QUOTE REQUEST & HANDOVER RULE" to `PROMPT` and quote detection regex (covering English and Malayalam price terms) in `sales.py`: compiles all discussed deliverables (including website + WhatsApp booking) into confirmed scope and immediately dispatches `scope_email` with full transcript, customer details, and approval tokens to `lenee@coreve.in`.
+- **Files touched:**
+  - `/opt/myclone/app/core.py`
+  - `/opt/myclone/app/sales.py`
+  - `/opt/myclone/app/providers.py`
+  - `/opt/myclone/app/worker.py`
+  - `/var/lib/myclone/ops/integrations.json`
+- **How it was tested, and result:**
+  - Sent test email to `lenee@coreve.in`: `{'accepted': True}`.
+  - Triggered `scope_email` for Lead 6 Scope v3 ("Website development, WhatsApp appointment booking automation, and 24/7 WhatsApp emergency booking setup"): job 662039 executed and completed with status `done`.
+  - Python regex test across English and Malayalam quote terms (`How much ?`, `റേറ്റ് എത്രയാണ്?`, `ചിലവ് എത്ര വരും?`): verified all return `True`.
+  - Services compiled and restarted: `myclone` and `myclone-worker` active.
+- **Breakage risk:** Low; only triggers handover email when quotation is explicitly asked.
+- **How to undo:** Revert `sales.py`, `core.py`, and `providers.py` to previous git commits.
+

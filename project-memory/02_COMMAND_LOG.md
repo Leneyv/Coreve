@@ -928,3 +928,30 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done and tested.
 - **Link to Changelog:** CHG-024
 
+---
+
+### CMD-065
+- **Date and Time:** 2026-11-20 09:30:00 IST
+- **Instruction:** User shared WhatsApp transcript where customer asked `How much ?` after requesting a website, and Kavya responded with standard review text without emailing the scope of work handover to the owner: `this is the communication with someone, and kavya didnot handover with the scope of work to me on emal lenee@coreve.in kavya should handover once the customer ask for quotation until that kavya has to work`.
+- **Understanding:** Configure Kavya so that she qualifies needs and communicates until the customer asks for a quotation / price. The moment the customer asks for a quote/pricing/charges (e.g. `How much ?`, `What is the price?`, `റേറ്റ് എത്രയാണ്?`), Kavya must compile all discussed deliverables (including website, CRM, WhatsApp automation) into the confirmed scope, set the scope, and immediately dispatch a quotation handover email to `lenee@coreve.in` containing the complete deliverables list, full conversation transcript, and approval token.
+- **What was done:**
+  1. Updated `OWNER_NOTIFICATION_EMAIL` to `lenee@coreve.in` in `/var/lib/myclone/ops/integrations.json` and updated fallback email in `/opt/myclone/app/providers.py`.
+  2. Updated `worker.py` approval check to recognize approvals sent from `lenee@coreve.in`.
+  3. Verified SMTP delivery to `lenee@coreve.in` directly on VPS.
+  4. Patched `core.py`: updated `set_scope(c, lead_id, text, force=False)` so that quotation request handovers bypass the duplicate-scope suppression guard (`if not force and text==lead['scope'] and lead['scope_sent_at']: return`).
+  5. Patched `sales.py`:
+     - Augmented `PROMPT` with explicit "CRITICAL QUOTE REQUEST & HANDOVER RULE" instructing Gemini to set `quote_requested: true` and compile all deliverables across the conversation into `confirmed_scope` whenever the customer asks about price or quotes.
+     - Updated `reply_job`: regex and prompt-driven detection for quote inquiries (`how much`, `price`, `cost`, `quote`, `rate`, `charges`, `എത്ര`, `ചിലവ്`, `റേറ്റ്`, `പ്രൈസ്`, `ഫീസ്`, `ക്വട്ടേഷൻ`, `കൊട്ടേഷൻ`). Synthesizes current discussed scope (augmenting website if requested) and immediately triggers `set_scope(..., force=True)`, queuing `scope_email`.
+  6. Upgraded Lead 6's scope to version 3: "Website development, WhatsApp appointment booking automation, and 24/7 WhatsApp emergency booking setup" and triggered `scope_email`, successfully dispatching the handover email to `lenee@coreve.in`.
+  7. Recompiled and restarted `myclone` and `myclone-worker` systemd services.
+- **Files created or changed:**
+  - `/var/lib/myclone/ops/integrations.json` (VPS)
+  - `/opt/myclone/app/core.py` (VPS)
+  - `/opt/myclone/app/sales.py` (VPS)
+  - `/opt/myclone/app/providers.py` (VPS)
+  - `/opt/myclone/app/worker.py` (VPS)
+  - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
+  - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
+- **Result:** Done and verified (Scope v3 email dispatched to `lenee@coreve.in`; automated handover active).
+- **Link to Changelog:** CHG-025
+
