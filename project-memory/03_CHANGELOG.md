@@ -766,3 +766,30 @@ New private Boss Dashboard: https://myclone.coreve.in/#boss. Full release/eviden
   4. Verified tag count on homepage: exactly 1 `<script>` tag in `<head>` and 1 `<noscript>` iframe in `<body>`. Result: Verified.
 - **Anything that might break because of this change:** None. Asynchronous script loading prevents any blocking of page rendering or Web Vitals.
 - **How to undo it:** Revert the edits to `template.php`, `header.php`, and `coreve-gtm.php`.
+
+
+---
+
+### CHG-035
+- **Date and Time:** 2026-11-20 19:55:00 IST
+- **Linked Command:** [CMD-075](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#CMD-075)
+- **Type:** Added / E-Commerce Architecture & Service Showcase
+- **What changed and why:** Integrated complete E-Commerce store building and automation capabilities onto the `web.coreve.in` single-page portal:
+  1. Updated page metadata and title to include E-Commerce Store Building (Shopify, WooCommerce, Magento, Wix) and Cart Recovery.
+  2. Added an interactive Supported E-Commerce Platforms & Enterprise Stack bar (Shopify & Plus, WooCommerce, Magento / Adobe Commerce, Wix eCommerce, Custom Headless).
+  3. Expanded Core Capabilities grid from 6 to 8 services, introducing Complete E-Commerce Store Building and Cart Recovery & Store Automation.
+  4. Created a dedicated `#ecommerce` deep dive section detailing the 4-pillar pipeline (Turnkey Storefronts, Frictionless Checkout, Abandoned Cart Engine, Logistics & COD RTO Guard) and the 3-Stage Abandoned Cart & Retention Funnel (T+15m WhatsApp ping, T+1h concierge email, T+24h dynamic incentive).
+  5. Updated the Discovery Audit form dropdown and footer navigation.
+  6. Preserved strict anti-indexing robot tags (`noindex, nofollow, noarchive, nosnippet, noimageindex, noai, noimageai`) and Nginx headers.
+- **Files touched:**
+  - `/Users/lenee/coreve/web.coreve.in/index.html` (Local & VPS `/var/www/web.coreve.in/index.html`)
+  - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
+  - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
+  - `/Users/lenee/coreve/project-memory/04_FEATURES_STATUS.md`
+- **How it was tested and the result:**
+  1. Validated HTML parser balance (0 unclosed tags, 0 tag mismatches).
+  2. Deployed to VPS `/var/www/web.coreve.in/index.html` via rsync.
+  3. Verified HTTP/2 200 response and anti-indexing headers (`x-robots-tag: noindex, nofollow...`).
+  4. Verified live rendering of Shopify, WooCommerce, Magento, Wix, and Cart Recovery sections via curl. Status: Tested (Passed).
+- **Anything that might break because of this change:** None. Static single-page layout with responsive Tailwind classes.
+- **How to undo it:** Revert `index.html` via git checkout and rsync to `/var/www/web.coreve.in/index.html`.

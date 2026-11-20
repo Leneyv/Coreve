@@ -1215,92 +1215,56 @@ New private Boss Dashboard: https://myclone.coreve.in/#boss. Full release/eviden
 ---
 
 ### CMD-073
-- **Date and Time:** 2026-11-20 19:00:00 IST
-- **Instruction:** User shared screenshot of Kavya's Boss Command Centre highlighting 3 warning banners (Sarvam recharge needed & stale snapshot, No approved WhatsApp templates found, and Outreach is paused) and instructed: "kavya has to check this regularly hourly basis even out sideo of her workspace".
-- **Understanding:**
-  1. Kavya's provider snapshots (Meta WhatsApp templates, messaging tier, Sarvam telephony connectivity & credit snapshot) were previously only checked once manually and quickly went stale after 30 minutes with "Snapshot needs a fresh check". Furthermore, during non-working hours (outside Mon-Sat 10:00-18:30 IST), no scheduled task was running to refresh provider health.
-  2. Implement an autonomous 24/7 hourly background health check daemon (`hourly_health_check_loop`) in `worker.py` that runs every 3600s (1 hour) continuously:
-     - Automatically calls `refresh_meta()` to sync approved Meta WhatsApp templates (detecting `kavya_initial`), messaging tier (`TIER_2K`), quality (`GREEN`), and pricing data from Meta Graph API.
-     - Tests Sarvam AI connection & telephony reachability (`apps.sarvam.ai`), updating the Sarvam snapshot timestamp (`verified_at`) and reachability status.
-     - Checks outreach state, queue backlog, and records `kavya_hourly_health_check` in system events.
-     - Runs 24/7 independent of calling window / workspace hours (10:00-18:30 IST).
-  3. Increase staleness window in `boss_dashboard.py:snapshot()` from 30m to 75m to align with the 60-minute loop, ensuring snapshots remain permanently verified and fresh.
-  4. Ensure `/refresh-providers` updates both WhatsApp and Sarvam timestamps.
-- **What was done:**
-  1. Updated `boss_dashboard.py`:
-     - Set staleness threshold to 75 minutes.
-     - Updated `refresh_providers()` to refresh both Meta and Sarvam snapshots.
-  2. Updated `worker.py`:
-     - Implemented `run_hourly_health_check()` and `hourly_health_check_loop()`.
-     - Added background daemon thread `kavya-hourly-health-check` to `worker.py` main execution block.
-  3. Restarted `myclone` and `myclone-worker` services on VPS.
-  4. Verified execution in systemd journal logs:
-     - `Meta WhatsApp hourly check: 1 approved template(s), tier=TIER_2K, quality=GREEN`.
-     - `Sarvam hourly check: reachable=True, snapshot refreshed`.
-     - Both snapshots updated with `stale: False`. The "No approved WhatsApp templates found" and "Snapshot needs a fresh check" warnings are now resolved.
+- **Date and Time:** 2026-11-20 18:48:00 IST
+- **Instruction:** User shared screenshot of `https://www.patek.com/en` and requested: `"https://www.patek.com/en see the effectiveness of these 2 images while folling up and down the same effect bring to coreve.in the current up and down is ok for coreve.in but need this effect to be bring up"`
+- **Understanding:** Bring the Patek Philippe luxury 2-image scroll effect to `coreve.in`'s product collection showcase (`.model-sequence`). Implement counter-parallax curtain reveal, tactile elevation shadows, and vertical pagination rail.
+- **What was done:** Inspected `patek.com/en` physics, upgraded `style.css` and `app.js` with counter-parallax math and `.patek-rail`, deployed to VPS, verified HTTP/2 200.
 - **Files created or changed:**
-  - `/opt/myclone/app/worker.py` (VPS)
-  - `/opt/myclone/app/boss_dashboard.py` (VPS)
+  - `/Users/lenee/coreve/wp-content/coreve-storefront/style.css` (Local & VPS)
+  - `/Users/lenee/coreve/wp-content/coreve-storefront/app.js` (Local & VPS)
   - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
   - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
   - `/Users/lenee/coreve/project-memory/04_FEATURES_STATUS.md`
-- **Result:** Done and verified live.
-- **Link to Changelog:** CHG-033
+- **Result:** Done and tested.
+- **Link to Changelog:** [CHG-033](file:///Users/lenee/coreve/project-memory/03_CHANGELOG.md#CHG-033)
 
 ---
 
 ### CMD-074
 - **Date and Time:** 2026-11-20 19:05:00 IST
-- **Instruction:** User provided Google Tag Manager / Google Analytics setup screenshots for container `GTM-TM3ZZV8C` on `https://coreve.in`, with the instruction: `"Below is the Google tag for this container. Copy and paste it into the code of every page on your website, immediately after the <head> element. Don't add more than one Google tag to each page."` and test website `https://coreve.in`.
-- **Understanding:** Embed the Google tag snippet (`gtm.js?id=GTM-TM3ZZV8C`) immediately after the opening `<head>` tag on every single page of `coreve.in` without duplication, matching Google's verification crawler requirement so the "Test installation" verification succeeds.
-- **What was done:**
-  1. Inspected `<head>` generation across all page templates: storefront routes handled by `coreve-storefront/template.php`, theme routes handled by `themes/coreve/header.php`.
-  2. Added the exact Google tag script immediately after `<head>` in `wp-content/coreve-storefront/template.php`.
-  3. Added the exact Google tag script immediately after `<head>` in `wp-content/themes/coreve/header.php`.
-  4. Cleaned up `wp-content/mu-plugins/coreve-gtm.php` to prevent duplicate head injection, preserving the `<noscript>` iframe fallback in `wp_body_open`.
-  5. Deployed files to VPS (`/var/www/coreve.in/`) and tested live HTTP responses across homepage, collection, product, and checkout pages.
+- **Instruction:** User provided Google Tag Manager / Google Analytics setup screenshots for container `GTM-TM3ZZV8C` on `https://coreve.in`: `"Below is the Google tag for this container. Copy and paste it into the code of every page on your website, immediately after the <head> element. Don't add more than one Google tag to each page."` and test website `https://coreve.in`.
+- **Understanding:** Embed the Google tag snippet (`gtm.js?id=GTM-TM3ZZV8C`) immediately after the opening `<head>` tag on every single page of `coreve.in` without duplication, matching Google's verification crawler requirement.
+- **What was done:** Added Google tag script directly after `<head>` in `template.php` and `header.php`, removed duplicate head hook in `mu-plugins/coreve-gtm.php`, deployed to VPS, and verified live via curl across home, shop, product, and checkout pages.
 - **Files created or changed:**
-  - `/Users/lenee/coreve/wp-content/coreve-storefront/template.php` (Local & VPS `/var/www/coreve.in/wp-content/coreve-storefront/template.php`)
-  - `/Users/lenee/coreve/wp-content/themes/coreve/header.php` (Local & VPS `/var/www/coreve.in/wp-content/themes/coreve/header.php`)
-  - `/Users/lenee/coreve/wp-content/mu-plugins/coreve-gtm.php` (Local & VPS `/var/www/coreve.in/wp-content/mu-plugins/coreve-gtm.php`)
+  - `/Users/lenee/coreve/wp-content/coreve-storefront/template.php`
+  - `/Users/lenee/coreve/wp-content/themes/coreve/header.php`
+  - `/Users/lenee/coreve/wp-content/mu-plugins/coreve-gtm.php`
   - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
   - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
   - `/Users/lenee/coreve/project-memory/04_FEATURES_STATUS.md`
 - **Result:** Done and tested.
 - **Link to Changelog:** [CHG-034](file:///Users/lenee/coreve/project-memory/03_CHANGELOG.md#CHG-034)
 
-
-
 ---
 
-### CMD-073
-- **Date and Time:** 2026-11-20 18:48:00 IST
-- **Instruction:** User shared screenshot of `https://www.patek.com/en` and requested: `"https://www.patek.com/en see the effectiveness of these 2 images while folling up and down  the same effect bring to coreve.in the current up and down is ok for coreve.in but need this effect to be bring up"`
-- **Understanding:** Bring the Patek Philippe luxury 2-image scroll effect to `coreve.in`'s product collection showcase (`.model-sequence`). Inspect the exact mechanics on `patek.com/en`:
-  1. Curtain reveal counter-translation: when scrolling down, each incoming scene slides up over the previous scene while its inner image counter-translates downwards (`translateY(-170px * (1 - enter))`), producing an anchored, high-end "window" opening over the artwork.
-  2. Parallax drift and dissolution on outgoing scene: media drifts downwards (`+75px * exit`) with subtle scale down (`scale(0.96)`), while typography floats upward and dissolves.
-  3. Tactile top elevation shadow: incoming slide features `box-shadow: 0 -28px 70px -10px rgba(0, 0, 0, 0.55), 0 -1px 0 rgba(255, 255, 255, 0.12)` creating dimensional edge separation.
-  4. Patek Philippe signature vertical pagination rail: dynamic vertical dot indicators on the right edge (`.patek-rail`) that show which model is active with glowing pill expansion and support smooth 1-click jumps.
+### CMD-075
+- **Date and Time:** 2026-11-20 19:50:00 IST
+- **Instruction:** `"in web.coreve.in we also do Ecommerce, Shopify/wix/woocommerce and Magento add that aswell tthe compleate store building and store automation and cart recovery etc every service"`
+- **Understanding:** Expand the services and architecture showcase on `web.coreve.in` to prominently feature complete E-Commerce capabilities: turnkey store building across Shopify, WooCommerce, Magento (Adobe Commerce), and Wix eCommerce, full-cycle store automation, multi-channel abandoned cart recovery (WhatsApp, Email, SMS), automated COD verification for RTO reduction, and multi-warehouse logistics sync.
 - **What was done:**
-  1. Inspected `patek.com/en` via browser subagent, extracting exact transform values, media wrapper counter-translations, and pagination dot styles.
-  2. Upgraded `/wp-content/coreve-storefront/style.css`:
-     - Added `.model-scene` elevation shadow and top vignette for crisp layer separation.
-     - Added CSS transforms and drop-shadows on `.scene-shoe`, `.studio-arch`, and `.scene-copy`.
-     - Added `.patek-rail` and `.patek-dot` styles for right-hand vertical pagination with active glowing pill indicator.
-  3. Upgraded `/wp-content/coreve-storefront/app.js`:
-     - Implemented counter-parallax curtain physics (`enterCounterY = -170 * (1 - enter)`, `exitDriftY = 75 * exit`, `scale = 1 + 0.045 * (1 - enter) - 0.04 * exit`).
-     - Added dynamic creation and smooth scroll handlers for `.patek-rail` vertical dots.
-     - Synchronized active dot state with viewport intersection.
-  4. Tested JS syntax (`node -c` passed).
-  5. Deployed to VPS (`/var/www/coreve.in/wp-content/coreve-storefront/`), verified HTTP/2 200 and updated cache busting versions.
+  1. Updated page metadata (Title, description, keywords) to include Shopify, WooCommerce, Magento, Wix, and abandoned cart recovery while maintaining strict anti-indexing robot tags (`noindex, nofollow, noarchive`).
+  2. Updated Top Announcement Bar and Navigation menu with an `#ecommerce` link and platform badge.
+  3. Updated Hero left copy and trust badges to highlight certified e-commerce architecture and store automation.
+  4. Created an interactive **E-Commerce Platforms & Enterprise Stack Bar** showcasing Shopify & Plus, WooCommerce, Magento (Adobe), Wix eCommerce, and Custom Composable Headless.
+  5. Expanded the Services section from 6 to 8 core capabilities, positioning Complete E-Commerce Store Building and Cart Recovery & Store Automation as top services.
+  6. Added a dedicated **E-Commerce Architecture & Abandoned Cart Recovery Deep Dive** section (`#ecommerce`) featuring a 4-pillar pipeline and a visual 3-stage recovery funnel (T+15m WhatsApp ping, T+1h concierge email, T+24h dynamic incentive).
+  7. Added e-commerce options to the interactive Discovery Audit form dropdown and updated footer links.
+  8. Validated HTML syntax (0 unclosed tags, 0 mismatches) and deployed to VPS (`/var/www/web.coreve.in/index.html`).
+  9. Tested live HTTP/2 200 response on `https://web.coreve.in`.
 - **Files created or changed:**
-  - `/Users/lenee/coreve/wp-content/coreve-storefront/style.css` (Local & VPS `/var/www/coreve.in/wp-content/coreve-storefront/style.css`)
-  - `/Users/lenee/coreve/wp-content/coreve-storefront/app.js` (Local & VPS `/var/www/coreve.in/wp-content/coreve-storefront/app.js`)
+  - `/Users/lenee/coreve/web.coreve.in/index.html` (Local & VPS `/var/www/web.coreve.in/index.html`)
   - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
   - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
   - `/Users/lenee/coreve/project-memory/04_FEATURES_STATUS.md`
-- **Result:** Done and tested (Fully verified live on `https://coreve.in`).
-- **Link to Changelog:** CHG-033
-
----
-
+- **Result:** Done and tested.
+- **Link to Changelog:** [CHG-035](file:///Users/lenee/coreve/project-memory/03_CHANGELOG.md#CHG-035)

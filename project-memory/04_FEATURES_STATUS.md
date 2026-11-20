@@ -133,3 +133,14 @@ New private Boss Dashboard: https://myclone.coreve.in/#boss. Full release/eviden
 - **Status:** Done and tested.
 - **Location:** Installed immediately after `<head>` in `wp-content/coreve-storefront/template.php` and `wp-content/themes/coreve/header.php`. Fallback `<noscript>` in `wp_body_open` via `wp-content/mu-plugins/coreve-gtm.php`.
 - **Testing:** Live curl requests on `https://coreve.in`, `/about-us/`, `/product/zivana-winterberry/`, `/checkout/`. Exact placement immediately after `<head>` confirmed with zero duplicates.
+
+
+---
+
+### WEB-COREVE-IN-ECOMMERCE — deployed and verified
+- **Feature:** Complete E-Commerce Store Building & Cart Recovery Automation Showcase on `web.coreve.in`.
+- **Status:** Done and tested.
+- **Location:** `/var/www/web.coreve.in/index.html` (Local: `/Users/lenee/coreve/web.coreve.in/index.html`).
+- **Platforms Covered:** Shopify & Shopify Plus, WooCommerce, Magento (Adobe Commerce), Wix eCommerce, Custom Headless (Next.js).
+- **Capabilities Covered:** Complete Storefront Building, 1-Click Frictionless Checkout, 3-Stage Multi-Touch Abandoned Cart Recovery Funnel (WhatsApp + Email + SMS), COD WhatsApp Verification for RTO Reduction, Multi-Warehouse Inventory & Logistics Sync (Shiprocket/Delhivery), GST Automated Invoicing.
+- **Testing:** HTML parser validation (0 unclosed tags); live HTTP/2 200 response with `x-robots-tag: noindex, nofollow, noarchive, nosnippet, noimageindex, noai, noimageai` verified on `https://web.coreve.in`.
