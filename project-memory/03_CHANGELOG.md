@@ -609,3 +609,28 @@ New private Boss Dashboard: https://myclone.coreve.in/#boss. Full release/eviden
   - Remove `robots.txt` from `/var/www/web.coreve.in/`
   - Revert meta tags in `index.html`
   - Reload Nginx: `systemctl reload nginx`
+
+---
+
+### CHG-028
+- **Date and Time:** 2026-11-20 15:05:00 IST
+- **Linked Command:** [CMD-068](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#CMD-068)
+- **Type:** UI / Enhancement
+- **What changed and why:**
+  - In Talk to Kavya (Boss Chat), action plan approval cards (`Plan #2 · completed`, `Plan #1 · rejected`) previously rendered as full-width unconstrained blocks with raw JSON `<pre>` tags right above the message input, dominating the view and obstructing the conversation stream.
+  - Implemented collapsible / minimizable plans panel:
+    - Added `toggleKavyaPlansMinimize()` with localStorage persistence.
+    - Minimized state renders as a compact 34px bar with pending count indicator and `[ ➕ Expand ]` button.
+    - Auto-minimizes when there are no active pending approvals.
+    - Expanded state includes `[ ➖ Minimize ]` button, constrained `max-height: 220px; overflow-y: auto;`, and collapsible `<details>` for plan execution steps.
+    - Added `[ Show History / Hide History ]` button to hide completed/rejected plans by default.
+- **Files touched:**
+  - `/opt/myclone/app/templates/index.html` (VPS)
+  - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
+  - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
+- **How it was tested, and result:**
+  - Deployed to `/opt/myclone/app/templates/index.html`.
+  - Restarted `myclone` service and verified live HTML response.
+  - Verified default collapsed state when no plans are pending. Status: Tested (Passed).
+- **Breakage risk:** None.
+- **How to undo:** Revert `index.html` from `index.html.bak_before_plan_minimize`.

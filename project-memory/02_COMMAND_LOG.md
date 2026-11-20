@@ -1128,3 +1128,25 @@ New private Boss Dashboard: https://myclone.coreve.in/#boss. Full release/eviden
   - `/Users/lenee/coreve/project-memory/04_FEATURES_STATUS.md`
 - **Result:** Done and tested (Fully verified live on both domains).
 - **Link to Changelog:** CHG-029
+
+---
+
+### CMD-068
+- **Date and Time:** 2026-11-20 15:05:00 IST
+- **Instruction:** User shared screenshot showing Kavya's Boss Chat / Inbox obstructed by plan approval cards (`Plan #2 · completed`, `Plan #1 · rejected` with large raw JSON blocks) and requested: "kavyas inbox is blocking by this approval please put an option to minimize that".
+- **Understanding:** Add a clean minimize/collapse toggle for the `#kavya-approval-plans` container in the Corive dashboard (`https://myclone.coreve.in`):
+  1. Add a minimize button `[ ➖ Minimize ]` / `[ ➕ Expand ]` on the panel header.
+  2. Persist the user's preference in `localStorage.setItem('kavya_plans_minimized', ...)`.
+  3. When minimized, display as a sleek, single-line toolbar (`⚡ Action Plans & Approvals ... [ ➕ Expand ]`) taking minimal vertical space (~34px), unblocking the chat stream completely.
+  4. Auto-minimize when there are no pending plans awaiting decision.
+  5. When expanded, constrain container height (`max-height: 220px; overflow-y: auto;`) and wrap execution JSON steps inside `<details><summary>🔍 View Execution Steps</summary>...</details>` so large JSON blocks do not clutter the chat.
+  6. Add a toggle for past history: `[ Show History / Hide History ]`.
+- **What was done:**
+  1. Updated `loadKavyaPlans()` in `/opt/myclone/app/templates/index.html` with `toggleKavyaPlansMinimize()` and `toggleKavyaPlansHistory()`.
+  2. Restarted `myclone` service and verified live response.
+- **Files created or changed:**
+  - `/opt/myclone/app/templates/index.html` (VPS)
+  - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
+  - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
+- **Result:** Done and verified.
+- **Link to Changelog:** CHG-028
