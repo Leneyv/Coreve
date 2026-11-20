@@ -452,3 +452,39 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Breakage risk:** Low; only triggers handover email when quotation is explicitly asked.
 - **How to undo:** Revert `sales.py`, `core.py`, and `providers.py` to previous git commits.
 
+
+---
+
+### CHG-026
+- **Date and Time:** 2026-11-20 09:45:00 IST
+- **Linked Command:** [CMD-066](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#CMD-066)
+- **Type:** UI / Redesign
+- **What changed and why:**
+  - Redesigned the "Agent Swarm & Flow (n8n)" tab in the dashboard (`https://myclone.coreve.in`) from a flat grid of cards into an authentic, interactive n8n AI Agent visual graph matching the user's reference diagram.
+  - Features implemented:
+    - Dot grid canvas background with light n8n aesthetics.
+    - SVG bezier wiring layer with flowing pulse animation between nodes.
+    - Left Node: `When chat message received` (Trigger node with ⚡ lightning badge and WhatsApp icon).
+    - Center Node: `AI Agent (Tools Agent)` with robot icon 🤖 and bottom purple diamond attachment ports.
+    - Sub-Nodes attached below AI Agent:
+      - `Gemini 3.5 Flash Lite` (Chat Model with Sarvam Indic localization)
+      - `Window Buffer Memory` (PostgreSQL conversation history)
+      - `SerpApi Scraper` (Research tool / Dossier builder)
+      - `Scope & Quotation Handover Engine` (Quotation handover to `lenee@coreve.in`)
+    - Router Node: `If` (Quote requested?) with green crossroads icon 🔀 and two branches:
+      - Upper branch (`true`) ➔ `Success` (Handover to Owner `lenee@coreve.in`)
+      - Lower branch (`false`) ➔ `Failure / Reply` (Send WhatsApp message via `+91 94001 99817`)
+    - Floating bottom controls: Zoom In `+`, Zoom Out `-`, Reset `↺`, Fullscreen `⛶`, and `💬 Chat` test button.
+    - Interactive node inspection: clicking any node opens the directives/runtime configuration modal.
+    - Collapsible Swarm Agent Registry below the canvas maintaining full management of all 7 specialized agents (viewing system prompts, toggling active states, deploying new agents).
+- **Files touched:**
+  - `/opt/myclone/app/templates/index.html` (VPS)
+  - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
+  - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
+- **How it was tested, and result:**
+  - Applied changes to `/opt/myclone/app/templates/index.html`.
+  - Restarted `myclone` service and verified `active` status via systemctl.
+  - Verified `curl http://127.0.0.1:5679` outputs `#n8n-viewport` and SVG connectors.
+  - Inspected canvas rendering in browser. Status: Tested (Passed).
+- **Breakage risk:** None.
+- **How to undo:** Restore `/opt/myclone/app/templates/index.html.bak_before_n8n_flow`.

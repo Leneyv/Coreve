@@ -955,3 +955,36 @@ New entries must be appended to the END of this file. Existing entries are perma
 - **Result:** Done and verified (Scope v3 email dispatched to `lenee@coreve.in`; automated handover active).
 - **Link to Changelog:** CHG-025
 
+
+---
+
+### CMD-066
+- **Date and Time:** 2026-11-20 09:45:00 IST
+- **Instruction:** User requested: "make kavyas flow like this so i can undertand easly on Agent Swarm & Flow (n8n) tab" with attached screenshot of the canonical n8n AI Agent workflow structure.
+- **Understanding:** Redesign the visual representation in the Corive dashboard's `Agent Swarm & Flow (n8n)` tab (`view-kavya-flow`) so it accurately and cleanly renders the n8n AI Agent workflow architecture:
+  1. Dotted canvas background (`#f8fafc` with radial dot matrix `radial-gradient(#cbd5e1 1.25px, transparent 1.25px) 20px 20px`).
+  2. Inbound Trigger Node (`When chat message received` with orange lightning bolt tab ⚡ and chat icon 💬).
+  3. SVG connecting cables with animated pulse dots connecting trigger to AI Agent.
+  4. Central `AI Agent (Tools Agent)` node with 🤖 robot icon and bottom attachment ports (Chat Model, Memory, Tools).
+  5. Attached sub-nodes below:
+     - `Gemini 3.5 Flash Lite` (Chat Model with Sarvam Indic localization)
+     - `Window Buffer Memory` (PostgreSQL conversation transcript state)
+     - `SerpApi Scraper` (Prospect research dossier builder)
+     - `Scope & Quotation Handover Engine` (Detects quote requests & triggers handover to `lenee@coreve.in`)
+  6. Conditional Router `If` node with crossroads icon 🔀:
+     - `true` branch ➔ `Success` (`Handover to Owner - Email lenee@coreve.in`)
+     - `false` branch ➔ `Failure / Reply` (`Send WhatsApp reply via Meta Cloud Coexistence +91 94001 99817`)
+  7. Floating canvas controls: bottom-left zoom in/out, reset, and fullscreen buttons; bottom-center coral pill button `💬 Chat`.
+  8. Interactive node clicking: clicking any node pops up its detailed runtime directives, system prompt, and telemetry.
+  9. Preserved Swarm Agent Registry: collapsible table below canvas with all 7 specialized agents, directives inspector, pause/resume toggles, and "Add Agent" modal.
+- **What was done:**
+  1. Updated `view-kavya-flow` HTML structure and redesigned `renderKavyaFlowCanvas` in `/opt/myclone/app/templates/index.html` on VPS.
+  2. Added interactive inspection functions (`inspectNodeDetail`), canvas zooming (`zoomCanvas`, `resetCanvasZoom`), and fullscreen (`toggleCanvasFullscreen`).
+  3. Added collapsible Swarm Agent Registry section (`kavya-swarm-table-section`) to preserve directive viewing and agent management.
+  4. Restarted `myclone` systemd service on VPS.
+- **Files created or changed:**
+  - `/opt/myclone/app/templates/index.html` (VPS)
+  - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
+  - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
+- **Result:** Done and tested.
+- **Link to Changelog:** CHG-026
