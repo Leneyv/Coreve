@@ -584,3 +584,28 @@ New private Boss Dashboard: https://myclone.coreve.in/#boss. Full release/eviden
   - Remove symlink: `rm /etc/nginx/sites-enabled/web.coreve.in`
   - Reload Nginx: `systemctl reload nginx`
   - Optionally remove directory: `rm -rf /var/www/web.coreve.in`
+
+---
+
+### CHG-029
+- **Date and Time:** 2026-11-20 14:34:00 IST
+- **Linked Command:** CMD-069
+- **Type:** Config
+- **What changed and why:** Implemented strict anti-indexing controls for `web.coreve.in` across three layers (Nginx headers, `robots.txt`, and HTML meta tags) to guarantee that `web.coreve.in` is completely blocked from SEO, AEO, and GEO indexing, while leaving the primary domain `coreve.in` completely unblocked and actively pushing its sitemaps and `llms.txt` for maximum search and AI visibility.
+- **Files touched:**
+  - `/var/www/web.coreve.in/robots.txt` (VPS & Local `/Users/lenee/coreve/web.coreve.in/robots.txt`)
+  - `/var/www/web.coreve.in/index.html` (VPS & Local `/Users/lenee/coreve/web.coreve.in/index.html`)
+  - `/etc/nginx/sites-available/web.coreve.in` (VPS & Local `/Users/lenee/coreve/web.coreve.in/nginx-web.coreve.in.conf`)
+- **How it was tested and the result:**
+  1. Nginx syntax tested on VPS: `nginx -t` passed.
+  2. Nginx reloaded: `systemctl reload nginx` succeeded.
+  3. Header verification on `web.coreve.in`: `curl -sI https://web.coreve.in` confirmed `x-robots-tag: noindex, nofollow, noarchive, nosnippet, noimageindex, noai, noimageai`.
+  4. Robots file verification: `curl -s https://web.coreve.in/robots.txt` confirmed `Disallow: /` for all bots and explicit AI crawlers (`GPTBot`, `ClaudeBot`, `Google-Extended`, `PerplexityBot`, etc.).
+  5. HTML meta tags verification: `curl -s https://web.coreve.in` confirmed anti-indexing tags present for search engines and generative models.
+  6. Verified `coreve.in`: `curl -sI https://coreve.in` confirmed clean HTTP/2 200 without anti-indexing headers, `robots.txt` intact pointing to `wp-sitemap.xml`, and `llms.txt` active (HTTP/2 200) for AEO and GEO discovery.
+- **Anything that might break because of this change:** None. Settings apply strictly and exclusively to the `web.coreve.in` virtual host.
+- **How to undo it:**
+  - Remove `add_header X-Robots-Tag` from `/etc/nginx/sites-available/web.coreve.in`
+  - Remove `robots.txt` from `/var/www/web.coreve.in/`
+  - Revert meta tags in `index.html`
+  - Reload Nginx: `systemctl reload nginx`

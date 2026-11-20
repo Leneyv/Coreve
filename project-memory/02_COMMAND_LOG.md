@@ -1095,3 +1095,36 @@ New private Boss Dashboard: https://myclone.coreve.in/#boss. Full release/eviden
   - `/Users/lenee/coreve/project-memory/05_ARCHITECTURE.md`
 - **Result:** Done and tested (Live with HTTPS).
 - **Link to Changelog:** CHG-028
+
+---
+
+### CMD-069
+- **Date and Time:** 2026-11-20 14:32:00 IST
+- **Instruction:** User instructed: `this subdomain web.coreve.in should not be indexed in to SEO AEO ADN GEO i means web.coreve.in do that setting but coreve.in should be pushing to seo aeo and geo`
+- **Understanding:** Strictly block `web.coreve.in` from all search engine optimization (SEO), answer engine optimization (AEO), and generative engine optimization (GEO) indexing and AI training. At the same time, ensure the primary domain `coreve.in` remains completely unblocked, actively pushing content, sitemaps, and `llms.txt` for maximum SEO, AEO, and GEO visibility.
+- **What was done:**
+  1. Created `/var/www/web.coreve.in/robots.txt` (and local `web.coreve.in/robots.txt`):
+     - Disallows all bots (`User-agent: * Disallow: /`).
+     - Explicitly disallows all primary AI, LLM, AEO, and GEO crawlers: `GPTBot`, `ChatGPT-User`, `ClaudeBot`, `Claude-Web`, `anthropic-ai`, `Google-Extended`, `PerplexityBot`, `CCBot`, `Applebot-Extended`, `Bytespider`, `Amazonbot`, `FacebookBot`, `meta-externalagent`, `cohere-ai`, `Omgilibot`, and `Diffbot`.
+  2. Injected strict anti-indexing meta tags into `<head>` of `/var/www/web.coreve.in/index.html`:
+     - `<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, noai, noimageai">`
+     - Targeted directives for `googlebot`, `bingbot`, `slurp`, `baiduspider`, `yandex`, `google-extended`, `gptbot`, `claudebot`, `perplexitybot`.
+  3. Added HTTP response header `X-Robots-Tag` in Nginx configuration `/etc/nginx/sites-available/web.coreve.in`:
+     - `add_header X-Robots-Tag "noindex, nofollow, noarchive, nosnippet, noimageindex, noai, noimageai" always;` applied to both main server block and static asset blocks.
+  4. Tested and reloaded Nginx on VPS (`nginx -t` passed, `systemctl reload nginx`).
+  5. Verified `web.coreve.in`:
+     - `curl -sI https://web.coreve.in` confirms `x-robots-tag: noindex, nofollow, noarchive, nosnippet, noimageindex, noai, noimageai`.
+     - `curl -s https://web.coreve.in/robots.txt` confirms all AI & search engines disallowed.
+  6. Verified `coreve.in`:
+     - Confirmed `coreve.in` is completely unblocked and active.
+     - `https://coreve.in/robots.txt` allows all crawlers and links to `wp-sitemap.xml`.
+     - `https://coreve.in/llms.txt` returns HTTP/2 200 with complete AI context for AEO & GEO discovery.
+- **Files created or changed:**
+  - `/Users/lenee/coreve/web.coreve.in/robots.txt` (Local & VPS `/var/www/web.coreve.in/robots.txt`)
+  - `/Users/lenee/coreve/web.coreve.in/index.html` (Local & VPS `/var/www/web.coreve.in/index.html`)
+  - `/Users/lenee/coreve/web.coreve.in/nginx-web.coreve.in.conf` (Local & VPS `/etc/nginx/sites-available/web.coreve.in`)
+  - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
+  - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
+  - `/Users/lenee/coreve/project-memory/04_FEATURES_STATUS.md`
+- **Result:** Done and tested (Fully verified live on both domains).
+- **Link to Changelog:** CHG-029
