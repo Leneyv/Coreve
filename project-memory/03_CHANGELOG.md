@@ -793,3 +793,25 @@ New private Boss Dashboard: https://myclone.coreve.in/#boss. Full release/eviden
   4. Verified live rendering of Shopify, WooCommerce, Magento, Wix, and Cart Recovery sections via curl. Status: Tested (Passed).
 - **Anything that might break because of this change:** None. Static single-page layout with responsive Tailwind classes.
 - **How to undo it:** Revert `index.html` via git checkout and rsync to `/var/www/web.coreve.in/index.html`.
+
+
+---
+
+### CHG-036
+- **Date and Time:** 2026-11-20 20:18:00 IST
+- **Linked Command:** [CMD-076](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#CMD-076)
+- **Type:** Removed / Footer Content Cleanup
+- **What changed and why:** Per user screenshot instructions, removed 3 specific elements from the footer of `web.coreve.in`:
+  1. Removed the `"Visit Coreve Lifestyle & Home ↗"` link under Direct Contact.
+  2. Removed `"/ Corive Technologies."` from the copyright bar, making it strictly `© 2026 Coreve Tech. All rights reserved.`
+  3. Removed the server debug footer line (`"Production Server: 129.121.132.35 • web.coreve.in"`).
+- **Files touched:**
+  - `/Users/lenee/coreve/web.coreve.in/index.html` (Local & VPS `/var/www/web.coreve.in/index.html`)
+  - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
+  - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
+- **How it was tested and the result:**
+  1. Validated HTML structure with Python HTMLParser (0 unclosed tags).
+  2. Deployed to VPS `/var/www/web.coreve.in/index.html`.
+  3. Tested live with `curl -sL https://web.coreve.in/` and verified grep returned 0 matches for `"Corive Technologies"`, `"129.121.132.35"`, and `"Visit Coreve Lifestyle"`. Status: Tested (Passed).
+- **Anything that might break because of this change:** None. Pure cosmetic footer cleanup.
+- **How to undo it:** Revert `index.html` via git checkout.

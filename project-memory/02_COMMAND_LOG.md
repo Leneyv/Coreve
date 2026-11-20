@@ -1268,3 +1268,26 @@ New private Boss Dashboard: https://myclone.coreve.in/#boss. Full release/eviden
   - `/Users/lenee/coreve/project-memory/04_FEATURES_STATUS.md`
 - **Result:** Done and tested.
 - **Link to Changelog:** [CHG-035](file:///Users/lenee/coreve/project-memory/03_CHANGELOG.md#CHG-035)
+
+
+---
+
+### CMD-076
+- **Date and Time:** 2026-11-20 20:17:00 IST
+- **Instruction:** User shared screenshot (`media_1795186032592_65d9fc49.jpg`) with footer items boxed in red: `"remove items marked in red"`
+- **Understanding:** Remove the 3 items marked in red/pink boxes in the footer of `web.coreve.in`:
+  1. The link `"Visit Coreve Lifestyle & Home ↗"` under Direct Contact.
+  2. The string `"/ Corive Technologies."` inside the copyright line, leaving only `"© 2026 Coreve Tech. All rights reserved."`.
+  3. The debug line `"Production Server: 129.121.132.35 • web.coreve.in"`.
+- **What was done:**
+  1. Removed the `<li class="pt-2"><a href="https://coreve.in"...>Visit Coreve Lifestyle & Home</a></li>` element from Col 4.
+  2. Cleaned the copyright text to `© 2026 Coreve Tech. All rights reserved.`
+  3. Removed the server IP line `<p class="mt-2 sm:mt-0">Production Server: 129.121.132.35 &bull; web.coreve.in</p>`.
+  4. Validated HTML syntax (0 unclosed tags, 0 mismatches) and deployed to VPS `/var/www/web.coreve.in/index.html`.
+  5. Verified via live curl that all three items are completely absent from `https://web.coreve.in`.
+- **Files created or changed:**
+  - `/Users/lenee/coreve/web.coreve.in/index.html` (Local & VPS `/var/www/web.coreve.in/index.html`)
+  - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
+  - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
+- **Result:** Done and tested.
+- **Link to Changelog:** [CHG-036](file:///Users/lenee/coreve/project-memory/03_CHANGELOG.md#CHG-036)
