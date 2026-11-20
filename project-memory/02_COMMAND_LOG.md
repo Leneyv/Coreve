@@ -1185,3 +1185,31 @@ New private Boss Dashboard: https://myclone.coreve.in/#boss. Full release/eviden
 - **Result:** Done and tested (Fully verified live).
 - **Link to Changelog:** CHG-031
 
+---
+
+### CMD-072
+- **Date and Time:** 2026-11-20 17:35:00 IST
+- **Instruction:** User reported handover email is too complicated and requested: "i reveice an email like this for handing over too complicated i want a summaraissed emila for me to easy understnad wahat you want me to do and scope of work which is missin ghere with custoerm full details including their current websote crm etc".
+- **Understanding:**
+  1. Remove all raw JSON dumps (`call_dossier`, `limits`, `schema`, `conversation_rules`, `candidate_tasks`) from the handover emails sent to `lenee@coreve.in`.
+  2. Put a prominent, unmistakable "👉 ACTION REQUIRED" section right at the top telling the owner exactly what to do: reply with proposed price and delivery timeline (e.g., "₹25,000 and 2 weeks") or approve online at `https://myclone.coreve.in`.
+  3. Fix missing deliverables in Scope of Work: replace generic "Quotation requested; deliverables are not yet confirmed" with automatic synthesis of customer-requested deliverables (e.g., "Custom Website Development", "Autonomous AI Agents", "Sarvam Indic Voice AI Calling", "WhatsApp Cloud API & Booking Automation", "Custom ERP") from the chat history.
+  4. Structure Customer Full Details cleanly: Business Name, Contact Person, Phone Number, Category, Current Website, Current CRM, Current Automation, and concise human observations.
+  5. Format conversation transcript chronologically as clean `[Time] Customer: ... / Kavya: ...` dialog.
+  6. Update `approval_mail.py` to support `===` and `---` dividers in email reply trimming.
+- **What was done:**
+  1. Updated `scope_email(job)` and `handoff(job)` in `/opt/myclone/app/sales.py`.
+  2. Enhanced `reply_job` scope compilation in `/opt/myclone/app/sales.py` to synthesize deliverables from transcript and incoming text whenever a quote is asked.
+  3. Updated `approval_mail.py:fresh_reply` to recognize standard separator headers.
+  4. Restarted `myclone` and `myclone-worker` on VPS.
+  5. Tested formatted template output with realistic lead data.
+- **Files created or changed:**
+  - `/opt/myclone/app/sales.py` (VPS)
+  - `/opt/myclone/app/approval_mail.py` (VPS)
+  - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
+  - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
+  - `/Users/lenee/coreve/project-memory/04_FEATURES_STATUS.md`
+- **Result:** Done and verified.
+- **Link to Changelog:** CHG-032
+
+

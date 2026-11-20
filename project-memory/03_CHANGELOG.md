@@ -663,3 +663,33 @@ New private Boss Dashboard: https://myclone.coreve.in/#boss. Full release/eviden
   - Verified lead creation: `status='contacted'`, `category='web.coreve.in Inbound Lead'`, `wa_opt_in=true`, `contacted_by_kavya: True`, and `reply` job queued and executed by worker. Status: Tested (Passed).
 - **Breakage risk:** None. Outbound cold calling gating and personal chat protection remain intact for non-tagged personal messages.
 - **How to undo:** Revert `sales.py` from `sales.py.bak_web_lead` and remove the category check in `whatsapp_scope.py`.
+
+---
+
+### CHG-032
+- **Date and Time:** 2026-11-20 17:35:00 IST
+- **Linked Command:** [CMD-072](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#CMD-072)
+- **Type:** Enhancement / Email Handover
+- **What changed and why:**
+  - Owner handover emails (`QUOTE REQUIRED`) previously dumped raw multi-kilobyte JSON data structures (`call_dossier`, `limits`, `schema`, `conversation_rules`) directly into the body and frequently showed empty/unconfirmed scope when quotes were requested.
+  - Redesigned handover email template in `sales.py:scope_email`:
+    - Clean executive layout with 3 clear sections:
+      1. Customer Full Details (Business, Contact, Phone, Category, Website, CRM, Automation, Observations).
+      2. Scope of Work (Deliverables to Quote, Scope Version, SLA deadline, Standard Payment Terms).
+      3. Clean Conversation Transcript (`[Time] Customer: ... / Kavya: ...`).
+    - Prominent "👉 ACTION REQUIRED" banner at the top detailing exact reply options (`₹<amount> and <timeline>`) and web approval link.
+    - Zero raw JSON blobs.
+  - Added smart deliverables synthesis in `sales.py:reply_job`: automatically identifies requested services (Custom Website Development, Autonomous AI Agents, Sarvam Voice AI, WhatsApp Cloud API, Custom ERP) from the conversation.
+  - Updated `approval_mail.py:fresh_reply` to strip standard separator lines (`===` and `---`) from incoming email replies.
+- **Files touched:**
+  - `/opt/myclone/app/sales.py` (VPS)
+  - `/opt/myclone/app/approval_mail.py` (VPS)
+  - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
+  - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
+  - `/Users/lenee/coreve/project-memory/04_FEATURES_STATUS.md`
+- **How it was tested, and result:**
+  - Deployed to VPS, restarted `myclone` and `myclone-worker`.
+  - Executed template generation test with complete customer profile; verified clean formatting, readable text, clear action instructions, and proper delimiter stripping. Status: Tested (Passed).
+- **Breakage risk:** None. IMAP email parser compatibility preserved with `Lead #` and `Scope v` matching.
+- **How to undo:** Revert `sales.py` and `approval_mail.py` to previous git commits.
+
