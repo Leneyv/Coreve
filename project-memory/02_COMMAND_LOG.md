@@ -1215,6 +1215,42 @@ New private Boss Dashboard: https://myclone.coreve.in/#boss. Full release/eviden
 ---
 
 ### CMD-073
+- **Date and Time:** 2026-11-20 19:00:00 IST
+- **Instruction:** User shared screenshot of Kavya's Boss Command Centre highlighting 3 warning banners (Sarvam recharge needed & stale snapshot, No approved WhatsApp templates found, and Outreach is paused) and instructed: "kavya has to check this regularly hourly basis even out sideo of her workspace".
+- **Understanding:**
+  1. Kavya's provider snapshots (Meta WhatsApp templates, messaging tier, Sarvam telephony connectivity & credit snapshot) were previously only checked once manually and quickly went stale after 30 minutes with "Snapshot needs a fresh check". Furthermore, during non-working hours (outside Mon-Sat 10:00-18:30 IST), no scheduled task was running to refresh provider health.
+  2. Implement an autonomous 24/7 hourly background health check daemon (`hourly_health_check_loop`) in `worker.py` that runs every 3600s (1 hour) continuously:
+     - Automatically calls `refresh_meta()` to sync approved Meta WhatsApp templates (detecting `kavya_initial`), messaging tier (`TIER_2K`), quality (`GREEN`), and pricing data from Meta Graph API.
+     - Tests Sarvam AI connection & telephony reachability (`apps.sarvam.ai`), updating the Sarvam snapshot timestamp (`verified_at`) and reachability status.
+     - Checks outreach state, queue backlog, and records `kavya_hourly_health_check` in system events.
+     - Runs 24/7 independent of calling window / workspace hours (10:00-18:30 IST).
+  3. Increase staleness window in `boss_dashboard.py:snapshot()` from 30m to 75m to align with the 60-minute loop, ensuring snapshots remain permanently verified and fresh.
+  4. Ensure `/refresh-providers` updates both WhatsApp and Sarvam timestamps.
+- **What was done:**
+  1. Updated `boss_dashboard.py`:
+     - Set staleness threshold to 75 minutes.
+     - Updated `refresh_providers()` to refresh both Meta and Sarvam snapshots.
+  2. Updated `worker.py`:
+     - Implemented `run_hourly_health_check()` and `hourly_health_check_loop()`.
+     - Added background daemon thread `kavya-hourly-health-check` to `worker.py` main execution block.
+  3. Restarted `myclone` and `myclone-worker` services on VPS.
+  4. Verified execution in systemd journal logs:
+     - `Meta WhatsApp hourly check: 1 approved template(s), tier=TIER_2K, quality=GREEN`.
+     - `Sarvam hourly check: reachable=True, snapshot refreshed`.
+     - Both snapshots updated with `stale: False`. The "No approved WhatsApp templates found" and "Snapshot needs a fresh check" warnings are now resolved.
+- **Files created or changed:**
+  - `/opt/myclone/app/worker.py` (VPS)
+  - `/opt/myclone/app/boss_dashboard.py` (VPS)
+  - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
+  - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
+  - `/Users/lenee/coreve/project-memory/04_FEATURES_STATUS.md`
+- **Result:** Done and verified live.
+- **Link to Changelog:** CHG-033
+
+
+---
+
+### CMD-073
 - **Date and Time:** 2026-11-20 18:48:00 IST
 - **Instruction:** User shared screenshot of `https://www.patek.com/en` and requested: `"https://www.patek.com/en see the effectiveness of these 2 images while folling up and down  the same effect bring to coreve.in the current up and down is ok for coreve.in but need this effect to be bring up"`
 - **Understanding:** Bring the Patek Philippe luxury 2-image scroll effect to `coreve.in`'s product collection showcase (`.model-sequence`). Inspect the exact mechanics on `patek.com/en`:

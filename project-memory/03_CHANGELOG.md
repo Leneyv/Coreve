@@ -696,6 +696,34 @@ New private Boss Dashboard: https://myclone.coreve.in/#boss. Full release/eviden
 ---
 
 ### CHG-033
+- **Date and Time:** 2026-11-20 19:00:00 IST
+- **Linked Command:** [CMD-073](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#CMD-073)
+- **Type:** Enhancement / 24x7 System Health Daemon
+- **What changed and why:**
+  - In Kavya's Boss Command Centre, provider status cards previously went stale after 30 minutes, showing false warnings such as *"No approved WhatsApp templates found"* and *"Snapshot needs a fresh check"*. During non-working hours (outside 10:00-18:30 IST), scheduled maintenance was entirely suspended.
+  - Implemented an autonomous 24/7 hourly background health check daemon (`hourly_health_check_loop`) in `worker.py`:
+    - Runs every 3600 seconds, 24 hours a day, 7 days a week, independent of sales calling windows or office hours.
+    - Automatically syncs approved WhatsApp message templates from Meta Graph API (instantly recognizing approved templates like `kavya_initial`).
+    - Verifies Sarvam AI connection reachability (`apps.sarvam.ai`) and refreshes provider snapshots.
+    - Monitors outreach status and backlog.
+  - Updated `boss_dashboard.py` staleness threshold to 75m so snapshots stay continuously verified without stale warnings.
+- **Files touched:**
+  - `/opt/myclone/app/worker.py` (VPS)
+  - `/opt/myclone/app/boss_dashboard.py` (VPS)
+  - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
+  - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
+  - `/Users/lenee/coreve/project-memory/04_FEATURES_STATUS.md`
+- **How it was tested, and result:**
+  - Restarted `myclone-worker` and verified background startup in journal logs.
+  - Logs confirmed: `Meta WhatsApp hourly check: 1 approved template(s), tier=TIER_2K, quality=GREEN`, `Sarvam hourly check: reachable=True, snapshot refreshed`.
+  - Verified `boss_dashboard:snapshot()` returns `stale: False` for both providers. Status: Tested (Passed).
+- **Breakage risk:** None. Operates asynchronously in a daemon thread.
+- **How to undo:** Remove `hourly_health_check_loop` from `worker.py`.
+
+
+---
+
+### CHG-033
 - **Date and Time:** 2026-11-20 18:56:00 IST
 - **Linked Command:** [CMD-073](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#CMD-073)
 - **Type:** Upgraded / Frontend Animation
