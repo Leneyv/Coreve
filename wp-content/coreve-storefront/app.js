@@ -61,33 +61,95 @@ window.addEventListener('pageshow',updateCoreveDrop);
  syncHeroVideo();
 })();
 
-// Native sticky scenes provide the roll-up reveal; transforms follow scroll.
+// Native sticky scenes provide the roll-up reveal; Patek Philippe counter-parallax curtain mechanics.
 (()=>{
  const sequence=document.querySelector('.model-sequence');if(!sequence)return;
  const scenes=[...sequence.querySelectorAll('.model-scene')];
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
- const clamp=n=>Math.max(0,Math.min(1,n));let queued=false;
+ const clamp=(n,min=0,max=1)=>Math.max(min,Math.min(max,n));let queued=false;
  scenes.forEach((scene,i)=>scene.style.setProperty('--scene-order',String(i+1)));
+
+ // Patek Philippe Signature Vertical Pagination Rail
+ let rail=document.querySelector('.patek-rail');
+ if(!rail){
+  rail=document.createElement('nav');
+  rail.className='patek-rail';
+  rail.setAttribute('aria-label','Collection scene indicator');
+  scenes.forEach((scene,i)=>{
+   const dot=document.createElement('button');
+   dot.className='patek-dot'+(i===0?' active':'');
+   const title=scene.querySelector('h2')?.textContent.trim()||('Style '+(i+1));
+   dot.setAttribute('aria-label','Jump to '+title);
+   dot.setAttribute('title',title);
+   dot.addEventListener('click',e=>{
+    e.preventDefault();
+    const header=document.querySelector('.header')?.offsetHeight||88;
+    const start=sequence.getBoundingClientRect().top+scrollY;
+    const targetTop=start+(i*scene.offsetHeight)-header;
+    scrollTo({top:targetTop,behavior:'smooth'});
+   });
+   rail.appendChild(dot);
+  });
+  document.body.appendChild(rail);
+ }
+ const dots=[...rail.querySelectorAll('.patek-dot')];
+
  function paintRollingScenes(){
   queued=false;if(reduced.matches)return;
-  const header=document.querySelector('.header').getBoundingClientRect().height;
-  const start=sequence.getBoundingClientRect().top+scrollY;
+  const header=document.querySelector('.header')?.offsetHeight||88;
+  const seqRect=sequence.getBoundingClientRect();
+  const start=seqRect.top+scrollY;
+  const viewMid=innerHeight*0.5;
+  let activeIndex=-1;
   let offset=0;
-  for(const scene of scenes){
+
+  for(let i=0;i<scenes.length;i++){
+   const scene=scenes[i];
    const height=scene.offsetHeight;
+   const sceneTop=seqRect.top+offset;
+   const sceneBottom=sceneTop+height;
+   if(sceneTop<=viewMid&&sceneBottom>viewMid)activeIndex=i;
+
+   // Progress: 0 when scene hits top, -1 when below viewport, +1 when fully covered by next
    const progress=(scrollY+header-start-offset)/height;
    const enter=clamp(progress+1),exit=clamp(progress);
-   scene.style.setProperty('--roll-lift',(-40*exit+24*(1-enter)).toFixed(2)+'px');
-   scene.style.setProperty('--roll-turn',(-4*exit+3*(1-enter)).toFixed(2)+'deg');
-   scene.style.setProperty('--roll-scale',(1-.055*exit+.025*(1-enter)).toFixed(4));
-   scene.style.setProperty('--roll-letter',(-28*exit+18*(1-enter)).toFixed(2)+'px');
-   scene.style.setProperty('--roll-copy',String(1-clamp((exit-.45)/.45)));
+
+   // Patek Philippe Counter-Parallax Curtain Reveal:
+   // As incoming card rises from bottom (+height), media counter-translates downward (-170px -> 0px)
+   // As outgoing card is covered, media drifts down (+75px) with subtle scale down
+   const enterCounterY=-170*(1-enter);
+   const exitDriftY=75*exit;
+   const mediaLift=(enterCounterY+exitDriftY).toFixed(2);
+   const mediaScale=(1+0.045*(1-enter)-0.04*exit).toFixed(4);
+   const shoeTurn=(-3.5*exit+2.5*(1-enter)).toFixed(2);
+   const letterShift=(-45*exit+35*(1-enter)).toFixed(2);
+   const archScale=(1+0.06*(1-enter)-0.05*exit).toFixed(3);
+   const copyLift=(-35*exit+25*(1-enter)).toFixed(2);
+   const copyOpacity=(1-clamp((exit-0.12)/0.65)).toFixed(3);
+
+   scene.style.setProperty('--roll-lift',mediaLift+'px');
+   scene.style.setProperty('--roll-turn',shoeTurn+'deg');
+   scene.style.setProperty('--roll-scale',mediaScale);
+   scene.style.setProperty('--roll-letter',letterShift+'px');
+   scene.style.setProperty('--roll-arch-scale',archScale);
+   scene.style.setProperty('--roll-copy-y',copyLift+'px');
+   scene.style.setProperty('--roll-copy',copyOpacity);
+
    offset+=height;
   }
+
+  const inSequence=seqRect.top<innerHeight&&seqRect.bottom>header;
+  rail.classList.toggle('visible',inSequence&&activeIndex>=0);
+  dots.forEach((dot,idx)=>dot.classList.toggle('active',idx===activeIndex));
  }
+
  function scheduleRollingScenes(){if(!queued){queued=true;requestAnimationFrame(paintRollingScenes);}}
- addEventListener('scroll',scheduleRollingScenes,{passive:true});addEventListener('resize',scheduleRollingScenes);
- reduced.addEventListener('change',()=>{if(reduced.matches)scenes.forEach(scene=>['--roll-lift','--roll-turn','--roll-scale','--roll-letter','--roll-copy'].forEach(p=>scene.style.removeProperty(p)));scheduleRollingScenes();});
+ addEventListener('scroll',scheduleRollingScenes,{passive:true});
+ addEventListener('resize',scheduleRollingScenes);
+ reduced.addEventListener('change',()=>{
+  if(reduced.matches)scenes.forEach(scene=>['--roll-lift','--roll-turn','--roll-scale','--roll-letter','--roll-arch-scale','--roll-copy-y','--roll-copy'].forEach(p=>scene.style.removeProperty(p)));
+  scheduleRollingScenes();
+ });
  paintRollingScenes();
 })();
 

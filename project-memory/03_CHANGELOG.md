@@ -693,3 +693,25 @@ New private Boss Dashboard: https://myclone.coreve.in/#boss. Full release/eviden
 - **Breakage risk:** None. IMAP email parser compatibility preserved with `Lead #` and `Scope v` matching.
 - **How to undo:** Revert `sales.py` and `approval_mail.py` to previous git commits.
 
+---
+
+### CHG-033
+- **Date and Time:** 2026-11-20 18:56:00 IST
+- **Linked Command:** [CMD-073](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#CMD-073)
+- **Type:** Upgraded / Frontend Animation
+- **What changed and why:** Upgraded `coreve.in`'s homepage product model sequence scroll transition to replicate Patek Philippe's curtain reveal counter-parallax effect. As a user scrolls down or up, each incoming product card rolls over the prior scene with a deep luxury elevation shadow, while the inner shoe visual counter-translates downwards, giving the illusion of a stationary luxury object revealed behind a rising physical window. Added Patek Philippe-style vertical pagination rail on the right screen edge with active indicator and smooth jump navigation.
+- **Files touched:**
+  - `/var/www/coreve.in/wp-content/coreve-storefront/style.css` (VPS & Local)
+  - `/var/www/coreve.in/wp-content/coreve-storefront/app.js` (VPS & Local)
+  - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
+  - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
+  - `/Users/lenee/coreve/project-memory/04_FEATURES_STATUS.md`
+- **How it was tested and the result:**
+  1. Validated JS syntax with `node -c` (exit code 0).
+  2. Deployed to VPS via rsync.
+  3. Verified HTTP/2 200 response on `https://coreve.in`.
+  4. Verified live asset delivery: `curl -s https://coreve.in/wp-content/coreve-storefront/style.css` and `app.js` confirmed `.patek-rail` and counter-parallax equations present.
+- **Anything that might break because of this change:** None. Backward compatibility preserved for `prefers-reduced-motion: reduce`.
+- **How to undo it:**
+  - Revert `style.css` and `app.js` via git checkout and rsync to VPS.
+

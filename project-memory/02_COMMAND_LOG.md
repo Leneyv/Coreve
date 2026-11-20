@@ -1212,4 +1212,35 @@ New private Boss Dashboard: https://myclone.coreve.in/#boss. Full release/eviden
 - **Result:** Done and verified.
 - **Link to Changelog:** CHG-032
 
+---
+
+### CMD-073
+- **Date and Time:** 2026-11-20 18:48:00 IST
+- **Instruction:** User shared screenshot of `https://www.patek.com/en` and requested: `"https://www.patek.com/en see the effectiveness of these 2 images while folling up and down  the same effect bring to coreve.in the current up and down is ok for coreve.in but need this effect to be bring up"`
+- **Understanding:** Bring the Patek Philippe luxury 2-image scroll effect to `coreve.in`'s product collection showcase (`.model-sequence`). Inspect the exact mechanics on `patek.com/en`:
+  1. Curtain reveal counter-translation: when scrolling down, each incoming scene slides up over the previous scene while its inner image counter-translates downwards (`translateY(-170px * (1 - enter))`), producing an anchored, high-end "window" opening over the artwork.
+  2. Parallax drift and dissolution on outgoing scene: media drifts downwards (`+75px * exit`) with subtle scale down (`scale(0.96)`), while typography floats upward and dissolves.
+  3. Tactile top elevation shadow: incoming slide features `box-shadow: 0 -28px 70px -10px rgba(0, 0, 0, 0.55), 0 -1px 0 rgba(255, 255, 255, 0.12)` creating dimensional edge separation.
+  4. Patek Philippe signature vertical pagination rail: dynamic vertical dot indicators on the right edge (`.patek-rail`) that show which model is active with glowing pill expansion and support smooth 1-click jumps.
+- **What was done:**
+  1. Inspected `patek.com/en` via browser subagent, extracting exact transform values, media wrapper counter-translations, and pagination dot styles.
+  2. Upgraded `/wp-content/coreve-storefront/style.css`:
+     - Added `.model-scene` elevation shadow and top vignette for crisp layer separation.
+     - Added CSS transforms and drop-shadows on `.scene-shoe`, `.studio-arch`, and `.scene-copy`.
+     - Added `.patek-rail` and `.patek-dot` styles for right-hand vertical pagination with active glowing pill indicator.
+  3. Upgraded `/wp-content/coreve-storefront/app.js`:
+     - Implemented counter-parallax curtain physics (`enterCounterY = -170 * (1 - enter)`, `exitDriftY = 75 * exit`, `scale = 1 + 0.045 * (1 - enter) - 0.04 * exit`).
+     - Added dynamic creation and smooth scroll handlers for `.patek-rail` vertical dots.
+     - Synchronized active dot state with viewport intersection.
+  4. Tested JS syntax (`node -c` passed).
+  5. Deployed to VPS (`/var/www/coreve.in/wp-content/coreve-storefront/`), verified HTTP/2 200 and updated cache busting versions.
+- **Files created or changed:**
+  - `/Users/lenee/coreve/wp-content/coreve-storefront/style.css` (Local & VPS `/var/www/coreve.in/wp-content/coreve-storefront/style.css`)
+  - `/Users/lenee/coreve/wp-content/coreve-storefront/app.js` (Local & VPS `/var/www/coreve.in/wp-content/coreve-storefront/app.js`)
+  - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
+  - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
+  - `/Users/lenee/coreve/project-memory/04_FEATURES_STATUS.md`
+- **Result:** Done and tested (Fully verified live on `https://coreve.in`).
+- **Link to Changelog:** CHG-033
+
 
