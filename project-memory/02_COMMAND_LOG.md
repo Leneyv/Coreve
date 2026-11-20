@@ -988,3 +988,39 @@ New entries must be appended to the END of this file. Existing entries are perma
   - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
 - **Result:** Done and tested.
 - **Link to Changelog:** CHG-026
+
+---
+
+### CMD-067
+- **Date and Time:** 2026-11-20 10:10:00 IST
+- **Instruction:** User requested: "ok now kavya send an email to hanover and i have replied for that base don my reply kavya should be replyingt o customer she should regularly check the email which configured to her for only the email reply what she send to hanodver".
+- **Understanding:** Configure Kavya so that she regularly checks the configured IMAP email (`IMAP_USERNAME` / `IMAP_PASSWORD`) on a recurring schedule (every 25 seconds). She must specifically filter ONLY for replies to the handover emails she sent (`QUOTE REQUIRED` with `Re:` from `lenee@coreve.in`), ignoring all unrelated emails. When the owner replies naturally (e.g. `This will cost 24,000 and 2 weeks time we will do`), Kavya must parse the price (`₹24,000`), timeline (`2 weeks`), and terms, approve the quote in the database, and immediately dispatch an owner-approved quotation WhatsApp message directly to the customer (`+919778215961`).
+- **What was done:**
+  1. Inspected IMAP mailbox (`leninvarghese@gmail.com`) and located owner's reply in UID 162466 (`From: lenee@coreve.in`, `Subject: Re: QUOTE REQUIRED | Lead #6 | Scope v3`, `Body: This will cost 24,000 and 2 weeks time we will do...`).
+  2. Identified why previous implementation failed: `poll_mail` in `worker.py` demanded a rigid format (`APPROVE <token>` + `AMOUNT: <digits>`), crashing when receiving natural owner replies. Additionally, `sales.py` and `worker.py` had a bug comparing Decimal vs string representations (`Decimal('24000.00')` vs `'24000'`), causing quote sends to exit early.
+  3. Rewrote `poll_mail` in `/opt/myclone/app/worker.py`:
+     - Checks inbox every 25 seconds.
+     - Specifically filters for handover replies (`SUBJECT "QUOTE REQUIRED"`, sender in `valid_senders`, skips own non-reply outgoing messages).
+     - Extracts `lead_id` and `scope_version` from subject/body.
+     - Strips quoted conversation threads to isolate the owner's fresh response.
+     - Parses amount (currency formats, digits, `k` suffix), delivery timeline (`2 weeks`), and terms.
+     - Calls `approve_quote(c, lead_id, scope_version, amount, terms)` and marks email UID in `mailbox_events`.
+  4. Updated `quote_send` in `/opt/myclone/app/sales.py`:
+     - Formats a polite, professional Malayalam WhatsApp message with customer title, deliverables scope, approved quotation (`₹24,000.00`), delivery timeline (`2 weeks`), and payment terms (50% mid-work, 50% handover, no advance).
+     - Dispatches via `providers.send_wa` (Meta Cloud API).
+     - Appends outbound quotation to `conversation_transcript` and updates lead status to `quote_delivered`.
+  5. Fixed Decimal numeric equality in `sales.py` and `worker.py`.
+  6. Verified automatic background execution: worker picked up UID 162466, logged `✓ Approved quote via email reply for Lead #6: Amount=₹24000, Timeline=2 weeks`, and delivered WhatsApp message (`wamid.HBgMOTE5Nzc4MjE1OTYxFQIAERgUQ0UwQUE0QUQwNUU2Q0NGM0JDOTQA`) with `status: delivered`.
+- **Files created or changed:**
+  - `/opt/myclone/app/worker.py` (VPS)
+  - `/opt/myclone/app/sales.py` (VPS)
+  - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
+  - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
+- **Result:** Done and verified (Email reply parsed, quote approved, and delivered to customer's WhatsApp).
+- **Link to Changelog:** CHG-027
+
+
+---
+
+### SUP-QC-20261120
+User requested reading Kavya development memory and supervising Antigravity's implementation through E2E QC and problem fixing. Reviewed memory/reference set, production source and runtime aggregates. Prepared five-module repairs and 13 passing isolated regression tests. Deployment blocked by repeated concurrent source changes; no live source overwritten. Full evidence and limitations: `12_SUPERVISOR_QC_2026-11-20.md`.

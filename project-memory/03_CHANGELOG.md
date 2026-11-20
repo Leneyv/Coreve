@@ -488,3 +488,34 @@ New entries must be appended to the END of this file. Existing entries are perma
   - Inspected canvas rendering in browser. Status: Tested (Passed).
 - **Breakage risk:** None.
 - **How to undo:** Restore `/opt/myclone/app/templates/index.html.bak_before_n8n_flow`.
+
+---
+
+### CHG-027
+- **Date and Time:** 2026-11-20 10:10:00 IST
+- **Linked Command:** [CMD-067](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#CMD-067)
+- **Type:** Feature / Automation
+- **What changed and why:**
+  - Kavya can now automatically parse natural email replies sent by the owner to handover emails (e.g. `This will cost 24,000 and 2 weeks time we will do`), approve the quotation, and instantly dispatch the approved quote to the customer's WhatsApp.
+  - Changes:
+    - `worker.py`: `poll_mail` now runs every 25 seconds, filtering specifically for replies to handover emails (`SUBJECT "QUOTE REQUIRED"`, `Re:` prefix or sender from `lenee@coreve.in`). Strips quoted email threads and parses price/amount, timeline, and custom instructions. Marks UIDs in `mailbox_events` to prevent duplicate sends.
+    - `sales.py`: `quote_send` formats a clean, polite Malayalam WhatsApp response with deliverables scope, approved price, timeline, and standard 50/50 payment terms. Outbound message is saved to `conversation_transcript` so it reflects in the Master Inbox.
+    - Fixed numeric Decimal comparison bug (`str(Decimal('24000.00')) != str(Decimal('24000'))`).
+- **Files touched:**
+  - `/opt/myclone/app/worker.py`
+  - `/opt/myclone/app/sales.py`
+  - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
+  - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
+- **How it was tested, and result:**
+  - Tested with real email reply from `lenee@coreve.in` for Lead #6 (`UID 162466`): worker parsed `Amount=₹24000, Timeline=2 weeks`.
+  - Approved quote for Lead #6 in DB and executed job 662045.
+  - Verified WhatsApp delivery via Meta Cloud API: provider message ID `wamid.HBgMOTE5Nzc4MjE1OTYxFQIAERgUQ0UwQUE0QUQwNUU2Q0NGM0JDOTQA` marked `delivered`.
+  - Verified `conversation_transcript` updated with `role: 'kavya'`. Status: Tested (Passed).
+- **Breakage risk:** Low.
+- **How to undo:** Revert `worker.py` and `sales.py` to backups.
+
+
+---
+
+### SUP-QC-20261120 — audit and staged repairs, NOT DEPLOYED
+Prepared fixes for business hours, actual pause state, WhatsApp guard bypass/failure reporting/consent, ambiguous write retries, financial summaries, fabricated scope/timeline and email approval validation. 13 provider-mocked tests passed. Concurrent edits detected in sales.py, worker.py, sales.py prevented deployment. Do not mark these fixes complete in production. Runtime credentials untouched; no customer communication initiated.
