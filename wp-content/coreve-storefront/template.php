@@ -31,4 +31,11 @@ $html=str_replace('<main id="main">','<div class="live-notices">'.$notices.'</di
 if(coreve_sf_preview()){
  $html=preg_replace_callback('~(href|action)="(https://coreve\.in/[^"#]*)(#[^"]*)?"~',function($m){return $m[1].'="'.esc_url(add_query_arg('coreve_preview',sanitize_text_field(wp_unslash($_GET['coreve_preview'])),$m[2])).($m[3]??'').'"';},$html);
 }
-?><!doctype html><html <?php language_attributes();?>><head><meta charset="<?php bloginfo('charset');?>"><meta name="viewport" content="width=device-width,initial-scale=1"><?php wp_head();?></head><body <?php body_class('coreve-storefront-live');?>><?php wp_body_open();echo $html;wp_footer();?></body></html>
+?><!doctype html><html <?php language_attributes();?>><head>
+<script async src="https://www.googletagmanager.com/gtm.js?id=GTM-TM3ZZV8C"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+</script>
+<meta charset="<?php bloginfo('charset');?>"><meta name="viewport" content="width=device-width,initial-scale=1"><?php wp_head();?></head><body <?php body_class('coreve-storefront-live');?>><?php wp_body_open();echo $html;wp_footer();?></body></html>

@@ -1247,6 +1247,29 @@ New private Boss Dashboard: https://myclone.coreve.in/#boss. Full release/eviden
 - **Result:** Done and verified live.
 - **Link to Changelog:** CHG-033
 
+---
+
+### CMD-074
+- **Date and Time:** 2026-11-20 19:05:00 IST
+- **Instruction:** User provided Google Tag Manager / Google Analytics setup screenshots for container `GTM-TM3ZZV8C` on `https://coreve.in`, with the instruction: `"Below is the Google tag for this container. Copy and paste it into the code of every page on your website, immediately after the <head> element. Don't add more than one Google tag to each page."` and test website `https://coreve.in`.
+- **Understanding:** Embed the Google tag snippet (`gtm.js?id=GTM-TM3ZZV8C`) immediately after the opening `<head>` tag on every single page of `coreve.in` without duplication, matching Google's verification crawler requirement so the "Test installation" verification succeeds.
+- **What was done:**
+  1. Inspected `<head>` generation across all page templates: storefront routes handled by `coreve-storefront/template.php`, theme routes handled by `themes/coreve/header.php`.
+  2. Added the exact Google tag script immediately after `<head>` in `wp-content/coreve-storefront/template.php`.
+  3. Added the exact Google tag script immediately after `<head>` in `wp-content/themes/coreve/header.php`.
+  4. Cleaned up `wp-content/mu-plugins/coreve-gtm.php` to prevent duplicate head injection, preserving the `<noscript>` iframe fallback in `wp_body_open`.
+  5. Deployed files to VPS (`/var/www/coreve.in/`) and tested live HTTP responses across homepage, collection, product, and checkout pages.
+- **Files created or changed:**
+  - `/Users/lenee/coreve/wp-content/coreve-storefront/template.php` (Local & VPS `/var/www/coreve.in/wp-content/coreve-storefront/template.php`)
+  - `/Users/lenee/coreve/wp-content/themes/coreve/header.php` (Local & VPS `/var/www/coreve.in/wp-content/themes/coreve/header.php`)
+  - `/Users/lenee/coreve/wp-content/mu-plugins/coreve-gtm.php` (Local & VPS `/var/www/coreve.in/wp-content/mu-plugins/coreve-gtm.php`)
+  - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
+  - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
+  - `/Users/lenee/coreve/project-memory/04_FEATURES_STATUS.md`
+- **Result:** Done and tested.
+- **Link to Changelog:** [CHG-034](file:///Users/lenee/coreve/project-memory/03_CHANGELOG.md#CHG-034)
+
+
 
 ---
 
@@ -1279,4 +1302,5 @@ New private Boss Dashboard: https://myclone.coreve.in/#boss. Full release/eviden
 - **Result:** Done and tested (Fully verified live on `https://coreve.in`).
 - **Link to Changelog:** CHG-033
 
+---
 

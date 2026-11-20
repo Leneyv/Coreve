@@ -743,3 +743,26 @@ New private Boss Dashboard: https://myclone.coreve.in/#boss. Full release/eviden
 - **How to undo it:**
   - Revert `style.css` and `app.js` via git checkout and rsync to VPS.
 
+
+
+---
+
+### CHG-034
+- **Date and Time:** 2026-11-20 19:05:00 IST
+- **Linked Command:** [CMD-074](file:///Users/lenee/coreve/project-memory/02_COMMAND_LOG.md#CMD-074)
+- **Type:** Upgraded / Analytics Configuration
+- **What changed and why:** Installed Google Tag Manager / Google Analytics web stream tag (`GTM-TM3ZZV8C`) across all pages of `https://coreve.in`. Embedded the exact snippet immediately after the opening `<head>` tag in both `wp-content/coreve-storefront/template.php` (for custom storefront pages) and `wp-content/themes/coreve/header.php` (for standard WooCommerce and theme pages). Cleaned up `wp-content/mu-plugins/coreve-gtm.php` to prevent duplicate head injection while preserving the `<noscript>` iframe in `wp_body_open`.
+- **Files touched:**
+  - `/Users/lenee/coreve/wp-content/coreve-storefront/template.php` (Local & VPS `/var/www/coreve.in/wp-content/coreve-storefront/template.php`)
+  - `/Users/lenee/coreve/wp-content/themes/coreve/header.php` (Local & VPS `/var/www/coreve.in/wp-content/themes/coreve/header.php`)
+  - `/Users/lenee/coreve/wp-content/mu-plugins/coreve-gtm.php` (Local & VPS `/var/www/coreve.in/wp-content/mu-plugins/coreve-gtm.php`)
+  - `/Users/lenee/coreve/project-memory/02_COMMAND_LOG.md`
+  - `/Users/lenee/coreve/project-memory/03_CHANGELOG.md`
+  - `/Users/lenee/coreve/project-memory/04_FEATURES_STATUS.md`
+- **How it was tested and the result:**
+  1. Tested with `curl -sL https://coreve.in` to verify the tag is the very first child of `<head>`. Result: Verified.
+  2. Tested with `curl -sL https://coreve.in/about-us/` to verify theme pages. Result: Verified.
+  3. Tested with `curl -sL https://coreve.in/product/zivana-winterberry/` and `/checkout/`. Result: Verified.
+  4. Verified tag count on homepage: exactly 1 `<script>` tag in `<head>` and 1 `<noscript>` iframe in `<body>`. Result: Verified.
+- **Anything that might break because of this change:** None. Asynchronous script loading prevents any blocking of page rendering or Web Vitals.
+- **How to undo it:** Revert the edits to `template.php`, `header.php`, and `coreve-gtm.php`.

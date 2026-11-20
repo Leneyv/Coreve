@@ -1,27 +1,13 @@
 <?php
 /**
  * Plugin Name: Coreve Google Tag Manager
- * Description: Embeds Google Tag Manager / Google Analytics 4 (GTM-TM3ZZV8C) in <head> and <body> across all pages.
- * Version: 1.0.1
+ * Description: Embeds Google Tag Manager noscript fallback in <body> across all pages. The primary Google tag (gtag.js) is installed immediately after <head> in template.php and header.php.
+ * Version: 1.0.2
  */
 
 if (!defined('ABSPATH')) {
     exit;
 }
-
-add_action('wp_head', function () {
-    ?>
-<!-- Google Tag Manager / Google Analytics (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtm.js?id=GTM-TM3ZZV8C"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'GTM-TM3ZZV8C');
-</script>
-<!-- End Google Tag Manager -->
-<?php
-}, 1);
 
 add_action('wp_body_open', function () {
     ?>

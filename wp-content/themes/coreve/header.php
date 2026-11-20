@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
+<script async src="https://www.googletagmanager.com/gtm.js?id=GTM-TM3ZZV8C"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+</script>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<?php wp_head(); ?>

@@ -124,3 +124,12 @@ Deployed and verified: 10 isolated privacy tests passed again against production
 
 ### BOSS-DASHBOARD-20261120 — deployed
 New private Boss Dashboard: https://myclone.coreve.in/#boss. Full release/evidence: 14_KAVYA_BOSS_DASHBOARD_2026-11-20.md. Today/yesterday/7d/all-time business metrics, live work, 15 agent drilldowns, lead-stage baseline/forward tracking, costs, provider snapshots and direct billing links. Owner safety caps are enforced but unset; pauses and personal-chat protections preserved. 17 dashboard tests + 10 privacy regressions passed; Chrome verified UI. At release: 518 unique business leads, 140 connected customer calls; Sarvam org wallet snapshot -112.10 credits (not live/Kavya-only), Meta GREEN/TIER_2K, no approved templates, available service-fee data zero. Exact Meta remaining quota/wallet unknown; historical stage dates not invented. No payments or customer test outreach. Backup /var/backups/myclone-boss-dashboard-20261120. See canonical release for API/schema/cost boundaries.
+
+
+---
+
+### GOOGLE-TAG-GTM-TM3ZZV8C — deployed and verified
+- **Feature:** Google Tag Manager / Google Analytics web stream integration (`GTM-TM3ZZV8C`).
+- **Status:** Done and tested.
+- **Location:** Installed immediately after `<head>` in `wp-content/coreve-storefront/template.php` and `wp-content/themes/coreve/header.php`. Fallback `<noscript>` in `wp_body_open` via `wp-content/mu-plugins/coreve-gtm.php`.
+- **Testing:** Live curl requests on `https://coreve.in`, `/about-us/`, `/product/zivana-winterberry/`, `/checkout/`. Exact placement immediately after `<head>` confirmed with zero duplicates.
